@@ -1,0 +1,83 @@
+{
+  "$id": "https://commandlayer.org/schemas/v1.0.0/commercial/refund/requests/refund.request.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "refund.request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "x402",
+    "actor",
+    "trace",
+    "idempotencyKey",
+    "input"
+  ],
+  "properties": {
+    "x402": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "verb",
+        "version"
+      ],
+      "properties": {
+        "verb": {
+          "type": "string",
+          "const": "refund"
+        },
+        "version": {
+          "type": "string",
+          "const": "1.0.0"
+        }
+      }
+    },
+    "actor": {
+      "description": "ENS, DID, or URI identifying the caller",
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^(?:[a-z0-9-]+\\.)*[a-z0-9-]+\\.eth$"
+        },
+        {
+          "type": "string",
+          "pattern": "^did:[a-z0-9]+:.*$"
+        },
+        {
+          "type": "string",
+          "format": "uri"
+        }
+      ]
+    },
+    "trace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requestId",
+        "ts",
+        "nonce"
+      ],
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "ts": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "nonce": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 64
+        }
+      }
+    },
+    "idempotencyKey": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._~-]{8,64}$"
+    },
+    "input": {
+      "description": "Verb-specific payload. See SPEC for each verb.",
+      "type": "object"
+    }
+  }
+}

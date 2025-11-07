@@ -1,0 +1,21 @@
+{
+  "name": "commandlayer-protocol-commercial",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "license": "Proprietary",
+  "scripts": {
+    "compile:requests": "node scripts/compile-all.mjs schemas/v1.0.0/commercial/*/requests/*.schema.json",
+    "compile:receipts": "node scripts/compile-all.mjs schemas/v1.0.0/commercial/*/receipts/*.schema.json",
+    "validate:aliases": "npx ajv validate -s schemas/v1.0.0/commercial/alias.schema.json -d \"schemas/v1.0.0/commercial/*/aliases/*.json\" --spec=draft2020 --strict=true",
+    "check:aliases": "node scripts/check-alias-uniqueness.mjs",
+    "validate:all": "npm run compile:requests && npm run compile:receipts && npm run validate:aliases && npm run check:aliases"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "ajv-cli": "^5.0.0",
+    "ajv-formats": "^3.0.1",
+    "ajv-errors": "^3.0.0",
+    "js-yaml": "^4.1.0"
+  }
+}

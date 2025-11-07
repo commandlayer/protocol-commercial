@@ -1,0 +1,32 @@
+{
+  "$id": "https://commandlayer.org/schemas/v1.0.0/commercial/disburse/aliases/disburse.aliases.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "disburse.aliases",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "verb",
+    "aliases",
+    "version"
+  ],
+  "properties": {
+    "verb": {
+      "type": "string",
+      "const": "disburse"
+    },
+    "version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "aliases": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "string",
+        "const": "payout"
+      },
+      "uniqueItems": true
+    }
+  }
+}

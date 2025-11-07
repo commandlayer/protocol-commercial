@@ -1,0 +1,17 @@
+{
+  "x402": {
+    "verb": "verify",
+    "version": "1.0.0"
+  },
+  "actor": 42,
+  "trace": {
+    "requestId": "req-verify",
+    "ts": "2025-11-07T12:00:00Z",
+    "nonce": "abcd1234"
+  },
+  "idempotencyKey": "idem-verify-0001",
+  "input": {
+    "subject": "user@example.com",
+    "method": "email-otp"
+  }
+}

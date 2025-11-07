@@ -1,0 +1,15 @@
+{
+  "x402": {
+    "verb": "checkout",
+    "version": "1.0.0"
+  },
+  "actor": "gateway.commandlayer.org",
+  "trace": {
+    "requestId": "req-checkout",
+    "ts": "2025-11-07T12:00:01Z"
+  },
+  "status": "ok",
+  "result": {
+    "ok": true
+  }
+}

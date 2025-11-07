@@ -1,0 +1,32 @@
+{
+  "$id": "https://commandlayer.org/schemas/v1.0.0/commercial/authenticate/aliases/authenticate.aliases.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "authenticate.aliases",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "verb",
+    "aliases",
+    "version"
+  ],
+  "properties": {
+    "verb": {
+      "type": "string",
+      "const": "authenticate"
+    },
+    "version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "aliases": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "string",
+        "const": "login"
+      },
+      "uniqueItems": true
+    }
+  }
+}

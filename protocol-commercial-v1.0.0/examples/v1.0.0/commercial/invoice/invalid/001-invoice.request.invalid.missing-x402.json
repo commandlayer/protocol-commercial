@@ -1,0 +1,16 @@
+{
+  "actor": "checkoutagent.eth",
+  "trace": {
+    "requestId": "req-invoice",
+    "ts": "2025-11-07T12:00:00Z",
+    "nonce": "abcd1234"
+  },
+  "idempotencyKey": "idem-invoice-0001",
+  "input": {
+    "invoiceNumber": "INV-2025-0001",
+    "amount": {
+      "currency": "USD",
+      "value": 4999
+    }
+  }
+}
