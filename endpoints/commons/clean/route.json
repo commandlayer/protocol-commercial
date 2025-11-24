@@ -1,0 +1,6 @@
+{
+  "verb": "clean",
+  "version": "1.0.0",
+  "entry": "x402://cleanagent.eth/clean/v1",
+  "handler": "./handler.ts"
+}

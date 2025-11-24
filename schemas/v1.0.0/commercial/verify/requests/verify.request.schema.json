@@ -1,0 +1,8 @@
+{
+  "$id": "https://commandlayer.org/schemas/v1.0.0/commercial/verify/requests/verify.request.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "verify.request",
+  "description": "Request schema for the commercial 'verify' verb. Placeholder stub for v1.0.0.",
+  "type": "object",
+  "additionalProperties": true
+}

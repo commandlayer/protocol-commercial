@@ -1,0 +1,6 @@
+{
+  "verb": "verify",
+  "version": "1.0.0",
+  "entry": "x402://verifyagent.eth/verify/v1",
+  "handler": "./handler.ts"
+}
