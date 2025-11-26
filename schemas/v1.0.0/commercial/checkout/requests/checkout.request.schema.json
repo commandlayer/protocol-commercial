@@ -1,0 +1,7 @@
+{
+  "$id": "https://commandlayer.org/schemas/v1.0.0/commercial/checkout/requests/checkout.request.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "checkout.request",
+  "description": "Request schema for the checkout commercial verb. TODO: define fields.",
+  "type": "object"
+}

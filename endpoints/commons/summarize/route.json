@@ -1,0 +1,10 @@
+{
+  "verb": "summarize",
+  "class": "commons",
+  "version": "1.0.0",
+  "entry": "x402://summarize" "agent.eth/summarize/v1",
+  "schemas": {
+    "request": "https://commandlayer.org/schemas/v1.0.0/commons/summarize/requests/summarize.request.schema.json",
+    "receipt": "https://commandlayer.org/schemas/v1.0.0/commons/summarize/receipts/summarize.receipt.schema.json"
+  }
+}

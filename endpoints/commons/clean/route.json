@@ -1,6 +1,10 @@
 {
   "verb": "clean",
+  "class": "commons",
   "version": "1.0.0",
-  "entry": "x402://cleanagent.eth/clean/v1",
-  "handler": "./handler.ts"
+  "entry": "x402://clean" "agent.eth/clean/v1",
+  "schemas": {
+    "request": "https://commandlayer.org/schemas/v1.0.0/commons/clean/requests/clean.request.schema.json",
+    "receipt": "https://commandlayer.org/schemas/v1.0.0/commons/clean/receipts/clean.receipt.schema.json"
+  }
 }

@@ -1,6 +1,10 @@
 {
   "verb": "verify",
+  "class": "commercial",
   "version": "1.0.0",
-  "entry": "x402://verifyagent.eth/verify/v1",
-  "handler": "./handler.ts"
+  "entry": "x402://verify" "agent.eth/verify/v1",
+  "schemas": {
+    "request": "https://commandlayer.org/schemas/v1.0.0/commercial/verify/requests/verify.request.schema.json",
+    "receipt": "https://commandlayer.org/schemas/v1.0.0/commercial/verify/receipts/verify.receipt.schema.json"
+  }
 }

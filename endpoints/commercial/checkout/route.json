@@ -1,0 +1,10 @@
+{
+  "verb": "checkout",
+  "class": "commercial",
+  "version": "1.0.0",
+  "entry": "x402://checkout" "agent.eth/checkout/v1",
+  "schemas": {
+    "request": "https://commandlayer.org/schemas/v1.0.0/commercial/checkout/requests/checkout.request.schema.json",
+    "receipt": "https://commandlayer.org/schemas/v1.0.0/commercial/checkout/receipts/checkout.receipt.schema.json"
+  }
+}
