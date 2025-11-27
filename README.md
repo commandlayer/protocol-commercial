@@ -71,8 +71,6 @@ protocol-commercial/
 │               ├── requests/checkout.request.schema.json
 │               └── receipts/checkout.receipt.schema.json
 │
-├── docs/
-│   └── execution-model.md        # (to be written)
 │
 ├── package.json
 └── tsconfig.json
