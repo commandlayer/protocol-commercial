@@ -12,8 +12,7 @@ This repo defines:
 It does NOT define:
 - Canonical verb language (lives in protocol-commons)
 - Agent identity metadata (lives in agent-cards)
-=======
-cat > README.md << 'EOF'
+
 # CommandLayer — Protocol Commercial (v1.x)
 
 **Execution and runtime layer for CommandLayer agents.**
