@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # CommandLayer — Protocol Commercial
 
 Execution and economic verbs for the CommandLayer stack.
