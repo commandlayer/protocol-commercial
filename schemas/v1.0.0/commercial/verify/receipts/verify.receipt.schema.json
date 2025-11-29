@@ -1,7 +1,90 @@
 {
-  "$id": "https://commandlayer.org/schemas/v1.0.0/commercial/verify/receipts/verify.receipt.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "verify.receipt",
-  "description": "Receipt schema for the verify commercial verb. TODO: define fields.",
-  "type": "object"
+  "$id": "https://commandlayer.org/schemas/v1.0.0/commercial/verify/receipts/verify.receipt.schema.json",
+  "title": "verify.receipt (v1.0.0)",
+  "type": "object",
+  "additionalProperties": false,
+
+  "required": [
+    "trace",
+    "identity",
+    "verification_id",
+    "subject",
+    "result"
+  ],
+
+  "properties": {
+    "trace": {
+      "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/trace.schema.json"
+    },
+    "identity": {
+      "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/identity.schema.json"
+    },
+
+    "verification_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+
+    "subject": {
+      "type": "object",
+      "additionalProperties": true
+    },
+
+    "result": {
+      "description": "Aggregate verification result.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "risk_score"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["pass", "fail", "review", "error"]
+        },
+        "risk_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "flags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "maxItems": 64
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["check", "status"],
+            "properties": {
+              "check": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string",
+                "enum": ["pass", "fail", "skipped", "error"]
+              },
+              "message": {
+                "type": "string",
+                "maxLength": 2048
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "expires_at": {
+      "description": "When this verification should be re-run.",
+      "type": "string",
+      "format": "date-time"
+    },
+
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
 }
