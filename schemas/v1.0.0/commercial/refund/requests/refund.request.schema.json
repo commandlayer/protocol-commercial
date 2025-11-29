@@ -1,55 +1,45 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://commandlayer.org/schemas/v1.0.0/commercial/refund/requests/refund.request.schema.json",
-  "title": "refund.request (v1.0.0)",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "refund.request",
+  "description": "Request schema for refunding a prior checkout or purchase.",
   "type": "object",
   "additionalProperties": false,
-
-  "required": [
-    "trace",
-    "identity",
-    "payment_reference",
-    "amount",
-    "currency",
-    "reason"
-  ],
-
+  "required": ["x402", "trace", "original_transaction_id"],
   "properties": {
+    "x402": {
+      "allOf": [
+        { "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/x402.schema.json" }
+      ]
+    },
     "trace": {
-      "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/trace.schema.json"
+      "allOf": [
+        { "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/trace.schema.json" }
+      ]
     },
-    "identity": {
-      "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/identity.schema.json"
-    },
-
-    "payment_reference": {
-      "description": "Original payment / checkout reference.",
+    "original_transaction_id": {
+      "description": "Identifier of the original transaction/checkout being refunded.",
       "type": "string",
       "minLength": 1,
-      "maxLength": 256
+      "maxLength": 128
     },
-
     "amount": {
-      "type": "number",
-      "exclusiveMinimum": 0
+      "description": "Amount to refund. If omitted, implies full refund.",
+      "allOf": [
+        { "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.amount.schema.json" }
+      ]
     },
-
-    "currency": {
-      "type": "string",
-      "minLength": 2,
-      "maxLength": 16
+    "settlement_override": {
+      "description": "Optional override for where the refund should be sent (e.g., different wallet).",
+      "allOf": [
+        { "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.settlement.schema.json" }
+      ]
     },
-
     "reason": {
+      "description": "Human-readable reason for the refund.",
       "type": "string",
-      "maxLength": 512
+      "maxLength": 1024
     },
-
-    "reason_code": {
-      "type": "string",
-      "enum": ["customer_request", "fraud", "duplicate", "product_issue", "other"]
-    },
-
     "metadata": {
       "type": "object",
       "additionalProperties": true
