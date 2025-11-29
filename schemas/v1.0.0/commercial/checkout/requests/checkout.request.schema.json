@@ -1,7 +1,222 @@
 {
-  "$id": "https://commandlayer.org/schemas/v1.0.0/commercial/checkout/requests/checkout.request.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "checkout.request",
-  "description": "Request schema for the checkout commercial verb. TODO: define fields.",
-  "type": "object"
+  "$id": "https://commandlayer.org/schemas/v1.0.0/commercial/checkout/requests/checkout.request.schema.json",
+  "title": "checkout.request (v1.0.0)",
+  "type": "object",
+  "additionalProperties": false,
+
+  "required": [
+    "trace",
+    "identity",
+    "amount",
+    "currency",
+    "line_items",
+    "merchant",
+    "buyer",
+    "payment",
+    "settlement",
+    "callbacks"
+  ],
+
+  "properties": {
+    "trace": {
+      "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/trace.schema.json"
+    },
+
+    "identity": {
+      "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/identity.schema.json"
+    },
+
+    "amount": {
+      "description": "Total amount to be authorized or captured.",
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+
+    "currency": {
+      "description": "Currency code (ISO-4217 or crypto ticker).",
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 16
+    },
+
+    "line_items": {
+      "description": "Individual items in this checkout.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["sku", "name", "quantity", "unit_price"],
+        "properties": {
+          "sku": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "quantity": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "unit_price": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "currency": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 16
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+    },
+
+    "merchant": {
+      "description": "Merchant entity receiving funds.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "name": { "type": "string", "minLength": 1, "maxLength": 512 },
+        "ens": { "type": "string", "maxLength": 256 },
+        "wallet": { "type": "string", "maxLength": 128 },
+        "metadata": { "type": "object", "additionalProperties": true }
+      }
+    },
+
+    "buyer": {
+      "description": "Buyer / customer identity (minimally identified).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "email": { "type": "string", "maxLength": 320 },
+        "ens": { "type": "string", "maxLength": 256 },
+        "wallet": { "type": "string", "maxLength": 128 },
+        "ip": { "type": "string", "maxLength": 64 },
+        "metadata": { "type": "object", "additionalProperties": true }
+      }
+    },
+
+    "payment": {
+      "description": "Payment method and intent.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "intent"],
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["card", "bank_transfer", "stablecoin", "onchain", "wallet_connect", "other"]
+        },
+        "intent": {
+          "type": "string",
+          "enum": ["authorize", "capture", "authorize_and_capture"]
+        },
+        "network": {
+          "description": "Payment / settlement network (e.g. eip155:1, visa, ach).",
+          "type": "string",
+          "maxLength": 64
+        },
+        "token": {
+          "description": "Opaque payment token or reference.",
+          "type": "string",
+          "maxLength": 512
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+
+    "settlement": {
+      "description": "Settlement preferences for funds movement.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["network"],
+      "properties": {
+        "network": {
+          "description": "Target settlement chain or network (e.g. eip155:1).",
+          "type": "string",
+          "maxLength": 64
+        },
+        "asset": {
+          "description": "Settlement asset identifier (e.g. USDC, ETH, USDC.e).",
+          "type": "string",
+          "maxLength": 32
+        },
+        "address": {
+          "description": "Destination address / account for settlement.",
+          "type": "string",
+          "maxLength": 256
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+
+    "tax": {
+      "description": "Optional tax summary.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["amount"],
+      "properties": {
+        "amount": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "currency": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 16
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+
+    "shipping": {
+      "description": "High-level shipping summary (full details live in ship.*).",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "requires_shipping": { "type": "boolean" },
+        "estimated_cost": { "type": "number", "exclusiveMinimum": 0 },
+        "currency": { "type": "string", "minLength": 2, "maxLength": 16 },
+        "metadata": { "type": "object", "additionalProperties": true }
+      }
+    },
+
+    "callbacks": {
+      "description": "Event and redirect callbacks.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "success_url": { "type": "string", "format": "uri", "maxLength": 2048 },
+        "failure_url": { "type": "string", "format": "uri", "maxLength": 2048 },
+        "webhook_url": { "type": "string", "format": "uri", "maxLength": 2048 }
+      }
+    },
+
+    "metadata": {
+      "description": "Non-normative implementation-specific metadata.",
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
 }
