@@ -1,90 +1,65 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://commandlayer.org/schemas/v1.0.0/commercial/verify/receipts/verify.receipt.schema.json",
-  "title": "verify.receipt (v1.0.0)",
-  "type": "object",
-  "additionalProperties": false,
-
-  "required": [
-    "trace",
-    "identity",
-    "verification_id",
-    "subject",
-    "result"
-  ],
-
-  "properties": {
-    "trace": {
-      "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/trace.schema.json"
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "verify.receipt",
+  "description": "Receipt schema for verifying a commercial transaction.",
+  "allOf": [
+    {
+      "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/receipt.base.schema.json"
     },
-    "identity": {
-      "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/identity.schema.json"
-    },
-
-    "verification_id": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 256
-    },
-
-    "subject": {
-      "type": "object",
-      "additionalProperties": true
-    },
-
-    "result": {
-      "description": "Aggregate verification result.",
+    {
       "type": "object",
       "additionalProperties": false,
-      "required": ["status", "risk_score"],
       "properties": {
-        "status": {
-          "type": "string",
-          "enum": ["pass", "fail", "review", "error"]
-        },
-        "risk_score": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 1
-        },
-        "flags": {
-          "type": "array",
-          "items": { "type": "string" },
-          "maxItems": 64
-        },
-        "details": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "required": ["check", "status"],
-            "properties": {
-              "check": {
-                "type": "string"
-              },
-              "status": {
-                "type": "string",
-                "enum": ["pass", "fail", "skipped", "error"]
-              },
-              "message": {
-                "type": "string",
-                "maxLength": 2048
-              }
+        "result": {
+          "description": "Verification result payload.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["target", "verified", "status"],
+          "properties": {
+            "target": {
+              "description": "The identifier that was verified.",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "verified": {
+              "description": "Whether the transaction matches the provider’s canonical record.",
+              "type": "boolean"
+            },
+            "status": {
+              "description": "Provider’s canonical transaction status.",
+              "type": "string",
+              "enum": ["success", "pending", "failed", "not_found"]
+            },
+            "amount": {
+              "description": "Canonical amount/asset as seen by provider.",
+              "allOf": [
+                { "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.amount.schema.json" }
+              ]
+            },
+            "settlement": {
+              "description": "Canonical settlement destination as seen by provider.",
+              "allOf": [
+                { "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.settlement.schema.json" }
+              ]
+            },
+            "reason": {
+              "description": "Optional explanation when verified = false or status != success.",
+              "type": "string",
+              "maxLength": 1024
+            },
+            "metadata": {
+              "type": "object",
+              "additionalProperties": true
             }
           }
+        },
+        "usage": {
+          "type": "object",
+          "additionalProperties": true
         }
       }
-    },
-
-    "expires_at": {
-      "description": "When this verification should be re-run.",
-      "type": "string",
-      "format": "date-time"
-    },
-
-    "metadata": {
-      "type": "object",
-      "additionalProperties": true
     }
-  }
+  ]
 }
