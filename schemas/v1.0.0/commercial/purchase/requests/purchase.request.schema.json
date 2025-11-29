@@ -1,0 +1,68 @@
+
+{
+  "$id": "https://commandlayer.org/schemas/v1.0.0/commercial/purchase/requests/purchase.request.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "purchase.request",
+  "description": "Request schema for a direct purchase (single logical item/service).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["x402", "trace", "customer", "amount", "settlement"],
+  "properties": {
+    "x402": {
+      "allOf": [
+        { "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/x402.schema.json" }
+      ]
+    },
+    "trace": {
+      "allOf": [
+        { "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/trace.schema.json" }
+      ]
+    },
+    "customer": {
+      "allOf": [
+        { "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/identity.schema.json" }
+      ]
+    },
+    "amount": {
+      "allOf": [
+        { "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.amount.schema.json" }
+      ]
+    },
+    "settlement": {
+      "allOf": [
+        { "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.settlement.schema.json" }
+      ]
+    },
+    "item": {
+      "description": "Logical item/service being purchased.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "quantity": {
+          "type": "number",
+          "minimum": 0
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}
+
