@@ -1,55 +1,54 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://commandlayer.org/schemas/v1.0.0/commercial/checkout/requests/checkout.request.schema.json",
-  "title": "checkout.request (v1.0.0)",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "checkout.request",
+  "description": "Request schema for initiating a checkout flow (cart, amount, and settlement details).",
   "type": "object",
   "additionalProperties": false,
-
-  "required": [
-    "trace",
-    "identity",
-    "amount",
-    "currency",
-    "line_items",
-    "merchant",
-    "buyer",
-    "payment",
-    "settlement",
-    "callbacks"
-  ],
-
+  "required": ["x402", "trace", "customer", "amount", "settlement"],
   "properties": {
+    "x402": {
+      "allOf": [
+        { "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/x402.schema.json" }
+      ]
+    },
     "trace": {
-      "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/trace.schema.json"
+      "allOf": [
+        { "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/trace.schema.json" }
+      ]
     },
-
-    "identity": {
-      "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/identity.schema.json"
+    "customer": {
+      "description": "Logical customer identity for this checkout.",
+      "allOf": [
+        { "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/identity.schema.json" }
+      ]
     },
-
     "amount": {
       "description": "Total amount to be authorized or captured.",
-      "type": "number",
-      "exclusiveMinimum": 0
+      "allOf": [
+        { "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.amount.schema.json" }
+      ]
     },
-
-    "currency": {
-      "description": "Currency code (ISO-4217 or crypto ticker).",
+    "settlement": {
+      "description": "Settlement destination and network context.",
+      "allOf": [
+        { "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.settlement.schema.json" }
+      ]
+    },
+    "mode": {
+      "description": "Checkout mode: authorize only, capture immediately, or authorize+capture.",
       "type": "string",
-      "minLength": 2,
-      "maxLength": 16
+      "enum": ["authorize", "capture", "authorize_capture"]
     },
-
-    "line_items": {
-      "description": "Individual items in this checkout.",
+    "items": {
+      "description": "Non-normative cart line items (for analytics, UX, and downstream logic).",
       "type": "array",
-      "minItems": 1,
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["sku", "name", "quantity", "unit_price"],
+        "required": ["id", "name", "quantity"],
         "properties": {
-          "sku": {
+          "id": {
             "type": "string",
             "minLength": 1,
             "maxLength": 128
@@ -57,164 +56,27 @@
           "name": {
             "type": "string",
             "minLength": 1,
-            "maxLength": 512
+            "maxLength": 256
           },
           "quantity": {
             "type": "number",
-            "exclusiveMinimum": 0
+            "minimum": 0
           },
           "unit_price": {
-            "type": "number",
-            "exclusiveMinimum": 0
-          },
-          "currency": {
+            "description": "Optional per-unit display price (non-normative, not binding).",
             "type": "string",
-            "minLength": 2,
-            "maxLength": 16
+            "maxLength": 64
           },
           "metadata": {
             "type": "object",
             "additionalProperties": true
           }
         }
-      }
+      },
+      "maxItems": 256
     },
-
-    "merchant": {
-      "description": "Merchant entity receiving funds.",
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["id", "name"],
-      "properties": {
-        "id": { "type": "string", "minLength": 1, "maxLength": 256 },
-        "name": { "type": "string", "minLength": 1, "maxLength": 512 },
-        "ens": { "type": "string", "maxLength": 256 },
-        "wallet": { "type": "string", "maxLength": 128 },
-        "metadata": { "type": "object", "additionalProperties": true }
-      }
-    },
-
-    "buyer": {
-      "description": "Buyer / customer identity (minimally identified).",
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["id"],
-      "properties": {
-        "id": { "type": "string", "minLength": 1, "maxLength": 256 },
-        "email": { "type": "string", "maxLength": 320 },
-        "ens": { "type": "string", "maxLength": 256 },
-        "wallet": { "type": "string", "maxLength": 128 },
-        "ip": { "type": "string", "maxLength": 64 },
-        "metadata": { "type": "object", "additionalProperties": true }
-      }
-    },
-
-    "payment": {
-      "description": "Payment method and intent.",
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["method", "intent"],
-      "properties": {
-        "method": {
-          "type": "string",
-          "enum": ["card", "bank_transfer", "stablecoin", "onchain", "wallet_connect", "other"]
-        },
-        "intent": {
-          "type": "string",
-          "enum": ["authorize", "capture", "authorize_and_capture"]
-        },
-        "network": {
-          "description": "Payment / settlement network (e.g. eip155:1, visa, ach).",
-          "type": "string",
-          "maxLength": 64
-        },
-        "token": {
-          "description": "Opaque payment token or reference.",
-          "type": "string",
-          "maxLength": 512
-        },
-        "metadata": {
-          "type": "object",
-          "additionalProperties": true
-        }
-      }
-    },
-
-    "settlement": {
-      "description": "Settlement preferences for funds movement.",
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["network"],
-      "properties": {
-        "network": {
-          "description": "Target settlement chain or network (e.g. eip155:1).",
-          "type": "string",
-          "maxLength": 64
-        },
-        "asset": {
-          "description": "Settlement asset identifier (e.g. USDC, ETH, USDC.e).",
-          "type": "string",
-          "maxLength": 32
-        },
-        "address": {
-          "description": "Destination address / account for settlement.",
-          "type": "string",
-          "maxLength": 256
-        },
-        "metadata": {
-          "type": "object",
-          "additionalProperties": true
-        }
-      }
-    },
-
-    "tax": {
-      "description": "Optional tax summary.",
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["amount"],
-      "properties": {
-        "amount": {
-          "type": "number",
-          "exclusiveMinimum": 0
-        },
-        "currency": {
-          "type": "string",
-          "minLength": 2,
-          "maxLength": 16
-        },
-        "metadata": {
-          "type": "object",
-          "additionalProperties": true
-        }
-      }
-    },
-
-    "shipping": {
-      "description": "High-level shipping summary (full details live in ship.*).",
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "requires_shipping": { "type": "boolean" },
-        "estimated_cost": { "type": "number", "exclusiveMinimum": 0 },
-        "currency": { "type": "string", "minLength": 2, "maxLength": 16 },
-        "metadata": { "type": "object", "additionalProperties": true }
-      }
-    },
-
-    "callbacks": {
-      "description": "Event and redirect callbacks.",
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "success_url": { "type": "string", "format": "uri", "maxLength": 2048 },
-        "failure_url": { "type": "string", "format": "uri", "maxLength": 2048 },
-        "webhook_url": { "type": "string", "format": "uri", "maxLength": 2048 }
-      }
-    },
-
     "metadata": {
-      "description": "Non-normative implementation-specific metadata.",
+      "description": "Opaque, non-normative metadata (cart IDs, internal references, etc.).",
       "type": "object",
       "additionalProperties": true
     }
