@@ -1,95 +1,61 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://commandlayer.org/schemas/v1.0.0/commercial/ship/receipts/ship.receipt.schema.json",
-  "title": "ship.receipt (v1.0.0)",
-  "type": "object",
-  "additionalProperties": false,
-
-  "required": [
-    "trace",
-    "identity",
-    "shipment_id",
-    "order_id",
-    "status",
-    "carrier",
-    "tracking"
-  ],
-
-  "properties": {
-    "trace": {
-      "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/trace.schema.json"
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ship.receipt",
+  "description": "Receipt schema for a shipping / fulfillment invocation.",
+  "allOf": [
+    {
+      "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/receipt.base.schema.json"
     },
-    "identity": {
-      "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/identity.schema.json"
-    },
-
-    "shipment_id": {
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 256
-    },
-
-    "order_id": {
-      "type": "string",
-      "maxLength": 256
-    },
-
-    "status": {
-      "type": "string",
-      "enum": ["label_created", "in_transit", "out_for_delivery", "delivered", "exception", "canceled"]
-    },
-
-    "carrier": {
-      "type": "string",
-      "maxLength": 128
-    },
-
-    "tracking": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["number"],
-      "properties": {
-        "number": { "type": "string", "maxLength": 128 },
-        "url": { "type": "string", "format": "uri", "maxLength": 2048 }
-      }
-    },
-
-    "label": {
-      "description": "Optional shipment label or link.",
+    {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "format": {
-          "type": "string",
-          "enum": ["pdf", "zpl", "png", "other"]
+        "result": {
+          "description": "Shipment-specific result payload.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["shipment_id", "status"],
+          "properties": {
+            "shipment_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "carrier": {
+              "type": "string",
+              "maxLength": 64
+            },
+            "service": {
+              "description": "Service level (e.g., ground, 2-day, overnight).",
+              "type": "string",
+              "maxLength": 64
+            },
+            "tracking_number": {
+              "type": "string",
+              "maxLength": 128
+            },
+            "eta": {
+              "description": "Estimated delivery timestamp, if known.",
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 64
+            },
+            "status": {
+              "type": "string",
+              "enum": ["created", "in_transit", "delivered", "failed", "cancelled"]
+            },
+            "metadata": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
         },
-        "url": { "type": "string", "format": "uri", "maxLength": 2048 }
+        "usage": {
+          "type": "object",
+          "additionalProperties": true
+        }
       }
-    },
-
-    "cost": {
-      "description": "Shipping cost for this shipment.",
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "amount": { "type": "number", "exclusiveMinimum": 0 },
-        "currency": { "type": "string", "minLength": 2, "maxLength": 16 }
-      }
-    },
-
-    "created_at": {
-      "type": "string",
-      "format": "date-time"
-    },
-
-    "updated_at": {
-      "type": "string",
-      "format": "date-time"
-    },
-
-    "metadata": {
-      "type": "object",
-      "additionalProperties": true
     }
-  }
+  ]
 }
