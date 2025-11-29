@@ -1,130 +1,69 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://commandlayer.org/schemas/v1.0.0/commercial/checkout/receipts/checkout.receipt.schema.json",
-  "title": "checkout.receipt (v1.0.0)",
-  "type": "object",
-  "additionalProperties": false,
-
-  "required": [
-    "trace",
-    "identity",
-    "checkout_id",
-    "status",
-    "amount",
-    "currency",
-    "payment",
-    "settlement",
-    "created_at"
-  ],
-
-  "properties": {
-    "trace": {
-      "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/trace.schema.json"
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "checkout.receipt",
+  "description": "Receipt schema for a checkout invocation, extending the global receipt.base.",
+  "allOf": [
+    {
+      "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/receipt.base.schema.json"
     },
-    "identity": {
-      "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/identity.schema.json"
-    },
-
-    "checkout_id": {
-      "description": "Canonical identifier for this checkout.",
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 256
-    },
-
-    "status": {
-      "description": "Final or current status of the checkout.",
-      "type": "string",
-      "enum": ["pending", "authorized", "captured", "failed", "expired", "canceled"]
-    },
-
-    "amount": {
-      "type": "number",
-      "exclusiveMinimum": 0
-    },
-
-    "currency": {
-      "type": "string",
-      "minLength": 2,
-      "maxLength": 16
-    },
-
-    "payment": {
-      "description": "Result of the payment step.",
+    {
       "type": "object",
       "additionalProperties": false,
-      "required": ["method", "network", "reference"],
       "properties": {
-        "method": { "type": "string" },
-        "network": { "type": "string", "maxLength": 64 },
-        "reference": {
-          "description": "Gateway / processor reference (transaction ID, hash, etc.).",
-          "type": "string",
-          "maxLength": 512
+        "result": {
+          "description": "Checkout-specific result payload.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["checkout_id", "amount", "settlement", "status"],
+          "properties": {
+            "checkout_id": {
+              "description": "Logical identifier for this checkout, used for follow-up operations (capture, refund, verify).",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "amount": {
+              "description": "Amount that was authorized or captured.",
+              "allOf": [
+                { "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.amount.schema.json" }
+              ]
+            },
+            "settlement": {
+              "description": "Settlement instructions actually used by the provider.",
+              "allOf": [
+                { "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.settlement.schema.json" }
+              ]
+            },
+            "status": {
+              "description": "Checkout outcome status from the payment provider.",
+              "type": "string",
+              "enum": ["authorized", "captured", "pending", "failed", "cancelled"]
+            },
+            "transaction_id": {
+              "description": "Provider-level transaction identifier, if available.",
+              "type": "string",
+              "maxLength": 128
+            },
+            "expires_at": {
+              "description": "RFC 3339 timestamp when this checkout authorization expires, if applicable.",
+              "type": "string",
+              "format": "date-time",
+              "maxLength": 64
+            },
+            "metadata": {
+              "description": "Non-normative provider or integrator metadata.",
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
         },
-        "status": {
-          "type": "string",
-          "enum": ["authorized", "captured", "failed", "refunded", "voided", "pending"]
-        },
-        "failure_reason": {
-          "type": "string",
-          "maxLength": 2048
-        },
-        "metadata": {
+        "usage": {
+          "description": "Optional metering / usage data (non-normative).",
           "type": "object",
           "additionalProperties": true
         }
       }
-    },
-
-    "settlement": {
-      "description": "Settlement outcome details.",
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "network": { "type": "string", "maxLength": 64 },
-        "asset": { "type": "string", "maxLength": 32 },
-        "amount": { "type": "number", "exclusiveMinimum": 0 },
-        "tx_hash": { "type": "string", "maxLength": 128 },
-        "block_number": { "type": "integer", "minimum": 0 },
-        "metadata": { "type": "object", "additionalProperties": true }
-      }
-    },
-
-    "risk": {
-      "description": "Optional risk / verification snapshot at checkout time.",
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "verification_id": { "type": "string", "maxLength": 256 },
-        "risk_score": { "type": "number", "minimum": 0, "maximum": 1 },
-        "flags": {
-          "type": "array",
-          "items": { "type": "string" },
-          "maxItems": 64
-        }
-      }
-    },
-
-    "linked_order_id": {
-      "description": "Identifier for created order (used by ship/refund).",
-      "type": "string",
-      "maxLength": 256
-    },
-
-    "created_at": {
-      "type": "string",
-      "format": "date-time"
-    },
-
-    "expires_at": {
-      "type": "string",
-      "format": "date-time"
-    },
-
-    "metadata": {
-      "type": "object",
-      "additionalProperties": true
     }
-  }
+  ]
 }
