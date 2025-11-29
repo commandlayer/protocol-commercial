@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://commandlayer.org/schemas/v1.0.0/commercial/purchase/receipts/purchase.receipt.schema.json",
+  "title": "purchase.receipt (v1.0.0)",
+  "type": "object",
+  "additionalProperties": false,
+
+  "required": [
+    "trace",
+    "identity",
+    "purchase_id",
+    "checkout",
+    "shipment",
+    "status"
+  ],
+
+  "properties": {
+    "trace": {
+      "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/trace.schema.json"
+    },
+    "identity": {
+      "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/identity.schema.json"
+    },
+
+    "purchase_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+
+    "status": {
+      "type": "string",
+      "enum": ["pending", "processing", "complete", "failed", "partially_refunded", "refunded"]
+    },
+
+    "checkout": {
+      "description": "Embedded or referenced checkout receipt.",
+      "oneOf": [
+        {
+          "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/checkout/receipts/checkout.receipt.schema.json"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["checkout_id"],
+          "properties": {
+            "checkout_id": { "type": "string", "maxLength": 256 }
+          }
+        }
+      ]
+    },
+
+    "shipment": {
+      "description": "Embedded or referenced shipment receipt.",
+      "oneOf": [
+        {
+          "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/ship/receipts/ship.receipt.schema.json"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["shipment_id"],
+          "properties": {
+            "shipment_id": { "type": "string", "maxLength": 256 }
+          }
+        }
+      ]
+    },
+
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}
+
+
