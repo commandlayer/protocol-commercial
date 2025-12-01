@@ -2,56 +2,85 @@
   "$id": "https://commandlayer.org/schemas/v1.0.0/commercial/ship/requests/ship.request.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ship.request",
-  "description": "Request schema for initiating a shipment / fulfillment.",
+  "description": "Request schema for triggering shipment / fulfillment for a confirmed order.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["x402", "trace", "order_id", "destination"],
   "properties": {
     "x402": {
       "allOf": [
-        { "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/x402.schema.json" }
+        {
+          "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/x402.schema.json"
+        }
       ]
     },
     "trace": {
       "allOf": [
-        { "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/trace.schema.json" }
+        {
+          "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/trace.schema.json"
+        }
       ]
     },
-    "order_id": {
-      "description": "Logical order identifier being shipped.",
-      "type": "string",
-      "minLength": 1,
-      "maxLength": 128
+    "actor": {
+      "allOf": [
+        {
+          "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/identity.schema.json"
+        }
+      ]
     },
-    "destination": {
-      "description": "Shipping destination address.",
+    "payload": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["line1", "city", "country", "postal_code"],
       "properties": {
-        "line1": { "type": "string", "maxLength": 256 },
-        "line2": { "type": "string", "maxLength": 256 },
-        "city": { "type": "string", "maxLength": 128 },
-        "region": { "type": "string", "maxLength": 128 },
-        "country": { "type": "string", "maxLength": 2 },
-        "postal_code": { "type": "string", "maxLength": 32 }
-      }
-    },
-    "amount": {
-      "description": "Optional shipping charge associated with this shipment.",
-      "allOf": [
-        { "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.amount.schema.json" }
-      ]
-    },
-    "settlement": {
-      "description": "Optional settlement destination for shipping fees.",
-      "allOf": [
-        { "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.settlement.schema.json" }
-      ]
-    },
-    "metadata": {
-      "type": "object",
-      "additionalProperties": true
+        "order_id": {
+          "description": "Canonical order ID to ship.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "items": {
+          "description": "Optional subset of order items to ship (for partial shipments).",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "sku": { "type": "string", "maxLength": 128 },
+              "quantity": { "type": "number", "minimum": 0.000001 }
+            }
+          }
+        },
+        "shipping_address": {
+          "description": "Shipping address override, if different from order-level.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "name": { "type": "string", "maxLength": 256 },
+            "line1": { "type": "string", "maxLength": 256 },
+            "line2": { "type": "string", "maxLength": 256 },
+            "city": { "type": "string", "maxLength": 128 },
+            "state": { "type": "string", "maxLength": 128 },
+            "postal_code": { "type": "string", "maxLength": 32 },
+            "country": { "type": "string", "maxLength": 2 }
+          }
+        },
+        "carrier_preference": {
+          "description": "Optional preferred carrier.",
+          "type": "string",
+          "maxLength": 64
+        },
+        "service_level": {
+          "description": "Optional shipping service level (standard, express, overnight, etc.).",
+          "type": "string",
+          "maxLength": 64
+        },
+        "metadata": {
+          "description": "Optional additional shipping metadata.",
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": ["order_id"]
     }
-  }
+  },
+  "required": ["x402", "trace", "actor", "payload"]
 }
