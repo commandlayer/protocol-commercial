@@ -2,7 +2,7 @@
   "$id": "https://commandlayer.org/schemas/v1.0.0/commercial/ship/receipts/ship.receipt.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ship.receipt",
-  "description": "Receipt schema for a shipping / fulfillment invocation.",
+  "description": "Receipt schema for shipment / fulfillment events.",
   "allOf": [
     {
       "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/receipt.base.schema.json"
@@ -12,38 +12,41 @@
       "additionalProperties": false,
       "properties": {
         "result": {
-          "description": "Shipment-specific result payload.",
           "type": "object",
           "additionalProperties": false,
           "required": ["shipment_id", "status"],
           "properties": {
             "shipment_id": {
+              "description": "Canonical shipment identifier.",
               "type": "string",
               "minLength": 1,
               "maxLength": 128
             },
-            "carrier": {
+            "order_id": {
+              "description": "Order ID this shipment is associated with.",
               "type": "string",
-              "maxLength": 64
+              "maxLength": 128
             },
-            "service": {
-              "description": "Service level (e.g., ground, 2-day, overnight).",
+            "status": {
+              "description": "Shipment status.",
+              "type": "string",
+              "enum": ["label_created", "in_transit", "delivered", "failed", "returned"]
+            },
+            "carrier": {
+              "description": "Shipping carrier.",
               "type": "string",
               "maxLength": 64
             },
             "tracking_number": {
+              "description": "Tracking number or link reference.",
               "type": "string",
-              "maxLength": 128
+              "maxLength": 256
             },
             "eta": {
-              "description": "Estimated delivery timestamp, if known.",
+              "description": "Estimated time of arrival.",
               "type": "string",
               "format": "date-time",
               "maxLength": 64
-            },
-            "status": {
-              "type": "string",
-              "enum": ["created", "in_transit", "delivered", "failed", "cancelled"]
             },
             "metadata": {
               "type": "object",
