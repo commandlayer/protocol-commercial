@@ -62,14 +62,15 @@ Commercial sits between semantics and execution:
 |  Agent-Cards                |  identity + discovery
 +-----------------------------+
 ```
-## Stack summary
+## CommandLayer Protocol Stack
 
-| Layer               | Role                                                    |
-| ------------------- | ------------------------------------------------------- |
-| Protocol-Commons    | Canonical non-economic verbs & schemas                  |
-| Protocol-Commercial | Canonical **economic** verbs & schemas                  |
-| Agent-Cards         | Identity, discovery, and invocation metadata            |
-| Protocol-Runtime    | Execution, x402 adapters, auth, and paywalled endpoints |
+| Layer               | Role                                                              |
+|---------------------|-------------------------------------------------------------------|
+| Protocol-Commons    | Canonical verbs & schemas (machine intent grammar)                |
+| Agent-Cards         | Identity, discovery, and invocation metadata                      |
+| Protocol-Commercial | Canonical commercial/economic verbs (schemas & receipt defaults)  |
+| Protocol-Runtime    | Transport adapters, execution, and structured receipts            |
+
 
 - **Schemas = roads**
 - **Runtime = toll booths**
