@@ -237,47 +237,49 @@ Any failure = **non-compliant.**
 - Schemas remain open and neutral
 - Value creation happens only when agents execute
 
-## Next layer: protocol-runtime
+## Next Layer — Protocol-Runtime
 
-Runtime executes economic contracts:
+Where execution becomes value.
 
-- x402 entry points
-- metering + quotas
-- auth + policy gates
-- settlement + routing
-- pricing + credits
-- observability + tracing
+The Runtime enforces **economic contracts** defined by Commercial,
+and produces **verifiable settlement receipts**.
 
-It imports:
+### Runtime responsibilities
 
-- @commandlayer/commons
-- @commandlayer/protocol-commercial
-- @commandlayer/agent-cards
+- Execute x402 entrypoints for every agent
+- Meter usage — compute time, tokens, or call counts
+- Gate access — auth, quotas, risk checks
+- Settle value — stablecoins, credits, cross-vendor routing
+- Issue auditable receipts — typed, traceable, final
+- Monitor health & compliance — tracing + analytics
 
-## Status
+Runtime **imports and enforces**:
 
-Pre-v1.0.0
+- `@commandlayer/commons` — semantic validation  
+- `@commandlayer/protocol-commercial` — economic semantics  
+- `@commandlayer/agent-cards` — identity + routing  
 
-Structure complete
-Economic surface in design
-No CID lock yet
-Breaking changes expected until v1.0.0 tags.
+> **Schemas stay free — Runtime is the toll road for autonomous agents.**
+
+---
+
+### Status
+
+- **Pre-v1.0.0**
+- Architecture + boundaries defined
+- Economic verbs in-flight (unstable surface)
+- **No CID lock** until schema freeze
+- Breaking changes expected
+
+Runtime targeting: **alpha after Commercial v1.0.0 lock**
 
 ## References
 
-## References
-
-- **Protocol-Commons — Semantic verbs & schemas**  
-  https://github.com/commandlayer/protocol-commons
-- **Agent-Cards — Identity & discovery**  
-  https://github.com/commandlayer/agent-card
-- **x402 — Machine-to-machine transport & settlement**  
-  https://github.com/ethereum/x40
-- **ERC-8004 — Schema discovery via ENS**  
-  https://eips.ethereum.org/EIPS/eip-8004
-- **JSON Schema 2020-12**  
-  https://json-schema.org/specification-links
-
+- [Protocol-Commons — Semantic verbs & schemas](https://github.com/commandlayer/protocol-commons)
+- [Agent-Cards — Identity & discovery](https://github.com/commandlayer/agent-cards)
+- [x402 — Machine-to-Machine Value Transport](https://github.com/ethereum/x402)
+- [ERC-8004 — Schema Discovery via ENS](https://eips.ethereum.org/EIPS/eip-8004)
+- [JSON Schema 2020-12 — Canonical validation standard](https://json-schema.org/specification-links)
 
 
 
