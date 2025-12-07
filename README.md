@@ -76,49 +76,57 @@ Commercial sits between semantics and execution:
 
 ## What this repo defines
 
-Canonical economic contracts for agents:
-- Commercial verbs: checkout, verify, pay, refund, subscribe, …
-- JSON Schemas:
-    - requests/*.schema.json
-    - receipts/*.schema.json
+| Component        | Purpose                                  |
+| ---------------- | ---------------------------------------- |
+| Commercial verbs | Price discovery, fulfillment, settlement |
+| Request schemas  | payment instructions, billing metadata   |
+| Receipt schemas  | settlement proof, economic finality      |
+| Example fixtures | validation & auditability                |
+| Governance docs  | mutation + deprecation log               |
 
-- Valid + invalid examples
-- Immutable release policy
 
 These schemas are:
 
 - runtime-agnostic
-- network-agnostic
-- payment-rail-agnostic (stablecoins, L2s, fiat rails, …)
+- chain-agnostic
+- payment-rail-agnostic (stablecoin, credit rails, L2, etc.)
 
-## What this repo does not define
+## What this repo does **not** define
 
-To keep boundaries clean, protocol-commercial excludes:
+This repository is **semantics only**. It does **not** define:
 
-- x402 endpoint definitions
-- pricing logic
-- auth and quotas
-- routing and provider selection
-- proprietary extensions
+- auth or quotas  
+- pricing logic  
+- routing decisions  
+- provider selection  
+- x402 endpoints  
 
-Those belong in **protocol-runtime.**
+Those are **Runtime** concerns.
 
-## Commercial Verbs (conceptual)
-Final v1.0.0 set will be locked via governance, but categories:
+**Commercial** defines the rules of value exchange —  
+not who gets paid, on which infra, or under what business model.
 
-| Category      | Verbs                 | Purpose                         |
-| ------------- | --------------------- | ------------------------------- |
-| Offers/Quotes | `quote`, `offer`      | Price discovery                 |
-| Payments      | `pay`, `charge`       | Sending value / account debits  |
-| Commerce      | `checkout`, `refund`  | Purchases and reversals         |
-| Access        | `subscribe`, `unlock` | Time-bound and recurring access |
-| Risk & Trust  | `verify`, `approve`   | Policy + trust gates            |
 
-Each verb has:
+## Commercial Verbs (draft categories)
+| Category        | Verbs                 | Purpose                             |
+| --------------- | --------------------- | ----------------------------------- |
+| Offers / Quotes | `quote`, `offer`      | Price discovery & negotiation       |
+| Payments        | `pay`, `charge`       | Settle accounts                     |
+| Commerce        | `checkout`, `refund`  | Purchases & reversals               |
+| Access          | `subscribe`, `unlock` | Time-bound or recurring rights      |
+| Risk & Trust    | `verify`, `approve`   | Policy validation & fraud reduction |
 
-- canonical **request schema**
-- canonical **receipt schema**
-- deterministic semantics
+Final v1.0.0 set will be **locked via governance.**
+
+## Schema Contract
+
+Commercial and Commons share strict JSON Schema rules:
+| Feature                      | Guarantee                            |
+| ---------------------------- | ------------------------------------ |
+| Typed requests & receipts    | Canonical envelope for all runtimes  |
+| Deterministic `$id`          | Version immutability                 |
+| No silent mutation           | All changes logged + re-CID required |
+| Valid + invalid test vectors | Reproducibility                      |
 
 ## Repository Structure
 ```
@@ -150,32 +158,77 @@ protocol-commercial/
 
 ## Versioning & Immutability
 
-Identical to Commons rules:
-- Versioned folders like:
+When v1.0.0 is published, it becomes normative:
 ```
 schemas/v1.0.0/commercial/<verb>/
 ```
-- No silent updates
-- Semantic changes → new version + new CID
-- All changes logged in RESOLUTION.md
-- v1.0.0 CID + checksums become normative after release.
+After that:
+- Any mutation → new version
+- All files → new CID + checksums
+- ENS binds versioned schemas only
 
-## Immutability
-Once live:
-```
-sha256sum -c checksums.txt
-```
-Mismatch = **untrusted artifact.**
+No breaking changes allowed in-place.
+No schema drift tolerated.
+
+## Integrity (Pre-Release Notice)
+
+The integrity block will be installed at **v1.0.0 lock-in**:
+
+ **Integrity Notice — Protocol-Commercial v1.0.0**  
+
+> Canonical schemas will be pinned and immutable:  
+> `schemas/v1.0.0/` — CID:  
+> `TBD` — **not yet normative**
+>
+> Verify integrity locally:
+>
+> ```bash
+> sha256sum -c checksums.txt
+> ```
+>
+> **Mismatch = untrusted artifact.**
+
+Until locked:
+
+- CIDs are **unstable**
+- `checksums.txt` is **non-normative**
+
+
+
+
+
+
+## ENS TXT — Discovery Rules
+
+Commercial TXT keys are **optional** until Runtime v1.0.0.
+Once locked, keys follow the same schema as Commons + Agent-Cards:
+| TXT Key                      | Purpose                      | Required at v1.0.0 |
+| ---------------------------- | ---------------------------- | ------------------ |
+| `cl.verb`                    | Primary verb name            | Yes                |
+| `cl.version`                 | Card/schema version          | Yes                |
+| `cl.cid.schemas`             | Commercial schemas CID       | Yes                |
+| `cl.schema.request`          | Canonical request schema URI | Yes                |
+| `cl.schema.receipt`          | Canonical receipt schema URI | Yes                |
+| `cl.checksum.schema.request` | SHA-256 of request schema    | Yes                |
+| `cl.checksum.schema.receipt` | SHA-256 of receipt schema    | Yes                |
+| `cl.agentcard`               | Binding to identity          | Optional           |
+| `cl.owner`                   | Steward ENS name             | Yes                |
+
+
+
 
 ## Validation
 Strict JSON Schema validation:
 ```
 npm install
-npm run validate:schemas
-npm run validate:examples
 npm run validate
 ```
-Runtime operators **must** validate both request AND receipt.
+Runs
+- schema validation
+- example fixtures
+- integrity rules
+
+Any failure = **non-compliant.**
 
 ## License
 
@@ -212,11 +265,19 @@ Breaking changes expected until v1.0.0 tags.
 
 ## References
 
-CommandLayer Protocol — Commons
-Agent Cards — CommandLayer
-ERC-8004 — Agent Schema Discovery
-x402 — Machine-to-Machine Value Transport
-JSON Schema 2020-12
+## References
+
+- **Protocol-Commons — Semantic verbs & schemas**  
+  https://github.com/commandlayer/protocol-commons
+- **Agent-Cards — Identity & discovery**  
+  https://github.com/commandlayer/agent-card
+- **x402 — Machine-to-machine transport & settlement**  
+  https://github.com/ethereum/x40
+- **ERC-8004 — Schema discovery via ENS**  
+  https://eips.ethereum.org/EIPS/eip-8004
+- **JSON Schema 2020-12**  
+  https://json-schema.org/specification-links
+
 
 
 
