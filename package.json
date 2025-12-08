@@ -1,9 +1,50 @@
 {
-  "name": "@commandlayer/protocol-commercial",
-  "version": "0.1.0",
+  "name": "@commandlayer/commercial",
+  "version": "1.0.0",
   "description": "Commercial verbs, schemas, and execution contracts for CommandLayer.",
+  "author": "Greg Soucy <dev@commandlayer.org> (commandlayer.eth)",
+  "maintainers": [
+    "Greg Soucy <dev@commandlayer.org> (commandlayer.eth)"
+  ],
   "license": "Apache-2.0",
+  "private": false,
   "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/commandlayer/protocol-commercial.git"
+  },
+  "homepage": "https://commandlayer.org",
+  "bugs": {
+    "url": "https://github.com/commandlayer/protocol-commercial/issues"
+  },
+  "keywords": [
+    "agent",
+    "agents",
+    "ai-agents",
+    "autonomous-agents",
+    "authorize",
+    "checkout",
+    "commercial",
+    "commandlayer",
+    "erc8004",
+    "json-schema",
+    "payments",
+    "protocol",
+    "purchase",
+    "schemas",
+    "ship",
+    "verify",
+    "x402"
+  ],
+  "files": [
+    "schemas/",
+    "examples/",
+    "README.md"
+  ],
+  "main": "schemas/v1.0.0/index.json",
   "scripts": {
     "validate:schema": "node scripts/ajv-run.mjs",
     "validate:schemas": "node scripts/validate-all.mjs",
