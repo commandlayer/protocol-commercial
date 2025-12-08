@@ -9,7 +9,6 @@
     },
     {
       "type": "object",
-      "additionalProperties": false,
       "properties": {
         "result": {
           "description": "Checkout outcome payload.",
@@ -69,7 +68,8 @@
           "type": "object",
           "additionalProperties": true
         }
-      }
+      },
+      "required": ["result"]
     }
   ]
 }
