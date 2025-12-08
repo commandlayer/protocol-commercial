@@ -1,6 +1,6 @@
 {
   "name": "@commandlayer/protocol-commercial",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Commercial verbs, schemas, and execution contracts for CommandLayer.",
   "license": "Apache-2.0",
   "type": "module",
