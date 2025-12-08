@@ -1,0 +1,106 @@
+export interface X402VerifyRequestEnvelope {
+  verb: "verify";
+  version: "1.0.0";
+  request_id?: string;
+  network?: string;
+  tenant?: string;
+}
+
+export interface TraceEnvelope {
+  trace_id: string;
+  parent_trace_id?: string;
+  started_at?: string;
+  completed_at?: string;
+  duration_ms?: number;
+  provider?: string;
+  region?: string;
+  model?: string;
+  tags?: string[];
+}
+
+export interface Identity {
+  id: string;
+  kind: string;
+}
+
+export interface PaymentAmount {
+  value: string;
+  asset: string;
+  pricing_tier?: string;
+  metadata?: Record<string, unknown>;
+}
+
+export interface PaymentSettlement {
+  chain: string;
+  recipient: string;
+  refund_address?: string;
+  merchant_id?: string;
+  metadata?: Record<string, unknown>;
+}
+
+export interface VerifyWindow {
+  from?: string;
+  to?: string;
+}
+
+export type VerifyKind = "transaction" | "payment" | "invoice" | "payout";
+
+export interface VerifyPayload {
+  kind: VerifyKind;
+  target: string;
+  amount?: PaymentAmount;
+  settlement?: PaymentSettlement;
+  window?: VerifyWindow;
+  strict?: boolean;
+  metadata?: Record<string, unknown>;
+}
+
+export interface VerifyRequest {
+  x402: X402VerifyRequestEnvelope;
+  trace: TraceEnvelope;
+  actor: Identity;
+  payload: VerifyPayload;
+}
+
+export const verifyRequestValid1: VerifyRequest = {
+  x402: {
+    verb: "verify",
+    version: "1.0.0",
+    request_id: "req-verify-2025-12-07-0001",
+    network: "eip155:1"
+  },
+  trace: {
+    trace_id: "trace-verify-0001",
+    started_at: "2025-12-07T19:30:00Z",
+    completed_at: "2025-12-07T19:30:01Z",
+    duration_ms: 1000,
+    provider: "commandlayer-demo",
+    region: "us-east-1",
+    model: "verify-engine-001"
+  },
+  actor: {
+    id: "reconciliation-service-01",
+    kind: "service"
+  },
+  payload: {
+    kind: "payment",
+    target: "pay-12345",
+    amount: {
+      value: "100.00",
+      asset: "USD"
+    },
+    settlement: {
+      chain: "eip155:1",
+      recipient: "merchant.example.eth"
+    },
+    window: {
+      from: "2025-12-01T00:00:00Z",
+      to: "2025-12-31T23:59:59Z"
+    },
+    strict: true,
+    metadata: {
+      batch_id: "batch-rec-001",
+      source_system: "billing-v2"
+    }
+  }
+};

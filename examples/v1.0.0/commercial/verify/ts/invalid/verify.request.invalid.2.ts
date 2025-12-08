@@ -1,0 +1,19 @@
+export const verifyRequestInvalid2: any = {
+  x402: {
+    verb: "verify",
+    version: "1.0.0"
+  },
+  trace: {
+    trace_id: "trace-verify-err-0002"
+  },
+  actor: {
+    id: "audit-tool-err-01",
+    kind: "service"
+  },
+  payload: {
+    kind: "receipt",
+    target: "inv-7890",
+    strict: "yes"
+  },
+  extra: "not allowed"
+};

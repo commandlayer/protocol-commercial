@@ -1,0 +1,23 @@
+{
+  "x402": {
+    "verb": "ship",
+    "version": "1.0.0"
+  },
+  "trace": {
+    "trace_id": "trace-ship-err-0002"
+  },
+  "actor": {
+    "id": "fulfillment-service-err-2",
+    "kind": "service"
+  },
+  "payload": {
+    "order_id": 12345,
+    "items": [
+      {
+        "sku": "sku-hat-standard",
+        "quantity": -1
+      }
+    ]
+  },
+  "unexpected": "not allowed at top level"
+}

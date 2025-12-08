@@ -1,0 +1,13 @@
+export const shipReceiptInvalid1: any = {
+  x402: {
+    verb: "ship",
+    version: "1.0.0"
+  },
+  trace: {
+    trace_id: "trace-ship-err-0003"
+  },
+  status: "ok",
+  result: {
+    status: "ok"
+  }
+};

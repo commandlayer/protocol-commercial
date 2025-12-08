@@ -1,0 +1,32 @@
+import type { VerifyRequest } from "./verify.request.valid.1";
+
+export const verifyRequestValid2: VerifyRequest = {
+  x402: {
+    verb: "verify",
+    version: "1.0.0",
+    request_id: "req-verify-2025-12-07-0002",
+    network: "eip155:8453"
+  },
+  trace: {
+    trace_id: "trace-verify-0002",
+    started_at: "2025-12-07T19:31:00Z",
+    completed_at: "2025-12-07T19:31:01Z",
+    duration_ms: 1000,
+    provider: "commandlayer-demo",
+    region: "us-west-2",
+    model: "verify-engine-001"
+  },
+  actor: {
+    id: "audit-tool-01",
+    kind: "service"
+  },
+  payload: {
+    kind: "invoice",
+    target: "inv-7890",
+    strict: false,
+    metadata: {
+      audit_run: "2025Q4",
+      note: "allow partial matches"
+    }
+  }
+};

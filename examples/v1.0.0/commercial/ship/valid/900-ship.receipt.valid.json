@@ -1,0 +1,33 @@
+{
+  "x402": {
+    "verb": "ship",
+    "version": "1.0.0",
+    "request_id": "req-ship-2025-12-07-0001",
+    "network": "eip155:1"
+  },
+  "trace": {
+    "trace_id": "trace-ship-0001",
+    "started_at": "2025-12-07T19:20:00Z",
+    "completed_at": "2025-12-07T19:20:01Z",
+    "duration_ms": 950,
+    "provider": "commandlayer-demo",
+    "region": "us-east-1",
+    "model": "ship-engine-001"
+  },
+  "status": "success",
+  "result": {
+    "shipment_id": "shp-0001",
+    "order_id": "order-1001",
+    "status": "in_transit",
+    "carrier": "UPS",
+    "tracking_number": "1Z999AA10123456784",
+    "eta": "2025-12-10T18:00:00Z",
+    "metadata": {
+      "warehouse": "WH1",
+      "label_id": "lbl-0001"
+    }
+  },
+  "usage": {
+    "tokens": 320
+  }
+}
