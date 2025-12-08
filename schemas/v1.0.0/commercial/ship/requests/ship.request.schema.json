@@ -46,7 +46,8 @@
             "properties": {
               "sku": { "type": "string", "maxLength": 128 },
               "quantity": { "type": "number", "minimum": 0.000001 }
-            }
+            },
+            "required": ["sku", "quantity"]
           }
         },
         "shipping_address": {
@@ -60,7 +61,11 @@
             "city": { "type": "string", "maxLength": 128 },
             "state": { "type": "string", "maxLength": 128 },
             "postal_code": { "type": "string", "maxLength": 32 },
-            "country": { "type": "string", "maxLength": 2 }
+            "country": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 2
+            }
           }
         },
         "carrier_preference": {
