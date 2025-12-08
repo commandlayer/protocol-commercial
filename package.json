@@ -3,17 +3,51 @@
   "version": "0.1.0",
   "description": "Commercial verbs, schemas, and execution contracts for CommandLayer.",
   "license": "Apache-2.0",
+  "private": false,
   "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/commandlayer/protocol-commercial.git"
+  },
+  "homepage": "https://commandlayer.org",
+  "bugs": {
+    "url": "https://github.com/commandlayer/protocol-commercial/issues"
+  },
+  "keywords": [
+    "agent",
+    "agents",
+    "ai-agents",
+    "autonomous-agents",
+    "commandlayer",
+    "erc8004",
+    "x402",
+    "json-schema",
+    "schemas",
+    "commercial",
+    "payments",
+    "checkout",
+    "protocol"
+  ],
+  "files": [
+    "schemas/",
+    "examples/",
+    "README.md"
+  ],
+  "main": "schemas/v1.0.0/index.json",
   "scripts": {
-   "scripts": {
-  "validate:schema": "node scripts/ajv-run.mjs",
-  "validate:schemas": "node scripts/validate-all.mjs",
-  "validate:examples": "node scripts/validate-examples.mjs",
-  "validate:all": "npm run validate:schemas && npm run validate:examples",
-  "validate": "npm run validate:all"
-}
-
+    "validate:schema": "node scripts/ajv-run.mjs",
+    "validate:schemas": "node scripts/validate-all.mjs",
+    "validate:examples": "node scripts/validate-examples.mjs",
+    "validate:all": "npm run validate:schemas && npm run validate:examples",
+    "validate": "npm run validate:all"
   },
   "devDependencies": {
+    "ajv": "^8.17.1",
+    "ajv-cli": "^5.0.0",
+    "ajv-errors": "^3.0.0",
+    "ajv-formats": "^3.0.1"
   }
 }
