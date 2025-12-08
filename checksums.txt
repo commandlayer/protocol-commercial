@@ -6,7 +6,7 @@ be7b1639650b23f142062259d2fe1bf3d296c49b70a4a9f181e8c4945754e816  schemas/v1.0.0
 2187b9b6b3abc62d75378fcaf6daf0e019f8bf2fede83ebaa6ee908f9f8b5804  schemas/v1.0.0/_shared/verb.aliases.schema.json
 f98ff873303b221a8aed65227e579f8d30d3dd334a410c472053c6fefeaf9783  schemas/v1.0.0/_shared/x402.schema.json
 4cb5c57b43a938cacdcaed4538eed6e5733946cd4db1ac45cf3aa168bb42709a  schemas/v1.0.0/commercial/authorize/receipts/authorize.receipt.schema.json
-3a8bf1ce13e147fb6ade6679f40b104f45ae88c0c1219c86c8f0f67ea0f499a1  schemas/v1.0.0/commercial/authorize/requests/authorize.request.schema.json
+3a9eb5052b2a3dca2671d0bb9d26744ffd1b5da5db86109abe44f758f66c6ce7  schemas/v1.0.0/commercial/authorize/requests/authorize.request.schema.json
 d9acf6d0f6ec6186bf6a3f2cfa80109e492fbb913ed60f68e96590af13d55323  schemas/v1.0.0/commercial/checkout/receipts/checkout.receipt.schema.json
 5cc9d3968a10a08bd909aeb1b49b22f2d6736c8d8b48a01821c1de39be83078f  schemas/v1.0.0/commercial/checkout/requests/checkout.request.schema.json
 da9f054b90e03bbf1779457770624badef4a0edcac95425c7bcbe43d6be2e8ea  schemas/v1.0.0/commercial/purchase/receipts/purchase.receipt.schema.json
