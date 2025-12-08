@@ -1,14 +1,10 @@
 {
-  "name": "@commandlayer/commercial",
-  "version": "1.0.0",
+  "name": "@commandlayer/protocol-commercial",
+  "version": "0.1.0",
   "description": "Commercial verbs, schemas, and execution contracts for CommandLayer.",
-  "author": "Greg Soucy <dev@commandlayer.org> (commandlayer.eth)",
-  "maintainers": [
-    "Greg Soucy <dev@commandlayer.org> (commandlayer.eth)"
-  ],
-  "license": "Apache-2.0",
   "private": false,
   "type": "module",
+  "license": "Apache-2.0",
   "engines": {
     "node": ">=20.0.0"
   },
@@ -26,18 +22,13 @@
     "ai-agents",
     "autonomous-agents",
     "commandlayer",
-    "erc8004",
-    "x402",
-    "json-schema",
-    "schemas",
-    "authorize",
-    "purchase",
-    "verify",
-    "ship",
     "commercial",
     "payments",
-    "checkout",
-    "protocol"
+    "json-schema",
+    "protocol",
+    "schemas",
+    "receipts",
+    "x402"
   ],
   "files": [
     "schemas/",
@@ -45,17 +36,17 @@
     "README.md"
   ],
   "main": "schemas/v1.0.0/index.json",
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "ajv-cli": "^5.0.0",
+    "ajv-errors": "^3.0.0",
+    "ajv-formats": "^3.0.1"
+  },
   "scripts": {
     "validate:schema": "node scripts/ajv-run.mjs",
     "validate:schemas": "node scripts/validate-all.mjs",
     "validate:examples": "node scripts/validate-examples.mjs",
     "validate:all": "npm run validate:schemas && npm run validate:examples",
     "validate": "npm run validate:all"
-  },
-  "devDependencies": {
-    "ajv": "^8.17.1",
-    "ajv-cli": "^5.0.0",
-    "ajv-errors": "^3.0.0",
-    "ajv-formats": "^3.0.1"
   }
 }

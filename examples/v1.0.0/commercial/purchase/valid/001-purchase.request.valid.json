@@ -6,32 +6,32 @@
     "network": "eip155:1"
   },
   "trace": {
-    "trace_id": "trace-purchase-0001",
-    "started_at": "2025-12-07T19:10:00Z",
-    "completed_at": "2025-12-07T19:10:01Z",
-    "duration_ms": 1000,
-    "provider": "commandlayer-demo",
-    "region": "us-east-1",
-    "model": "purchase-engine-001"
-  },
-  "actor": {
-    "id": "buyer-pc-001",
-    "kind": "user"
+    "trace_id": "trace-purchase-0001"
   },
   "payload": {
-    "item_id": "item-ebook-001",
+    "item_id": "product-123",
     "quantity": 1,
     "amount": {
-      "value": "9.99",
-      "asset": "USD"
+      "value": "49.00",
+      "asset": "USD",
+      "pricing_tier": "standard",
+      "metadata": {
+        "source": "web",
+        "campaign": "winter-2025"
+      }
     },
     "settlement": {
       "chain": "eip155:1",
-      "recipient": "creator.eth"
+      "recipient": "0xmerchantAddressHere",
+      "merchant_id": "merchant-001",
+      "metadata": {
+        "payout_channel": "stripe",
+        "region": "us-east"
+      }
     },
     "metadata": {
-      "delivery": "email",
-      "license": "single-user"
+      "channel": "web",
+      "session_id": "sess-purchase-0001"
     }
   }
 }

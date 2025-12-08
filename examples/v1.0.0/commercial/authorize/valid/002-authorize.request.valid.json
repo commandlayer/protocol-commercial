@@ -2,41 +2,30 @@
   "x402": {
     "verb": "authorize",
     "version": "1.0.0",
-    "request_id": "req-auth-2025-12-07-0002",
+    "request_id": "req-authorize-2025-12-07-0002",
     "network": "eip155:8453",
-    "tenant": "tenant-b2b-01"
+    "tenant": "platform-xyz"
   },
   "trace": {
-    "trace_id": "trace-auth-0002",
-    "started_at": "2025-12-07T18:41:00Z",
-    "completed_at": "2025-12-07T18:41:01Z",
-    "duration_ms": 980,
-    "provider": "commandlayer-demo",
-    "region": "us-west-2",
-    "model": "authorize-engine-001",
-    "tags": ["authorize", "b2b", "cross-chain"]
+    "trace_id": "trace-authorize-0002"
   },
   "actor": {
-    "id": "platform-aggregator-01",
-    "kind": "service"
+    "id": "buyer-456"
   },
   "payload": {
     "amount": {
-      "value": "2500.50",
-      "asset": "USDC"
+      "value": "42.50",
+      "asset": "USD"
     },
     "settlement": {
       "chain": "eip155:8453",
-      "recipient": "0xMerchantOnBase000000000000000000000001",
-      "metadata": {
-        "route": "base-usdc",
-        "settlement_window": "T+1"
-      }
+      "recipient": "platform-xyz.eth",
+      "merchant_id": "acct-xyz-42"
     },
-    "purpose": "B2B platform escrow authorization",
+    "purpose": "Card-on-file verification + hold.",
     "metadata": {
-      "integration": "partner-xyz",
-      "agreement_id": "agreement-2025-0005"
+      "flow": "card-on-file",
+      "risk_profile": "medium"
     }
   }
 }

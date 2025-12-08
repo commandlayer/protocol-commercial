@@ -2,48 +2,31 @@
   "x402": {
     "verb": "authorize",
     "version": "1.0.0",
-    "request_id": "req-auth-2025-12-07-0001",
-    "network": "eip155:1"
+    "request_id": "req-authorize-2025-12-07-0001",
+    "network": "eip155:1",
+    "tenant": "merchant-001"
   },
   "trace": {
-    "trace_id": "trace-auth-0001",
-    "started_at": "2025-12-07T18:40:00Z",
-    "completed_at": "2025-12-07T18:40:00Z",
-    "duration_ms": 420,
-    "provider": "commandlayer-demo",
-    "region": "us-east-1",
-    "model": "authorize-engine-001",
-    "tags": ["authorize", "commercial", "example", "v1.0.0"]
+    "trace_id": "trace-authorize-0001"
   },
   "actor": {
-    "id": "buyer-123",
-    "kind": "user"
+    "id": "buyer-123"
   },
   "payload": {
     "amount": {
       "value": "100.00",
       "asset": "USDC",
-      "pricing_tier": "standard",
-      "metadata": {
-        "currency": "USD",
-        "source": "web_checkout"
-      }
+      "pricing_tier": "standard"
     },
     "settlement": {
       "chain": "eip155:1",
       "recipient": "merchant.eth",
-      "refund_address": "buyer.eth",
-      "merchant_id": "m_001",
-      "metadata": {
-        "channel": "online",
-        "country": "US"
-      }
+      "merchant_id": "merchant-001"
     },
-    "purpose": "card authorization for booking",
+    "purpose": "Pre-authorize funds for upcoming checkout.",
     "metadata": {
-      "instrument_fingerprint": "fp_abc123",
-      "psp": "stripe",
-      "risk_profile": "low"
+      "source": "web-checkout",
+      "session_id": "sess-0001"
     }
   }
 }

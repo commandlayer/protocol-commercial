@@ -7,6 +7,7 @@
   "additionalProperties": false,
   "properties": {
     "x402": {
+      "description": "x402 envelope describing the purchase verb and version.",
       "allOf": [
         {
           "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/x402.schema.json"
@@ -14,20 +15,15 @@
       ]
     },
     "trace": {
+      "description": "Trace envelope for correlating this purchase with logs and receipts.",
       "allOf": [
         {
           "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/trace.schema.json"
         }
       ]
     },
-    "actor": {
-      "allOf": [
-        {
-          "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/identity.schema.json"
-        }
-      ]
-    },
     "payload": {
+      "description": "Purchase-specific payload.",
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -64,8 +60,8 @@
           "additionalProperties": true
         }
       },
-      "required": ["item_id", "quantity", "amount", "settlement"]
+      "required": ["item_id", "amount", "settlement"]
     }
   },
-  "required": ["x402", "trace", "actor", "payload"]
+  "required": ["x402", "trace", "payload"]
 }

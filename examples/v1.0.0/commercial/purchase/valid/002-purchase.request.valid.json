@@ -3,36 +3,35 @@
     "verb": "purchase",
     "version": "1.0.0",
     "request_id": "req-purchase-2025-12-07-0002",
-    "network": "eip155:8453",
-    "tenant": "platform-purchase-01"
+    "network": "eip155:8453"
   },
   "trace": {
-    "trace_id": "trace-purchase-0002",
-    "started_at": "2025-12-07T19:11:00Z",
-    "completed_at": "2025-12-07T19:11:02Z",
-    "duration_ms": 2000,
-    "provider": "commandlayer-demo",
-    "region": "us-west-2",
-    "model": "purchase-engine-001"
-  },
-  "actor": {
-    "id": "service-buyer-01",
-    "kind": "service"
+    "trace_id": "trace-purchase-0002"
   },
   "payload": {
-    "item_id": "item-api-seat-10",
-    "quantity": 10,
+    "item_id": "subscription-pro-annual",
+    "quantity": 1,
     "amount": {
-      "value": "1000.00",
-      "asset": "USDC"
+      "value": "199.99",
+      "asset": "USD",
+      "pricing_tier": "pro",
+      "metadata": {
+        "billing_cycle": "annual",
+        "trial_days": 14
+      }
     },
     "settlement": {
       "chain": "eip155:8453",
-      "recipient": "0xEnterpriseVendor0000000000000000000001"
+      "recipient": "0xmerchantOnBase",
+      "merchant_id": "merchant-saas-001",
+      "metadata": {
+        "payout_channel": "onchain",
+        "settlement_window": "T+1"
+      }
     },
     "metadata": {
-      "plan": "business",
-      "team_size": 10
+      "channel": "api",
+      "tenant": "workspace-42"
     }
   }
 }

@@ -7,6 +7,7 @@
   "additionalProperties": false,
   "properties": {
     "x402": {
+      "description": "x402 envelope describing the ship verb and version.",
       "allOf": [
         {
           "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/x402.schema.json"
@@ -14,20 +15,15 @@
       ]
     },
     "trace": {
+      "description": "Trace envelope for correlating this shipment with logs and receipts.",
       "allOf": [
         {
           "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/trace.schema.json"
         }
       ]
     },
-    "actor": {
-      "allOf": [
-        {
-          "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/identity.schema.json"
-        }
-      ]
-    },
     "payload": {
+      "description": "Shipment-specific payload.",
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -44,10 +40,15 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "sku": { "type": "string", "maxLength": 128 },
-              "quantity": { "type": "number", "minimum": 0.000001 }
-            },
-            "required": ["sku", "quantity"]
+              "sku": {
+                "type": "string",
+                "maxLength": 128
+              },
+              "quantity": {
+                "type": "number",
+                "minimum": 0.000001
+              }
+            }
           }
         },
         "shipping_address": {
@@ -61,11 +62,7 @@
             "city": { "type": "string", "maxLength": 128 },
             "state": { "type": "string", "maxLength": 128 },
             "postal_code": { "type": "string", "maxLength": 32 },
-            "country": {
-              "type": "string",
-              "minLength": 2,
-              "maxLength": 2
-            }
+            "country": { "type": "string", "maxLength": 2 }
           }
         },
         "carrier_preference": {
@@ -87,5 +84,5 @@
       "required": ["order_id"]
     }
   },
-  "required": ["x402", "trace", "actor", "payload"]
+  "required": ["x402", "trace", "payload"]
 }
