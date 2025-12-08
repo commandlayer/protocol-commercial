@@ -9,7 +9,6 @@
     },
     {
       "type": "object",
-      "additionalProperties": false,
       "properties": {
         "result": {
           "description": "Verification outcome payload.",
@@ -65,7 +64,8 @@
           "type": "object",
           "additionalProperties": true
         }
-      }
+      },
+      "required": ["result"]
     }
   ]
 }
