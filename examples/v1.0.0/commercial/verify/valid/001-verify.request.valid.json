@@ -6,37 +6,25 @@
     "network": "eip155:1"
   },
   "trace": {
-    "trace_id": "trace-verify-0001",
-    "started_at": "2025-12-07T19:30:00Z",
-    "completed_at": "2025-12-07T19:30:01Z",
-    "duration_ms": 1000,
-    "provider": "commandlayer-demo",
-    "region": "us-east-1",
-    "model": "verify-engine-001"
-  },
-  "actor": {
-    "id": "reconciliation-service-01",
-    "kind": "service"
+    "trace_id": "trace-verify-0001"
   },
   "payload": {
     "kind": "payment",
-    "target": "pay-12345",
+    "target": "pay_1234567890",
     "amount": {
-      "value": "100.00",
-      "asset": "USD"
+      "currency": "USD",
+      "amount": "125.50"
     },
     "settlement": {
-      "chain": "eip155:1",
-      "recipient": "merchant.example.eth"
-    },
-    "window": {
-      "from": "2025-12-01T00:00:00Z",
-      "to": "2025-12-31T23:59:59Z"
+      "network": "eip155:1",
+      "chain": "ethereum",
+      "asset": "USDC",
+      "destination": "0xMerchantAddressHere"
     },
     "strict": true,
     "metadata": {
-      "batch_id": "batch-rec-001",
-      "source_system": "billing-v2"
+      "source_system": "payments-gateway-A",
+      "note": "Verify that this payout fully settled on-chain."
     }
   }
 }

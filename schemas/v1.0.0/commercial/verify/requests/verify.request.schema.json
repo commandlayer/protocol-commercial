@@ -22,14 +22,6 @@
         }
       ]
     },
-    "actor": {
-      "description": "Logical identity for the caller or tenant requesting verification.",
-      "allOf": [
-        {
-          "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/identity.schema.json"
-        }
-      ]
-    },
     "payload": {
       "description": "Verification parameters describing what should be verified and under which constraints.",
       "type": "object",
@@ -95,5 +87,5 @@
       "required": ["kind", "target"]
     }
   },
-  "required": ["x402", "trace", "actor", "payload"]
+  "required": ["x402", "trace", "payload"]
 }
