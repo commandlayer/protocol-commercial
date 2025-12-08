@@ -9,9 +9,6 @@
   "trace": {
     "trace_id": "trace-authorize-0001"
   },
-  "actor": {
-    "id": "buyer-123"
-  },
   "payload": {
     "amount": {
       "value": "100.00",
