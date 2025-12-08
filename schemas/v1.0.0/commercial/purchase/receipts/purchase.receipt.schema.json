@@ -9,9 +9,9 @@
     },
     {
       "type": "object",
-      "additionalProperties": false,
       "properties": {
         "result": {
+          "description": "Purchase outcome payload.",
           "type": "object",
           "additionalProperties": false,
           "required": ["purchase_id", "status"],
@@ -56,10 +56,12 @@
           }
         },
         "usage": {
+          "description": "Optional resource usage metrics (tokens, compute units, etc.).",
           "type": "object",
           "additionalProperties": true
         }
-      }
+      },
+      "required": ["result"]
     }
   ]
 }
