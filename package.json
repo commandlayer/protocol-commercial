@@ -5,7 +5,14 @@
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
-    "validate": "node scripts/validate-all.mjs || echo \"TODO: wire AJV here\""
+   "scripts": {
+  "validate:schema": "node scripts/ajv-run.mjs",
+  "validate:schemas": "node scripts/validate-all.mjs",
+  "validate:examples": "node scripts/validate-examples.mjs",
+  "validate:all": "npm run validate:schemas && npm run validate:examples",
+  "validate": "npm run validate:all"
+}
+
   },
   "devDependencies": {
   }
