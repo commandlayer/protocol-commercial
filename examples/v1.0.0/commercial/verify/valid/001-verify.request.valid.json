@@ -16,6 +16,7 @@
       "asset": "USD"
     },
     "settlement": {
+      "chain": "eip155:1",
       "recipient": "0xMerchantAddressHere"
     },
     "strict": true,
