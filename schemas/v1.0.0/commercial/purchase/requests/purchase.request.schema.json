@@ -64,7 +64,7 @@
           "additionalProperties": true
         }
       },
-      "required": ["item_id", "amount", "settlement"]
+      "required": ["item_id", "quantity", "amount", "settlement"]
     }
   },
   "required": ["x402", "trace", "actor", "payload"]
