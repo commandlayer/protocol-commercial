@@ -3,49 +3,64 @@
     "verb": "checkout",
     "version": "1.0.0",
     "request_id": "req-checkout-2025-12-07-0002",
-    "network": "eip155:8453",
-    "tenant": "platform-ck-01"
+    "network": "eip155:1"
   },
   "trace": {
     "trace_id": "trace-checkout-0002",
-    "started_at": "2025-12-07T19:01:00Z",
-    "completed_at": "2025-12-07T19:01:02Z",
-    "duration_ms": 2000,
-    "provider": "commandlayer-demo",
-    "region": "us-west-2",
-    "model": "checkout-engine-001"
-  },
-  "actor": {
-    "id": "service-integrator-01",
-    "kind": "service"
+    "tags": {
+      "example": "checkout-request-valid-2",
+      "verb_set": "commercial"
+    }
   },
   "payload": {
+    "cart_id": "cart-0002",
     "items": [
       {
-        "sku": "sku-api-credit-100k",
+        "sku": "SKU-DEMO-003",
         "quantity": 1,
         "unit_price": {
-          "value": "2500.00",
+          "value": "49.00",
+          "asset": "USDC",
+          "pricing_tier": "pro"
+        },
+        "metadata": {
+          "note": "upsell-item"
+        }
+      },
+      {
+        "sku": "SKU-DEMO-004",
+        "quantity": 2,
+        "unit_price": {
+          "value": "5.00",
           "asset": "USDC"
+        },
+        "metadata": {
+          "note": "addon-item"
         }
       }
     ],
     "amount": {
-      "value": "2500.00",
-      "asset": "USDC"
+      "value": "59.00",
+      "asset": "USDC",
+      "pricing_tier": "pro"
     },
     "settlement": {
-      "chain": "eip155:8453",
-      "recipient": "0xMerchantBase000000000000000000000001",
-      "metadata": {
-        "route": "base-usdc",
-        "settlement_window": "T+1"
-      }
+      "chain": "eip155:1",
+      "recipient": "0xmerchantAddressHere"
     },
-    "payment_method_hint": "stablecoin",
+    "shipping_address": {
+      "name": "Protocol Buyer",
+      "line1": "1 CommandLayer Way",
+      "city": "Miami",
+      "state": "FL",
+      "postal_code": "33101",
+      "country": "US"
+    },
+    "payment_method_hint": "card",
     "metadata": {
-      "plan": "enterprise",
-      "auto_renew": true
+      "campaign": "launch-checkout-valid-2",
+      "channel": "agent",
+      "verb_set": "commercial"
     }
   }
 }

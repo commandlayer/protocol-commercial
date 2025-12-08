@@ -6,66 +6,23 @@
     "network": "eip155:1"
   },
   "trace": {
-    "trace_id": "trace-checkout-0001",
-    "started_at": "2025-12-07T19:00:00Z",
-    "completed_at": "2025-12-07T19:00:01Z",
-    "duration_ms": 1000,
-    "provider": "commandlayer-demo",
-    "region": "us-east-1",
-    "model": "checkout-engine-001"
-  },
-  "actor": {
-    "id": "buyer-ck-001",
-    "kind": "user"
+    "trace_id": "trace-checkout-0001"
   },
   "payload": {
-    "cart_id": "cart-001",
+    "cart_id": "cart-0001",
     "items": [
       {
-        "sku": "sku-shirt-black-m",
-        "quantity": 1,
-        "unit_price": {
-          "value": "30.00",
-          "asset": "USD"
-        },
-        "metadata": {
-          "size": "M",
-          "color": "black"
-        }
-      },
-      {
-        "sku": "sku-hat-standard",
-        "quantity": 2,
-        "unit_price": {
-          "value": "10.00",
-          "asset": "USD"
-        }
+        "sku": "sku-XL-TEE-BLACK",
+        "quantity": 2
       }
     ],
     "amount": {
-      "value": "50.00",
-      "asset": "USD"
+      "value": "49.00",
+      "asset": "USDC"
     },
     "settlement": {
       "chain": "eip155:1",
-      "recipient": "merchant-store.eth",
-      "metadata": {
-        "channel": "online"
-      }
-    },
-    "shipping_address": {
-      "name": "Alice Example",
-      "line1": "123 Main St",
-      "line2": "Apt 4B",
-      "city": "Exampleville",
-      "state": "NY",
-      "postal_code": "10001",
-      "country": "US"
-    },
-    "payment_method_hint": "card",
-    "metadata": {
-      "campaign": "winter-2025",
-      "first_time_buyer": true
+      "recipient": "0xmerchantAddressHere"
     }
   }
 }

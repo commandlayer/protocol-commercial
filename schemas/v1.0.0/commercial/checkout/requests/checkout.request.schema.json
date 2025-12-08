@@ -22,14 +22,6 @@
         }
       ]
     },
-    "actor": {
-      "description": "Logical identity for the buyer or tenant initiating the checkout.",
-      "allOf": [
-        {
-          "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/identity.schema.json"
-        }
-      ]
-    },
     "payload": {
       "description": "Checkout-specific payload.",
       "type": "object",
@@ -104,11 +96,7 @@
             "city": { "type": "string", "maxLength": 128 },
             "state": { "type": "string", "maxLength": 128 },
             "postal_code": { "type": "string", "maxLength": 32 },
-            "country": {
-              "type": "string",
-              "minLength": 2,
-              "maxLength": 2
-            }
+            "country": { "type": "string", "maxLength": 2 }
           }
         },
         "payment_method_hint": {
@@ -125,5 +113,5 @@
       "required": ["items", "amount", "settlement"]
     }
   },
-  "required": ["x402", "trace", "actor", "payload"]
+  "required": ["x402", "trace", "payload"]
 }
