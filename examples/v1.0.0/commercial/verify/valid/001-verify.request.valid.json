@@ -12,14 +12,11 @@
     "kind": "payment",
     "target": "pay_1234567890",
     "amount": {
-      "currency": "USD",
-      "amount": "125.50"
+      "value": "125.50",
+      "asset": "USD"
     },
     "settlement": {
-      "network": "eip155:1",
-      "chain": "ethereum",
-      "asset": "USDC",
-      "destination": "0xMerchantAddressHere"
+      "recipient": "0xMerchantAddressHere"
     },
     "strict": true,
     "metadata": {

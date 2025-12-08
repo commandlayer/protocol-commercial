@@ -3,28 +3,31 @@
     "verb": "verify",
     "version": "1.0.0",
     "request_id": "req-verify-2025-12-07-0002",
-    "network": "eip155:8453"
+    "network": "eip155:1",
+    "tenant": "tenant-merchant-42"
   },
   "trace": {
-    "trace_id": "trace-verify-0002",
-    "started_at": "2025-12-07T19:31:00Z",
-    "completed_at": "2025-12-07T19:31:01Z",
-    "duration_ms": 1000,
-    "provider": "commandlayer-demo",
-    "region": "us-west-2",
-    "model": "verify-engine-001"
-  },
-  "actor": {
-    "id": "audit-tool-01",
-    "kind": "service"
+    "trace_id": "trace-verify-0002"
   },
   "payload": {
     "kind": "invoice",
-    "target": "inv-7890",
+    "target": "inv-2025-12-07-0042",
+    "amount": {
+      "value": "980.00",
+      "asset": "EUR"
+    },
+    "settlement": {
+      "recipient": "0xArbMerchantAddressHere"
+    },
+    "window": {
+      "from": "2025-12-01T00:00:00Z",
+      "to": "2025-12-08T00:00:00Z"
+    },
     "strict": false,
     "metadata": {
-      "audit_run": "2025Q4",
-      "note": "allow partial matches"
+      "tolerance_bps": 50,
+      "allow_partial": true,
+      "comment": "Allow FX rounding differences up to 0.5%."
     }
   }
 }
