@@ -1,0 +1,51 @@
+{
+  "x402": {
+    "verb": "checkout",
+    "version": "1.0.0",
+    "request_id": "req-checkout-2025-12-07-0002",
+    "network": "eip155:8453",
+    "tenant": "platform-ck-01"
+  },
+  "trace": {
+    "trace_id": "trace-checkout-0002",
+    "started_at": "2025-12-07T19:01:00Z",
+    "completed_at": "2025-12-07T19:01:02Z",
+    "duration_ms": 2000,
+    "provider": "commandlayer-demo",
+    "region": "us-west-2",
+    "model": "checkout-engine-001"
+  },
+  "actor": {
+    "id": "service-integrator-01",
+    "kind": "service"
+  },
+  "payload": {
+    "items": [
+      {
+        "sku": "sku-api-credit-100k",
+        "quantity": 1,
+        "unit_price": {
+          "value": "2500.00",
+          "asset": "USDC"
+        }
+      }
+    ],
+    "amount": {
+      "value": "2500.00",
+      "asset": "USDC"
+    },
+    "settlement": {
+      "chain": "eip155:8453",
+      "recipient": "0xMerchantBase000000000000000000000001",
+      "metadata": {
+        "route": "base-usdc",
+        "settlement_window": "T+1"
+      }
+    },
+    "payment_method_hint": "stablecoin",
+    "metadata": {
+      "plan": "enterprise",
+      "auto_renew": true
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "x402": {
+    "verb": "checkout",
+    "version": "1.0.0"
+  },
+  "trace": {
+    "trace_id": "trace-checkout-err-001"
+  },
+  "actor": {
+    "id": "buyer-ck-err-001",
+    "kind": "user"
+  },
+  "payload": {
+    "items": [],
+    "amount": {
+      "value": "10.00",
+      "asset": "USD"
+    },
+    "settlement": {
+      "chain": "eip155:1",
+      "recipient": "merchant-store.eth"
+    }
+  }
+}

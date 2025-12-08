@@ -1,0 +1,40 @@
+import type { CheckoutReceipt } from "./checkout.receipt.valid.1";
+
+export const checkoutReceiptValid2: CheckoutReceipt = {
+  x402: {
+    verb: "checkout",
+    version: "1.0.0",
+    request_id: "req-checkout-2025-12-07-0002",
+    network: "eip155:8453"
+  },
+  trace: {
+    trace_id: "trace-checkout-0002",
+    started_at: "2025-12-07T19:01:00Z",
+    completed_at: "2025-12-07T19:01:02Z",
+    duration_ms: 2000,
+    provider: "commandlayer-demo",
+    region: "us-west-2",
+    model: "checkout-engine-001"
+  },
+  status: "success",
+  result: {
+    order_id: "order-002",
+    status: "failed",
+    amount: {
+      value: "2500.00",
+      asset: "USDC"
+    },
+    settlement: {
+      chain: "eip155:8453",
+      recipient: "0xMerchantBase000000000000000000000001"
+    },
+    reason: "payment_authorization_failed",
+    metadata: {
+      psp: "onchain-router",
+      failure_code: "AUTH_FAIL"
+    }
+  },
+  usage: {
+    tokens: 1600
+  }
+};

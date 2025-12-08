@@ -1,0 +1,41 @@
+{
+  "x402": {
+    "verb": "authorize",
+    "version": "1.0.0",
+    "request_id": "req-auth-2025-12-07-0003",
+    "network": "eip155:1",
+    "tenant": "tenant-risk-high"
+  },
+  "trace": {
+    "trace_id": "trace-auth-0003",
+    "started_at": "2025-12-07T18:42:00Z",
+    "completed_at": "2025-12-07T18:42:01Z",
+    "duration_ms": 1030,
+    "provider": "commandlayer-demo",
+    "region": "eu-central-1",
+    "model": "authorize-engine-001",
+    "tags": ["authorize", "risk-check", "v1.0.0"]
+  },
+  "status": "error",
+  "error": {
+    "code": "RISK_BLOCKED",
+    "message": "Authorization declined by risk engine.",
+    "retryable": false,
+    "details": {
+      "risk_score": 0.98,
+      "rule_id": "rule-high-velocity-001"
+    }
+  },
+  "result": {
+    "authorization_id": "auth_blocked_001",
+    "status": "declined",
+    "reason": "High-risk velocity pattern detected.",
+    "metadata": {
+      "risk_provider": "internal-risk-engine",
+      "decision_model": "v3.1"
+    }
+  },
+  "usage": {
+    "tokens": 800
+  }
+}

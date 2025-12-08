@@ -1,0 +1,42 @@
+{
+  "x402": {
+    "verb": "authorize",
+    "version": "1.0.0",
+    "request_id": "req-auth-2025-12-07-0002",
+    "network": "eip155:8453",
+    "tenant": "tenant-b2b-01"
+  },
+  "trace": {
+    "trace_id": "trace-auth-0002",
+    "started_at": "2025-12-07T18:41:00Z",
+    "completed_at": "2025-12-07T18:41:01Z",
+    "duration_ms": 980,
+    "provider": "commandlayer-demo",
+    "region": "us-west-2",
+    "model": "authorize-engine-001",
+    "tags": ["authorize", "b2b", "cross-chain"]
+  },
+  "actor": {
+    "id": "platform-aggregator-01",
+    "kind": "service"
+  },
+  "payload": {
+    "amount": {
+      "value": "2500.50",
+      "asset": "USDC"
+    },
+    "settlement": {
+      "chain": "eip155:8453",
+      "recipient": "0xMerchantOnBase000000000000000000000001",
+      "metadata": {
+        "route": "base-usdc",
+        "settlement_window": "T+1"
+      }
+    },
+    "purpose": "B2B platform escrow authorization",
+    "metadata": {
+      "integration": "partner-xyz",
+      "agreement_id": "agreement-2025-0005"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+export const purchaseRequestInvalid2: any = {
+  x402: {
+    verb: "purchase",
+    version: "1.0.0"
+  },
+  trace: {
+    trace_id: "trace-purchase-err-002"
+  },
+  actor: {
+    id: "buyer-pc-err-002",
+    kind: "user"
+  },
+  payload: {
+    item_id: "item-ebook-001",
+    quantity: 1
+  },
+  extra: "not allowed"
+};

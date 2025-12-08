@@ -1,0 +1,13 @@
+export const checkoutReceiptInvalid1: any = {
+  x402: {
+    verb: "checkout",
+    version: "1.0.0"
+  },
+  trace: {
+    trace_id: "trace-checkout-err-003"
+  },
+  status: "ok",
+  result: {
+    status: "ok"
+  }
+};
