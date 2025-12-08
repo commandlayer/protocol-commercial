@@ -4,8 +4,12 @@
 **Commercial semantics are free — value lives in execution.**
 
 <div align="center">
-<img alt="Stability" src="https://img.shields.io/badge/Status-Stable%20v1.0.0-brightgreen"/>
-  <a href="#"><img alt="NPM Version" src="https://img.shields.io/npm/v/@commandlayer/protocol-commercial?color=brightgreen"/></a>
+  <a href="#">
+    <img alt="Stability" src="https://img.shields.io/badge/Status-Stable%20v1.0.0-brightgreen"/>
+  </a>
+  <a href="https://www.npmjs.com/package/@commandlayer/commercial">
+    <img alt="NPM Version" src="https://img.shields.io/npm/v/@commandlayer/commercial?color=brightgreen"/>
+  </a>
   <a href="https://github.com/commandlayer/protocol-commercial/actions/workflows/validate.yml">
     <img alt="CI Status" src="https://github.com/commandlayer/protocol-commercial/actions/workflows/validate.yml/badge.svg?branch=main"/>
   </a>
@@ -18,13 +22,13 @@
 
 ## Why this exists
 
-Commons gives agents a **shared language of actions** (analyze, summarize, fetch, …).
+Protocol-Commons gives agents a **shared language of actions** (analyze, summarize, fetch, …).
 
-Commercial verbs answer a different question:
+Protocol-Commercial answers a different question:
 
 > **“How does value move when these actions are monetized?”**
 
-`protocol-commercial` defines **canonical economic verb schemas** so that:
+`@commandlayer/commercial` defines **canonical economic verb schemas** so that:
 
 - payment, billing, and settlement are consistent across vendors  
 - receipts for paid work are **typed and auditable**  
@@ -34,7 +38,7 @@ This repo is **semantics-only**:
 
 - **Schemas are always free**  
 - **No auth**, **no pricing**, **no routing**  
-- **Execution lives in protocol-runtime**
+- **Execution lives in Protocol-Runtime**
 
 ---
 
@@ -61,6 +65,7 @@ Commercial sits between semantics and execution:
 +-----------------------------+
 |  Agent-Cards                |  identity + discovery
 +-----------------------------+
+
 ```
 ## CommandLayer Protocol Stack
 
@@ -77,20 +82,15 @@ Commercial sits between semantics and execution:
 
 ## What this repo defines
 
-| Component        | Purpose                                  |
-| ---------------- | ---------------------------------------- |
-| Commercial verbs | Price discovery, fulfillment, settlement |
-| Request schemas  | payment instructions, billing metadata   |
-| Receipt schemas  | settlement proof, economic finality      |
-| Example fixtures | validation & auditability                |
-| Governance docs  | mutation + deprecation log               |
+| Component            | Purpose                                       |
+| -------------------- | --------------------------------------------- |
+| Commercial verbs     | Price discovery, fulfillment, settlement      |
+| Request schemas      | Payment instructions, billing metadata        |
+| Receipt schemas      | Settlement proof, economic finality           |
+| Shared schemas       | Reusable payment amount/settlement structures |
+| Example fixtures     | Validation & auditability                     |
+| Checksums + manifest | Integrity surface for v1.0.0                  |
 
-
-These schemas are:
-
-- runtime-agnostic
-- chain-agnostic
-- payment-rail-agnostic (stablecoin, credit rails, L2, etc.)
 
 ## What this repo does **not** define
 
@@ -108,16 +108,17 @@ Those are **Runtime** concerns.
 not who gets paid, on which infra, or under what business model.
 
 
-## Commercial Verbs (draft categories)
-| Category        | Verbs                 | Purpose                             |
-| --------------- | --------------------- | ----------------------------------- |
-| Offers / Quotes | `quote`, `offer`      | Price discovery & negotiation       |
-| Payments        | `pay`, `charge`       | Settle accounts                     |
-| Commerce        | `checkout`, `refund`  | Purchases & reversals               |
-| Access          | `subscribe`, `unlock` | Time-bound or recurring rights      |
-| Risk & Trust    | `verify`, `approve`   | Policy validation & fraud reduction |
+## Commercial Verbs in v1.0.0
+The initial stable set is **five** verbs:
+| Category     | Verb        | Purpose                                        |
+| ------------ | ----------- | ---------------------------------------------- |
+| Payments     | `authorize` | Pre-authorize a payment for later capture      |
+| Commerce     | `checkout`  | Capture funds and finalize an order            |
+| Commerce     | `purchase`  | One-shot purchase (authorize + capture)        |
+| Fulfillment  | `ship`      | Attach shipping / logistics state to an order  |
+| Risk & Trust | `verify`    | Verify a specific payment / settlement outcome |
 
-Final v1.0.0 set will be **locked via governance.**
+Future versions may introduce additional verbs (quotes, refunds, subscriptions, etc.) under new minor/major versions.
 
 ## Schema Contract
 
