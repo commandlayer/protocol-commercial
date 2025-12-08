@@ -42,18 +42,19 @@
   "files": [
     "schemas/",
     "examples/",
+    "checksums.txt",
+    "manifest.json",
     "README.md"
   ],
   "main": "schemas/v1.0.0/index.json",
-"scripts": {
-  "validate:schema": "node scripts/ajv-run.mjs",
-  "validate:schemas": "node scripts/validate-all.mjs",
-  "validate:examples": "node scripts/validate-examples.mjs",
-  "validate:all": "npm run validate:schemas && npm run validate:examples",
-  "validate": "npm run validate:all",
-  "generate:checksums": "node scripts/generate-checksums.mjs schemas/v1.0.0 checksums.txt"
-}
-
+  "scripts": {
+    "validate:schema": "node scripts/ajv-run.mjs",
+    "validate:schemas": "node scripts/validate-all.mjs",
+    "validate:examples": "node scripts/validate-examples.mjs",
+    "validate:all": "npm run validate:schemas && npm run validate:examples",
+    "validate": "npm run validate:all",
+    "generate:checksums": "node scripts/generate-checksums.mjs schemas/v1.0.0 checksums.txt"
+  },
   "devDependencies": {
     "ajv": "^8.17.1",
     "ajv-cli": "^5.0.0",

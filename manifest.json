@@ -1,6 +1,6 @@
 {
-  "class": "commercial",
   "version": "1.0.0",
+  "class": "commercial",
   "schemas_root": "schemas/v1.0.0",
   "verbs": [
     "authorize",
