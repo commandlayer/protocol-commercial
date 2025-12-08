@@ -1,7 +1,11 @@
 {
-  "name": "@commandlayer/protocol-commercial",
-  "version": "0.1.0",
+  "name": "@commandlayer/commercial",
+  "version": "1.0.0",
   "description": "Commercial verbs, schemas, and execution contracts for CommandLayer.",
+  "author": "Greg Soucy <dev@commandlayer.org> (commandlayer.eth)",
+  "maintainers": [
+    "Greg Soucy <dev@commandlayer.org> (commandlayer.eth)"
+  ],
   "license": "Apache-2.0",
   "private": false,
   "type": "module",
@@ -26,6 +30,10 @@
     "x402",
     "json-schema",
     "schemas",
+    "authorize",
+    "purchase",
+    "verify",
+    "ship",
     "commercial",
     "payments",
     "checkout",
