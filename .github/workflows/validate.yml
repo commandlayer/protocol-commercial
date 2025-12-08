@@ -1,4 +1,4 @@
-name: Validate Schemas & Examples
+name: Validate Schemas
 
 on:
   push:
