@@ -4,7 +4,7 @@
 **Commercial semantics are free — value lives in execution.**
 
 <div align="center">
-  <a href="#"><img alt="Stability" src="https://img.shields.io/badge/Status-Pre--v1.0.0-inactive"/></a>
+<img alt="Stability" src="https://img.shields.io/badge/Status-Stable%20v1.0.0-brightgreen"/>
   <a href="#"><img alt="NPM Version" src="https://img.shields.io/npm/v/@commandlayer/protocol-commercial?color=brightgreen"/></a>
   <a href="https://github.com/commandlayer/protocol-commercial/actions/workflows/validate.yml">
     <img alt="CI Status" src="https://github.com/commandlayer/protocol-commercial/actions/workflows/validate.yml/badge.svg?branch=main"/>
@@ -212,7 +212,7 @@ Once locked, keys follow the same schema as Commons + Agent-Cards:
 | `cl.schema.receipt`          | Canonical receipt schema URI | Yes                |
 | `cl.checksum.schema.request` | SHA-256 of request schema    | Yes                |
 | `cl.checksum.schema.receipt` | SHA-256 of receipt schema    | Yes                |
-| `cl.agentcard`               | Binding to identity          | Optional           |
+| `cl.agentcard`               | Binding to identity          | Yes                |
 | `cl.owner`                   | Steward ENS name             | Yes                |
 
 
