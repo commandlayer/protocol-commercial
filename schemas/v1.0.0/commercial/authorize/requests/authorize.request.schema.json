@@ -28,6 +28,7 @@
       ]
     },
     "payload": {
+      "description": "Authorization parameters describing the amount, settlement, and intent.",
       "type": "object",
       "additionalProperties": false,
       "properties": {
