@@ -20,13 +20,6 @@
         }
       ]
     },
-    "actor": {
-      "allOf": [
-        {
-          "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/identity.schema.json"
-        }
-      ]
-    },
     "payload": {
       "description": "Authorization parameters describing the amount, settlement, and intent.",
       "type": "object",
