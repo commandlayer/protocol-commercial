@@ -3,20 +3,10 @@
 **Canonical economic verbs & schemas for autonomous agents.**  
 **Commercial semantics are free — value lives in execution.**
 
-<div align="center">
-  <a href="#">
-    <img alt="Stability" src="https://img.shields.io/badge/Status-Stable%20v1.0.0-brightgreen"/>
-  </a>
-  <a href="https://www.npmjs.com/package/@commandlayer/commercial">
-    <img alt="NPM Version" src="https://img.shields.io/npm/v/@commandlayer/commercial?color=brightgreen"/>
-  </a>
-  <a href="https://github.com/commandlayer/protocol-commercial/actions/workflows/validate.yml">
-    <img alt="CI Status" src="https://github.com/commandlayer/protocol-commercial/actions/workflows/validate.yml/badge.svg?branch=main"/>
-  </a>
-  <a href="./LICENSE">
-    <img alt="License" src="https://img.shields.io/badge/License-Apache--2.0-blue.svg"/>
-  </a>
-</div>
+[![Status](https://img.shields.io/badge/Status-Stable%20v1.0.0-brightgreen)](https://github.com/commandlayer/protocol-commercial)
+[![NPM Version](https://img.shields.io/npm/v/@commandlayer/commercial)](https://www.npmjs.com/package/@commandlayer/commercial)
+[![CI Status](https://github.com/commandlayer/protocol-commercial/actions/workflows/validate.yml/badge.svg?branch=main)](https://github.com/commandlayer/protocol-commercial/actions/workflows/validate.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](https://github.com/commandlayer/protocol-commercial/blob/main/LICENSE)
 
 ---
 
