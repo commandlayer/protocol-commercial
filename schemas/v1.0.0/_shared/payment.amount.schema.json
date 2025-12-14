@@ -8,9 +8,9 @@
   "required": ["value", "asset"],
   "properties": {
     "value": {
-      "description": "Decimal amount as a string (e.g. \"10\", \"10.50\").",
+      "description": "Decimal amount as a string (e.g. \"0\", \"10\", \"10.50\"). No leading + or leading zeros.",
       "type": "string",
-      "minLength": 1,
+      "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]{1,2})?$",
       "maxLength": 64
     },
     "asset": {
