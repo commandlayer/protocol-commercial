@@ -11,12 +11,12 @@
         "result": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["shipment_id","order_id","status"],
+          "required": ["shipment_id", "order_id", "status"],
           "properties": {
             "shipment_id": { "type": "string", "minLength": 1, "maxLength": 128 },
             "shipment_group_id": { "type": "string", "minLength": 1, "maxLength": 128 },
             "order_id": { "type": "string", "minLength": 1, "maxLength": 128 },
-            "status": { "type": "string", "enum": ["label_created","in_transit","delivered","failed","returned"] },
+            "status": { "type": "string", "enum": ["label_created", "in_transit", "delivered", "failed", "returned"] },
             "carrier": { "type": "string", "maxLength": 64 },
             "tracking_number": { "type": "string", "maxLength": 128, "pattern": "^[A-Z0-9][-A-Z0-9]{5,}$" },
             "tracking_url": { "type": "string", "format": "uri", "maxLength": 512 },
@@ -33,12 +33,12 @@
       },
       "required": ["result"],
       "allOf": [
-        { "if": { "properties": { "status": { "const": "success" } }, "required": ["status"] }, "then": { "required": ["result"] } },
-        { "if": { "properties": { "status": { "const": "error" } }, "required": ["status"] }, "then": { "required": ["error"], "properties": { "result": false } } },
-        {
-          "if": { "properties": { "result": { "properties": { "status": { "enum": ["label_created","in_transit","delivered"] } } } } },
-          "then": { "properties": { "result": { "required": ["carrier","tracking_number"] } } }
-        }
+        { "if": { "properties": { "status": { "const": "success" } }, "required": ["status"] },
+          "then": { "properties": { "result": {} }, "required": ["result"] } },
+        { "if": { "properties": { "status": { "const": "error" } }, "required": ["status"] },
+          "then": { "properties": { "error": {}, "result": false }, "required": ["error"] } },
+        { "if": { "properties": { "result": { "properties": { "status": { "enum": ["label_created", "in_transit", "delivered"] } } } } },
+          "then": { "properties": { "result": { "properties": { "carrier": {}, "tracking_number": {} }, "required": ["carrier", "tracking_number"] } } } }
       ]
     }
   ]
