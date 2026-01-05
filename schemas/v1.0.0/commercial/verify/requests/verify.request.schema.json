@@ -12,7 +12,7 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "kind": { "type": "string", "enum": ["transaction","payment","invoice","payout"] },
+        "kind": { "type": "string", "enum": ["transaction", "payment", "invoice", "payout"] },
         "target": { "type": "string", "minLength": 1, "maxLength": 256 },
         "amount": { "allOf": [{ "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.amount.schema.json" }] },
         "settlement": { "allOf": [{ "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.settlement.schema.json" }] },
@@ -32,11 +32,17 @@
           "propertyNames": { "type": "string", "maxLength": 64 }
         }
       },
-      "required": ["kind","target"],
+      "required": ["kind", "target"],
       "allOf": [
         {
           "if": { "properties": { "strict": { "const": true } } },
-          "then": { "anyOf": [ { "required": ["amount"] }, { "required": ["settlement"] }, { "required": ["window"] } ] }
+          "then": {
+            "anyOf": [
+              { "required": ["amount"], "properties": { "amount": {} } },
+              { "required": ["settlement"], "properties": { "settlement": {} } },
+              { "required": ["window"], "properties": { "window": {} } }
+            ]
+          }
         },
         {
           "if": { "properties": { "kind": { "const": "transaction" } } },
@@ -45,5 +51,5 @@
       ]
     }
   },
-  "required": ["x402","trace","payload"]
+  "required": ["x402", "trace", "payload"]
 }
