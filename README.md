@@ -3,9 +3,9 @@
 **Canonical economic verbs & schemas for autonomous agents.**  
 **Commercial semantics are free — value lives in execution.**
 
-[![Status](https://img.shields.io/badge/Status-Stable%20v1.0.0-brightgreen)](https://github.com/commandlayer/protocol-commercial)
-[![NPM Version](https://img.shields.io/npm/v/@commandlayer/commercial)](https://www.npmjs.com/package/@commandlayer/commercial)
-[![CI Status](https://github.com/commandlayer/protocol-commercial/actions/workflows/validate.yml/badge.svg?branch=main)](https://github.com/commandlayer/protocol-commercial/actions/workflows/validate.yml)
+[![Schemas](https://img.shields.io/badge/Schemas-Stable%20v1.0.0-brightgreen)](https://github.com/commandlayer/protocol-commercial/tree/main/schemas/v1.0.0)
+[![NPM Version](https://img.shields.io/npm/v/%40commandlayer%2Fcommercial)](https://www.npmjs.com/package/@commandlayer/commercial)
+[![CI Status](https://img.shields.io/github/actions/workflow/status/commandlayer/protocol-commercial/validate-schemas.yml?branch=main&label=CI)](https://github.com/commandlayer/protocol-commercial/actions/workflows/validate-schemas.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](https://github.com/commandlayer/protocol-commercial/blob/main/LICENSE)
 
 ---
