@@ -8,6 +8,7 @@
 [![CI Status](https://img.shields.io/github/actions/workflow/status/commandlayer/protocol-commercial/validate-schemas.yml?branch=main&label=CI)](https://github.com/commandlayer/protocol-commercial/actions/workflows/validate-schemas.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](https://github.com/commandlayer/protocol-commercial/blob/main/LICENSE)
 
+
 ---
 
 ## Why this exists
