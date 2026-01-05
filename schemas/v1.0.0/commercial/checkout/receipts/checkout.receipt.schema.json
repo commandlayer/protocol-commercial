@@ -2,74 +2,63 @@
   "$id": "https://commandlayer.org/schemas/v1.0.0/commercial/checkout/receipts/checkout.receipt.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "checkout.receipt",
-  "description": "Receipt schema for a completed or failed checkout operation.",
+  "description": "Receipt for checkout; emits a checkout artifact for chaining into authorize/capture.",
   "allOf": [
-    {
-      "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/receipt.base.schema.json"
-    },
+    { "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/receipt.base.schema.json" },
     {
       "type": "object",
       "properties": {
         "result": {
-          "description": "Checkout outcome payload.",
           "type": "object",
           "additionalProperties": false,
-          "required": ["order_id", "status"],
+          "required": ["checkout_id","status","amount","settlement","items"],
           "properties": {
-            "order_id": {
-              "description": "Provider-assigned canonical order identifier.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 128
-            },
-            "status": {
-              "description": "Order/checkout status.",
-              "type": "string",
-              "enum": ["created", "authorized", "captured", "failed", "canceled"]
-            },
-            "amount": {
-              "description": "Canonical settled or authorized amount.",
-              "allOf": [
-                {
-                  "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.amount.schema.json"
-                }
-              ]
-            },
-            "settlement": {
-              "description": "Canonical settlement target.",
-              "allOf": [
-                {
-                  "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.settlement.schema.json"
-                }
-              ]
-            },
-            "line_items": {
-              "description": "Resolved line items used in this order.",
+            "checkout_id": { "type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$" },
+            "status": { "type": "string", "enum": ["created","failed","canceled"] },
+            "amount": { "allOf": [{ "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.amount.schema.json" }] },
+            "settlement": { "allOf": [{ "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.settlement.schema.json" }] },
+            "items": {
               "type": "array",
+              "minItems": 1,
+              "maxItems": 256,
               "items": {
                 "type": "object",
-                "additionalProperties": true
+                "additionalProperties": false,
+                "required": ["sku","quantity","unit_price"],
+                "properties": {
+                  "sku": { "type": "string", "minLength": 1, "maxLength": 128 },
+                  "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 },
+                  "unit_price": { "allOf": [{ "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.amount.schema.json" }] }
+                }
               }
             },
-            "reason": {
-              "description": "Optional explanation for failure or cancellation.",
-              "type": "string",
-              "maxLength": 1024
-            },
-            "metadata": {
-              "description": "Provider-specific non-normative metadata.",
+            "pricing": {
               "type": "object",
-              "additionalProperties": true
+              "additionalProperties": false,
+              "properties": {
+                "subtotal": { "allOf": [{ "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.amount.schema.json" }] },
+                "tax": { "allOf": [{ "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.amount.schema.json" }] },
+                "shipping": { "allOf": [{ "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.amount.schema.json" }] },
+                "discount": { "allOf": [{ "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.amount.schema.json" }] }
+              }
+            },
+            "expires_at": { "type": "string", "format": "date-time" },
+            "next_action": { "type": "string", "enum": ["authorize","abort"] },
+            "metadata": {
+              "type": "object",
+              "additionalProperties": true,
+              "maxProperties": 100,
+              "propertyNames": { "type": "string", "maxLength": 64 }
             }
           }
-        },
-        "usage": {
-          "description": "Optional resource usage metrics.",
-          "type": "object",
-          "additionalProperties": true
         }
       },
-      "required": ["result"]
+      "required": ["result"],
+      "allOf": [
+        { "if": { "properties": { "status": { "const": "success" } }, "required": ["status"] }, "then": { "required": ["result"] } },
+        { "if": { "properties": { "status": { "const": "error" } }, "required": ["status"] }, "then": { "required": ["error"], "properties": { "result": false } } },
+        { "if": { "properties": { "result": { "properties": { "status": { "enum": ["failed","canceled"] } } } } }, "then": { "properties": { "result": { "required": ["metadata"] } } } }
+      ]
     }
   ]
 }
