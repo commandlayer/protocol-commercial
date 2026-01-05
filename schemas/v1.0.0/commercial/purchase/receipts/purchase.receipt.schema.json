@@ -2,66 +2,48 @@
   "$id": "https://commandlayer.org/schemas/v1.0.0/commercial/purchase/receipts/purchase.receipt.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "purchase.receipt",
-  "description": "Receipt schema for a purchase operation.",
+  "description": "Receipt for purchase; emits a purchase artifact.",
   "allOf": [
-    {
-      "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/receipt.base.schema.json"
-    },
+    { "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/receipt.base.schema.json" },
     {
       "type": "object",
       "properties": {
         "result": {
-          "description": "Purchase outcome payload.",
           "type": "object",
           "additionalProperties": false,
-          "required": ["purchase_id", "status"],
+          "required": ["purchase_id","status"],
           "properties": {
-            "purchase_id": {
-              "description": "Canonical purchase identifier.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 128
-            },
-            "status": {
-              "description": "Purchase status.",
-              "type": "string",
-              "enum": ["success", "pending", "failed", "canceled"]
-            },
-            "amount": {
-              "description": "Final canonical amount.",
-              "allOf": [
-                {
-                  "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.amount.schema.json"
-                }
-              ]
-            },
-            "settlement": {
-              "description": "Final canonical settlement target.",
-              "allOf": [
-                {
-                  "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.settlement.schema.json"
-                }
-              ]
-            },
-            "reason": {
-              "description": "Optional reason for failure or cancellation.",
-              "type": "string",
-              "maxLength": 1024
+            "purchase_id": { "type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$" },
+            "status": { "type": "string", "enum": ["success","pending","failed","canceled"] },
+            "amount": { "allOf": [{ "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.amount.schema.json" }] },
+            "settlement": { "allOf": [{ "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.settlement.schema.json" }] },
+            "reason": { "type": "string", "maxLength": 1024 },
+            "evidence": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "tx_hash": { "type": "string", "pattern": "^0x[a-fA-F0-9]{64}$" },
+                "block_number": { "type": "integer", "minimum": 0 },
+                "log_index": { "type": "integer", "minimum": 0 },
+                "provider_ref": { "type": "string", "maxLength": 256 }
+              }
             },
             "metadata": {
-              "description": "Provider-specific non-normative metadata.",
               "type": "object",
-              "additionalProperties": true
+              "additionalProperties": true,
+              "maxProperties": 100,
+              "propertyNames": { "type": "string", "maxLength": 64 }
             }
           }
-        },
-        "usage": {
-          "description": "Optional resource usage metrics (tokens, compute units, etc.).",
-          "type": "object",
-          "additionalProperties": true
         }
       },
-      "required": ["result"]
+      "required": ["result"],
+      "allOf": [
+        { "if": { "properties": { "status": { "const": "success" } }, "required": ["status"] }, "then": { "required": ["result"] } },
+        { "if": { "properties": { "status": { "const": "error" } }, "required": ["status"] }, "then": { "required": ["error"], "properties": { "result": false } } },
+        { "if": { "properties": { "result": { "properties": { "status": { "enum": ["success","pending"] } } } } }, "then": { "properties": { "result": { "required": ["amount","settlement"] } } } },
+        { "if": { "properties": { "result": { "properties": { "status": { "enum": ["failed","canceled"] } } } } }, "then": { "properties": { "result": { "required": ["reason"] } } } }
+      ]
     }
   ]
 }
