@@ -38,15 +38,15 @@
           "if": { "properties": { "strict": { "const": true } } },
           "then": {
             "anyOf": [
-              { "required": ["amount"], "properties": { "amount": {} } },
-              { "required": ["settlement"], "properties": { "settlement": {} } },
-              { "required": ["window"], "properties": { "window": {} } }
+              { "type": "object", "required": ["amount"], "properties": { "amount": {} } },
+              { "type": "object", "required": ["settlement"], "properties": { "settlement": {} } },
+              { "type": "object", "required": ["window"], "properties": { "window": {} } }
             ]
           }
         },
         {
           "if": { "properties": { "kind": { "const": "transaction" } } },
-          "then": { "properties": { "target": { "pattern": "^0x[a-fA-F0-9]{64}$" } } }
+          "then": { "type": "object", "properties": { "target": { "type": "string", "pattern": "^0x[a-fA-F0-9]{64}$" } } }
         }
       ]
     }
