@@ -28,6 +28,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      # Ensure runner uses LF and does not rewrite files
+      - name: Normalize git on runner
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -46,11 +52,22 @@ jobs:
       - name: Generate checksums
         run: node scripts/generate-checksums.mjs schemas/v1.0.0 checksums.txt
 
+      # Helpful debug if drift occurs
+      - name: Debug checksum drift
+        if: always()
+        run: |
+          echo "::group::git status"
+          git status --porcelain || true
+          echo "::endgroup::"
+          echo "::group::diff checksums.txt"
+          git diff -- checksums.txt || true
+          echo "::endgroup::"
+
       - name: Verify checksums are current
         run: git diff --exit-code checksums.txt
 
       - name: Upload checksums artifact (for debugging)
-        if: always()
+        if: failure() || cancelled()
         uses: actions/upload-artifact@v4
         with:
           name: checksums.txt
