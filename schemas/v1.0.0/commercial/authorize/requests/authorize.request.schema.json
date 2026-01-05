@@ -26,8 +26,8 @@
       "allOf": [
         {
           "anyOf": [
-            { "required": ["checkout_id"], "properties": { "checkout_id": {} } },
-            { "required": ["amount", "settlement"], "properties": { "amount": {}, "settlement": {} } }
+            { "type": "object", "required": ["checkout_id"], "properties": { "checkout_id": {} } },
+            { "type": "object", "required": ["amount", "settlement"], "properties": { "amount": {}, "settlement": {} } }
           ]
         }
       ]
