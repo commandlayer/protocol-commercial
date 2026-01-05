@@ -2,66 +2,44 @@
   "$id": "https://commandlayer.org/schemas/v1.0.0/commercial/ship/receipts/ship.receipt.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ship.receipt",
-  "description": "Receipt schema for shipment / fulfillment events.",
+  "description": "Receipt for shipment / fulfillment events.",
   "allOf": [
-    {
-      "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/receipt.base.schema.json"
-    },
+    { "$ref": "https://commandlayer.org/schemas/v1.0.0/_shared/receipt.base.schema.json" },
     {
       "type": "object",
       "properties": {
         "result": {
-          "description": "Shipment outcome payload.",
           "type": "object",
           "additionalProperties": false,
-          "required": ["shipment_id", "status"],
+          "required": ["shipment_id","order_id","status"],
           "properties": {
-            "shipment_id": {
-              "description": "Canonical shipment identifier.",
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 128
-            },
-            "order_id": {
-              "description": "Order ID this shipment is associated with.",
-              "type": "string",
-              "maxLength": 128
-            },
-            "status": {
-              "description": "Shipment status.",
-              "type": "string",
-              "enum": ["label_created", "in_transit", "delivered", "failed", "returned"]
-            },
-            "carrier": {
-              "description": "Shipping carrier.",
-              "type": "string",
-              "maxLength": 64
-            },
-            "tracking_number": {
-              "description": "Tracking number or link reference.",
-              "type": "string",
-              "maxLength": 256
-            },
-            "eta": {
-              "description": "Estimated time of arrival.",
-              "type": "string",
-              "format": "date-time",
-              "maxLength": 64
-            },
+            "shipment_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+            "shipment_group_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+            "order_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+            "status": { "type": "string", "enum": ["label_created","in_transit","delivered","failed","returned"] },
+            "carrier": { "type": "string", "maxLength": 64 },
+            "tracking_number": { "type": "string", "maxLength": 128, "pattern": "^[A-Z0-9][-A-Z0-9]{5,}$" },
+            "tracking_url": { "type": "string", "format": "uri", "maxLength": 512 },
+            "eta": { "type": "string", "format": "date-time" },
+            "delivered_at": { "type": "string", "format": "date-time" },
             "metadata": {
-              "description": "Optional provider- or runtime-specific additional context.",
               "type": "object",
-              "additionalProperties": true
+              "additionalProperties": true,
+              "maxProperties": 100,
+              "propertyNames": { "type": "string", "maxLength": 64 }
             }
           }
-        },
-        "usage": {
-          "description": "Optional resource usage metrics (tokens, compute units, etc.).",
-          "type": "object",
-          "additionalProperties": true
         }
       },
-      "required": ["result"]
+      "required": ["result"],
+      "allOf": [
+        { "if": { "properties": { "status": { "const": "success" } }, "required": ["status"] }, "then": { "required": ["result"] } },
+        { "if": { "properties": { "status": { "const": "error" } }, "required": ["status"] }, "then": { "required": ["error"], "properties": { "result": false } } },
+        {
+          "if": { "properties": { "result": { "properties": { "status": { "enum": ["label_created","in_transit","delivered"] } } } } },
+          "then": { "properties": { "result": { "required": ["carrier","tracking_number"] } } }
+        }
+      ]
     }
   ]
 }
