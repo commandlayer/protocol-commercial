@@ -11,11 +11,11 @@
         "result": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["authorization_id","status"],
+          "required": ["authorization_id", "status"],
           "properties": {
             "authorization_id": { "type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$" },
             "checkout_id": { "type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$" },
-            "status": { "type": "string", "enum": ["authorized","declined","expired","canceled"] },
+            "status": { "type": "string", "enum": ["authorized", "declined", "expired", "canceled"] },
             "amount": { "allOf": [{ "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.amount.schema.json" }] },
             "settlement": { "allOf": [{ "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.settlement.schema.json" }] },
             "expires_at": { "type": "string", "format": "date-time" },
@@ -41,10 +41,14 @@
       },
       "required": ["result"],
       "allOf": [
-        { "if": { "properties": { "status": { "const": "success" } }, "required": ["status"] }, "then": { "required": ["result"] } },
-        { "if": { "properties": { "status": { "const": "error" } }, "required": ["status"] }, "then": { "required": ["error"], "properties": { "result": false } } },
-        { "if": { "properties": { "result": { "properties": { "status": { "const": "authorized" } } } } }, "then": { "properties": { "result": { "required": ["amount","settlement"] } } } },
-        { "if": { "properties": { "result": { "properties": { "status": { "enum": ["declined","canceled","expired"] } } } } }, "then": { "properties": { "result": { "required": ["reason"] } } } }
+        { "if": { "properties": { "status": { "const": "success" } }, "required": ["status"] },
+          "then": { "properties": { "result": {} }, "required": ["result"] } },
+        { "if": { "properties": { "status": { "const": "error" } }, "required": ["status"] },
+          "then": { "properties": { "error": {}, "result": false }, "required": ["error"] } },
+        { "if": { "properties": { "result": { "properties": { "status": { "const": "authorized" } } } } },
+          "then": { "properties": { "result": { "properties": { "amount": {}, "settlement": {} }, "required": ["amount", "settlement"] } } } },
+        { "if": { "properties": { "result": { "properties": { "status": { "enum": ["declined", "canceled", "expired"] } } } } },
+          "then": { "properties": { "result": { "properties": { "reason": {} }, "required": ["reason"] } } } }
       ]
     }
   ]
