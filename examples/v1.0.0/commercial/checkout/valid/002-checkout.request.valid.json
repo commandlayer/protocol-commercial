@@ -2,65 +2,36 @@
   "x402": {
     "verb": "checkout",
     "version": "1.0.0",
-    "request_id": "req-checkout-2025-12-07-0002",
-    "network": "eip155:1"
+    "idempotency_key": "checkout-demo-002"
   },
   "trace": {
-    "trace_id": "trace-checkout-0002",
-    "tags": {
-      "example": "checkout-request-valid-2",
-      "verb_set": "commercial"
-    }
+    "trace_id": "01JAG8C5Z3J1D4K7W9R2X8MNW0",
+    "started_at": "2026-01-05T06:00:00Z"
   },
   "payload": {
-    "cart_id": "cart-0002",
+    "cart_id": "cart-002",
     "items": [
       {
-        "sku": "SKU-DEMO-003",
-        "quantity": 1,
-        "unit_price": {
-          "value": "49.00",
-          "asset": "USDC",
-          "pricing_tier": "pro"
-        },
-        "metadata": {
-          "note": "upsell-item"
-        }
-      },
-      {
-        "sku": "SKU-DEMO-004",
+        "sku": "SKU-ABC-001",
         "quantity": 2,
-        "unit_price": {
-          "value": "5.00",
-          "asset": "USDC"
-        },
-        "metadata": {
-          "note": "addon-item"
-        }
+        "unit_price": { "value": "5.25", "asset": "USDC" }
       }
     ],
-    "amount": {
-      "value": "59.00",
-      "asset": "USDC",
-      "pricing_tier": "pro"
-    },
+    "amount": { "value": "10.50", "asset": "USDC" },
     "settlement": {
       "chain": "eip155:1",
-      "recipient": "0xmerchantAddressHere"
+      "recipient": "0x0000000000000000000000000000000000000002"
     },
     "shipping_address": {
-      "name": "Protocol Buyer",
-      "line1": "1 CommandLayer Way",
-      "city": "Miami",
-      "state": "FL",
-      "postal_code": "33101",
+      "name": "Jane Doe",
+      "line1": "123 Market St",
+      "city": "San Francisco",
+      "state": "CA",
+      "postal_code": "94103",
       "country": "US"
     },
-    "payment_method_hint": "card",
     "metadata": {
-      "campaign": "launch-checkout-valid-2",
-      "channel": "agent",
-      "verb_set": "commercial"
+      "note": "valid checkout request without payment_method_hint"
     }
   }
 }
