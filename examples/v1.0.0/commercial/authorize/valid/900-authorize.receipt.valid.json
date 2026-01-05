@@ -2,53 +2,27 @@
   "x402": {
     "verb": "authorize",
     "version": "1.0.0",
-    "request_id": "req-auth-2025-12-07-0001",
-    "network": "eip155:1"
+    "idempotency_key": "auth-demo-001"
   },
   "trace": {
-    "trace_id": "trace-auth-0001",
-    "started_at": "2025-12-07T18:40:00Z",
-    "completed_at": "2025-12-07T18:40:01Z",
-    "duration_ms": 870,
-    "provider": "commandlayer-demo",
-    "region": "us-east-1",
-    "model": "authorize-engine-001",
-    "tags": ["authorize", "example", "v1.0.0"]
+    "trace_id": "01JAG7S5Z3J1D4K7W9R2X8MNVQ",
+    "span_id": "SPAN-001"
   },
   "status": "success",
   "result": {
-    "authorization_id": "auth_9a8b7c",
+    "authorization_id": "01ARZ3NDEKTSV4RRFFQ69G5FAV",
     "status": "authorized",
     "amount": {
-      "value": "100.00",
-      "asset": "USDC",
-      "pricing_tier": "standard",
-      "metadata": {
-        "currency": "USD"
-      }
+      "value": "10.50",
+      "asset": "USDC"
     },
     "settlement": {
       "chain": "eip155:1",
-      "recipient": "merchant.eth",
-      "refund_address": "buyer.eth",
-      "merchant_id": "m_001",
-      "metadata": {
-        "channel": "online",
-        "country": "US"
-      }
+      "recipient": "0x0000000000000000000000000000000000000001"
     },
-    "expires_at": "2025-12-10T00:00:00Z",
+    "expires_at": "2026-12-31T23:59:59Z",
     "metadata": {
-      "psp": "stripe",
-      "network": "visa",
-      "auth_method": "3DS"
+      "note": "example valid authorize receipt"
     }
-  },
-  "usage": {
-    "tokens": 1500,
-    "input_tokens": 900,
-    "output_tokens": 600,
-    "total_tokens": 1500,
-    "cost": 0.0042
   }
 }
