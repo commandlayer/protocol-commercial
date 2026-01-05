@@ -2,36 +2,27 @@
   "x402": {
     "verb": "purchase",
     "version": "1.0.0",
-    "request_id": "req-purchase-2025-12-07-0001",
-    "network": "eip155:1"
+    "idempotency_key": "purchase-receipt-900"
   },
   "trace": {
-    "trace_id": "trace-purchase-0001",
-    "started_at": "2025-12-07T19:10:00Z",
-    "completed_at": "2025-12-07T19:10:01Z",
+    "trace_id": "01JAG8K8Z8Z9V4RRFFQ69G5FAX",
+    "started_at": "2026-01-05T06:30:00Z",
+    "completed_at": "2026-01-05T06:30:01Z",
     "duration_ms": 1000,
-    "provider": "commandlayer-demo",
+    "provider": "commandlayer-test",
     "region": "us-east-1",
-    "model": "purchase-engine-001"
+    "model": "n/a",
+    "tags": ["example", "purchase"]
   },
   "status": "success",
   "result": {
-    "purchase_id": "purchase-001",
+    "purchase_id": "01ARZ3NDEKTSV4RRFFQ69G5FAV",
     "status": "success",
-    "amount": {
-      "value": "9.99",
-      "asset": "USD"
-    },
+    "amount": { "value": "12.34", "asset": "USDC" },
     "settlement": {
       "chain": "eip155:1",
-      "recipient": "creator.eth"
+      "recipient": "0x00000000000000000000000000000000000000AA"
     },
-    "metadata": {
-      "delivery_status": "sent",
-      "license_key": "key-xxxx-xxxx"
-    }
-  },
-  "usage": {
-    "tokens": 900
+    "metadata": { "note": "valid purchase receipt" }
   }
 }
