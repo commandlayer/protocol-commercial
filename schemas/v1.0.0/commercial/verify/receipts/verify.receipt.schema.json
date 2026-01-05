@@ -41,13 +41,13 @@
       "required": ["result"],
       "allOf": [
         { "if": { "properties": { "status": { "const": "success" } }, "required": ["status"] },
-          "then": { "properties": { "result": {} }, "required": ["result"] } },
+          "then": { "type": "object", "properties": { "result": {} }, "required": ["result"] } },
         { "if": { "properties": { "status": { "const": "error" } }, "required": ["status"] },
-          "then": { "properties": { "error": {}, "result": false }, "required": ["error"] } },
-        { "if": { "properties": { "result": { "properties": { "status": { "const": "not_found" } } } } },
-          "then": { "properties": { "result": { "properties": { "verified": { "const": false } } } } } },
-        { "if": { "properties": { "result": { "properties": { "verified": { "const": false } } } } },
-          "then": { "properties": { "result": { "properties": { "reason": {} }, "required": ["reason"] } } } }
+          "then": { "type": "object", "properties": { "error": {}, "result": false }, "required": ["error"] } },
+        { "if": { "type": "object", "properties": { "result": { "type": "object", "properties": { "status": { "const": "not_found" } } } } },
+          "then": { "type": "object", "properties": { "result": { "type": "object", "properties": { "verified": { "const": false } } } } } },
+        { "if": { "type": "object", "properties": { "result": { "type": "object", "properties": { "verified": { "const": false } } } } },
+          "then": { "type": "object", "properties": { "result": { "type": "object", "properties": { "reason": {} }, "required": ["reason"] } } } }
       ]
     }
   ]
