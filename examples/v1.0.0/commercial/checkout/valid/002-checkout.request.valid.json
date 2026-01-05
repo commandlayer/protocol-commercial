@@ -6,7 +6,7 @@
   },
   "trace": {
     "trace_id": "01JAG8C5Z3J1D4K7W9R2X8MNW0",
-    "started_at": "2026-01-05T06:00:00Z"
+    "timestamp": "2026-01-05T06:00:00Z"
   },
   "payload": {
     "cart_id": "cart-002",
