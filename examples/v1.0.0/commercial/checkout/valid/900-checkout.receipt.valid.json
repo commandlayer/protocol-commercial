@@ -2,46 +2,35 @@
   "x402": {
     "verb": "checkout",
     "version": "1.0.0",
-    "request_id": "req-checkout-2025-12-07-0001",
-    "network": "eip155:1"
+    "idempotency_key": "checkout-receipt-900"
   },
   "trace": {
-    "trace_id": "trace-checkout-0001",
-    "started_at": "2025-12-07T19:00:00Z",
-    "completed_at": "2025-12-07T19:00:01Z",
+    "trace_id": "01JAG8H5Z3J1D4K7W9R2X8MNW1",
+    "started_at": "2026-01-05T06:15:00Z",
+    "completed_at": "2026-01-05T06:15:01Z",
     "duration_ms": 1000,
-    "provider": "commandlayer-demo",
+    "provider": "commandlayer-test",
     "region": "us-east-1",
-    "model": "checkout-engine-001"
+    "model": "n/a",
+    "tags": ["example", "checkout"]
   },
   "status": "success",
   "result": {
-    "order_id": "order-001",
-    "status": "authorized",
-    "amount": {
-      "value": "50.00",
-      "asset": "USD"
-    },
-    "settlement": {
-      "chain": "eip155:1",
-      "recipient": "merchant-store.eth"
-    },
-    "line_items": [
+    "checkout_id": "01ARZ3NDEKTSV4RRFFQ69G5FAV",
+    "status": "created",
+    "amount": { "value": "10.50", "asset": "USDC" },
+    "settlement": { "chain": "eip155:1", "recipient": "0x0000000000000000000000000000000000000002" },
+    "items": [
       {
-        "sku": "sku-shirt-black-m",
-        "quantity": 1
-      },
-      {
-        "sku": "sku-hat-standard",
-        "quantity": 2
-      }
+        "sku": "SKU-ABC-001",
+        "quantity": 2,
+        "unit_price": { "value": "5.25", "asset": "USDC" }
+        }
     ],
-    "metadata": {
-      "payment_intent_id": "pi_123",
-      "psp": "stripe"
-    }
-  },
-  "usage": {
-    "tokens": 1200
+    "pricing": {
+      "subtotal": { "value": "10.50", "asset": "USDC" }
+    },
+    "next_action": "authorize",
+    "metadata": { "note": "valid checkout receipt using schema-required fields" }
   }
 }
