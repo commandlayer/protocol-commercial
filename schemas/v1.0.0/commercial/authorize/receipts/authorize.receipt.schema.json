@@ -42,13 +42,13 @@
       "required": ["result"],
       "allOf": [
         { "if": { "properties": { "status": { "const": "success" } }, "required": ["status"] },
-          "then": { "properties": { "result": {} }, "required": ["result"] } },
+          "then": { "type": "object", "properties": { "result": {} }, "required": ["result"] } },
         { "if": { "properties": { "status": { "const": "error" } }, "required": ["status"] },
-          "then": { "properties": { "error": {}, "result": false }, "required": ["error"] } },
-        { "if": { "properties": { "result": { "properties": { "status": { "const": "authorized" } } } } },
-          "then": { "properties": { "result": { "properties": { "amount": {}, "settlement": {} }, "required": ["amount", "settlement"] } } } },
-        { "if": { "properties": { "result": { "properties": { "status": { "enum": ["declined", "canceled", "expired"] } } } } },
-          "then": { "properties": { "result": { "properties": { "reason": {} }, "required": ["reason"] } } } }
+          "then": { "type": "object", "properties": { "error": {}, "result": false }, "required": ["error"] } },
+        { "if": { "type": "object", "properties": { "result": { "type": "object", "properties": { "status": { "const": "authorized" } } } } },
+          "then": { "type": "object", "properties": { "result": { "type": "object", "properties": { "amount": {}, "settlement": {} }, "required": ["amount", "settlement"] } } } },
+        { "if": { "type": "object", "properties": { "result": { "type": "object", "properties": { "status": { "enum": ["declined", "canceled", "expired"] } } } } },
+          "then": { "type": "object", "properties": { "result": { "type": "object", "properties": { "reason": {} }, "required": ["reason"] } } } }
       ]
     }
   ]
