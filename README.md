@@ -39,7 +39,7 @@ Commercial sits between semantics and execution:
 
 ```text
 +-----------------------------+
-|  Protocol-Runtime           |  execution, metering, paywalls
+|  Runtime           |  execution, metering, paywalls
 +-------------▲---------------+
               |
               v
@@ -65,7 +65,7 @@ Commercial sits between semantics and execution:
 | Protocol-Commons    | Canonical verbs & schemas (machine intent grammar)                |
 | Agent-Cards         | Identity, discovery, and invocation metadata                      |
 | Protocol-Commercial | Canonical commercial/economic verbs (schemas & receipt defaults)  |
-| Protocol-Runtime    | Transport adapters, execution, and structured receipts            |
+| Runtime             | Transport adapters, execution, and structured receipts            |
 
 
 - **Schemas = roads**
