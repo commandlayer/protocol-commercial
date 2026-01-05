@@ -6,23 +6,24 @@
   },
   "trace": {
     "trace_id": "01JAG7S5Z3J1D4K7W9R2X8MNVQ",
-    "span_id": "SPAN-001"
+    "started_at": "2026-01-05T05:05:05Z",
+    "completed_at": "2026-01-05T05:05:06Z",
+    "duration_ms": 1000,
+    "provider": "commandlayer-test",
+    "region": "us-east-1",
+    "model": "n/a",
+    "tags": ["example", "authorize"]
   },
   "status": "success",
   "result": {
     "authorization_id": "01ARZ3NDEKTSV4RRFFQ69G5FAV",
     "status": "authorized",
-    "amount": {
-      "value": "10.50",
-      "asset": "USDC"
-    },
+    "amount": { "value": "10.50", "asset": "USDC" },
     "settlement": {
       "chain": "eip155:1",
       "recipient": "0x0000000000000000000000000000000000000001"
     },
     "expires_at": "2026-12-31T23:59:59Z",
-    "metadata": {
-      "note": "example valid authorize receipt"
-    }
+    "metadata": { "note": "example valid authorize receipt" }
   }
 }
