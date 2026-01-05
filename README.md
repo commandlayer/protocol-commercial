@@ -163,33 +163,36 @@ After that:
 No breaking changes allowed in-place.
 No schema drift tolerated.
 
-## Integrity (Pre-Release Notice)
+**Integrity Notice — Protocol-Commercial v1.0.0 (Normative)**
 
-The integrity block will be installed at **v1.0.0 lock-in**:
+The canonical Protocol-Commercial schemas are pinned and immutable.
+**Normative artifact:**
 
- **Integrity Notice — Protocol-Commercial v1.0.0**  
+- schemas/v1.0.0/
+**IPFS CID:**                                 
+  bafybeiftjpyw6lwy3zm52sipbbwryssg5hoyu2qhr53j5gaqjvwfgfc344
 
-> Canonical schemas will be pinned and immutable:  
-> `schemas/v1.0.0/` — CID:  
-> `TBD` — **not yet normative**
->
-> Verify integrity locally:
->
-> ```bash
-> sha256sum -c checksums.txt
-> ```
->
-> **Mismatch = untrusted artifact.**
+This CID **defines the authoritative protocol state** for Protocol-Commercial v1.0.0.
 
-Until locked:
-
-- CIDs are **unstable**
-- `checksums.txt` is **non-normative**
+Any artifact not matching this CID is non-normative and untrusted.
 
 
+## Integrity Verification
 
+To verify a local copy:
+```
+sha256sum -c checksums.txt
+```
 
+- **All checksums must pass**
+- Any mismatch indicates a **tampered or invalid artifact**
 
+## Normative Binding Rules
+
+- ENS TXT records **must reference versioned schema URLs**
+- Runtimes **must validate requests and receipts** against these schemas
+- Receipts **must be verifiable** against the pinned schema definitions
+- Future versions **must not modify v1.0.0 artifacts**
 
 ## ENS TXT — Discovery Rules
 
