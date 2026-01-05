@@ -1,11 +1,11 @@
 {
-  "$schema": "https://commandlayer.org/schemas/manifest/v1.json",        
+  "$schema": "https://commandlayer.org/schemas/manifest/v1.json",
   "version": "1.0.0",
   "class": "commercial",
   "name": "@commandlayer/commercial",
   "description": "Commercial verbs, schemas, and execution contracts",
   "schemas_root": "schemas/v1.0.0",
-  "examples_root": "examples/v1.0.0",                                    
+  "examples_root": "examples/v1.0.0",
   "verbs": [
     "authorize",
     "checkout",
@@ -14,7 +14,15 @@
     "verify"
   ],
   "checksums_file": "checksums.txt",
-  "toolchain": { "node": ">=20.0.0", "ajv": "^8.17.1" },                  
-  "repository": "https://github.com/commandlayer/protocol-commercial",    
-  "license": "Apache-2.0"                                                 
+  "toolchain": {
+    "node": ">=20.0.0",
+    "ajv": "^8.17.1"
+  },
+  "repository": "https://github.com/commandlayer/protocol-commercial",
+  "license": "Apache-2.0",
+  "cid_root": "bafybeibye5x6k6uh6s5fu3q6utt7nc67mfh2olc2fff5iuv7adtea5dnb4",
+  "mirrors": [
+    "ipfs://bafybeibye5x6k6uh6s5fu3q6utt7nc67mfh2olc2fff5iuv7adtea5dnb4/commercial-v1.0.0",
+    "https://gateway.pinata.cloud/ipfs/bafybeibye5x6k6uh6s5fu3q6utt7nc67mfh2olc2fff5iuv7adtea5dnb4/commercial-v1.0.0"
+  ]
 }
