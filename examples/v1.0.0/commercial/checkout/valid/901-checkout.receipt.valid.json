@@ -2,37 +2,38 @@
   "x402": {
     "verb": "checkout",
     "version": "1.0.0",
-    "request_id": "req-checkout-2025-12-07-0002",
-    "network": "eip155:8453"
+    "idempotency_key": "checkout-receipt-901"
   },
   "trace": {
-    "trace_id": "trace-checkout-0002",
-    "started_at": "2025-12-07T19:01:00Z",
-    "completed_at": "2025-12-07T19:01:02Z",
-    "duration_ms": 2000,
-    "provider": "commandlayer-demo",
-    "region": "us-west-2",
-    "model": "checkout-engine-001"
+    "trace_id": "01JAG8J5Z3J1D4K7W9R2X8MNW2",
+    "started_at": "2026-01-05T06:20:00Z",
+    "completed_at": "2026-01-05T06:20:01Z",
+    "duration_ms": 1000,
+    "provider": "commandlayer-test",
+    "region": "us-east-1",
+    "model": "n/a",
+    "tags": ["example", "checkout"]
   },
   "status": "success",
   "result": {
-    "order_id": "order-002",
-    "status": "failed",
-    "amount": {
-      "value": "2500.00",
-      "asset": "USDC"
-    },
+    "checkout_id": "01ARZ3NDEKTSV4RRFFQ69G5FAV",
+    "status": "created",
+    "amount": { "value": "42.00", "asset": "USDC" },
     "settlement": {
-      "chain": "eip155:8453",
-      "recipient": "0xMerchantBase000000000000000000000001"
+      "chain": "eip155:1",
+      "recipient": "0x0000000000000000000000000000000000000042"
     },
-    "reason": "payment_authorization_failed",
-    "metadata": {
-      "psp": "onchain-router",
-      "failure_code": "AUTH_FAIL"
-    }
-  },
-  "usage": {
-    "tokens": 1600
+    "items": [
+      {
+        "sku": "SKU-XYZ-123",
+        "quantity": 1,
+        "unit_price": { "value": "42.00", "asset": "USDC" }
+      }
+    ],
+    "pricing": {
+      "subtotal": { "value": "42.00", "asset": "USDC" }
+    },
+    "next_action": "authorize",
+    "metadata": { "note": "valid checkout receipt (no order_id/reason, has items)" }
   }
 }
