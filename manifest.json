@@ -1,7 +1,11 @@
 {
+  "$schema": "https://commandlayer.org/schemas/manifest/v1.json",        
   "version": "1.0.0",
   "class": "commercial",
+  "name": "@commandlayer/commercial",
+  "description": "Commercial verbs, schemas, and execution contracts",
   "schemas_root": "schemas/v1.0.0",
+  "examples_root": "examples/v1.0.0",                                    
   "verbs": [
     "authorize",
     "checkout",
@@ -9,5 +13,8 @@
     "ship",
     "verify"
   ],
-  "checksums_file": "checksums.txt"
+  "checksums_file": "checksums.txt",
+  "toolchain": { "node": ">=20.0.0", "ajv": "^8.17.1" },                  
+  "repository": "https://github.com/commandlayer/protocol-commercial",    
+  "license": "Apache-2.0"                                                 
 }
