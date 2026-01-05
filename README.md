@@ -29,7 +29,7 @@ This repo is **semantics-only**:
 
 - **Schemas are always free**  
 - **No auth**, **no pricing**, **no routing**  
-- **Execution lives in Protocol-Runtime**
+- **Execution lives in Runtime**
 
 ---
 
