@@ -24,9 +24,14 @@
         }
       },
       "allOf": [
-        { "anyOf": [ { "required": ["checkout_id"] }, { "required": ["amount","settlement"] } ] }
+        {
+          "anyOf": [
+            { "required": ["checkout_id"], "properties": { "checkout_id": {} } },
+            { "required": ["amount", "settlement"], "properties": { "amount": {}, "settlement": {} } }
+          ]
+        }
       ]
     }
   },
-  "required": ["x402","trace","payload"]
+  "required": ["x402", "trace", "payload"]
 }
