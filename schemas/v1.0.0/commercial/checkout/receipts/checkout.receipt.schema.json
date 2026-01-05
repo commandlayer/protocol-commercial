@@ -11,10 +11,10 @@
         "result": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["checkout_id","status","amount","settlement","items"],
+          "required": ["checkout_id", "status", "amount", "settlement", "items"],
           "properties": {
             "checkout_id": { "type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$" },
-            "status": { "type": "string", "enum": ["created","failed","canceled"] },
+            "status": { "type": "string", "enum": ["created", "failed", "canceled"] },
             "amount": { "allOf": [{ "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.amount.schema.json" }] },
             "settlement": { "allOf": [{ "$ref": "https://commandlayer.org/schemas/v1.0.0/commercial/_shared/payment.settlement.schema.json" }] },
             "items": {
@@ -24,7 +24,7 @@
               "items": {
                 "type": "object",
                 "additionalProperties": false,
-                "required": ["sku","quantity","unit_price"],
+                "required": ["sku", "quantity", "unit_price"],
                 "properties": {
                   "sku": { "type": "string", "minLength": 1, "maxLength": 128 },
                   "quantity": { "type": "integer", "minimum": 1, "maximum": 1000000 },
@@ -43,7 +43,7 @@
               }
             },
             "expires_at": { "type": "string", "format": "date-time" },
-            "next_action": { "type": "string", "enum": ["authorize","abort"] },
+            "next_action": { "type": "string", "enum": ["authorize", "abort"] },
             "metadata": {
               "type": "object",
               "additionalProperties": true,
@@ -55,9 +55,12 @@
       },
       "required": ["result"],
       "allOf": [
-        { "if": { "properties": { "status": { "const": "success" } }, "required": ["status"] }, "then": { "required": ["result"] } },
-        { "if": { "properties": { "status": { "const": "error" } }, "required": ["status"] }, "then": { "required": ["error"], "properties": { "result": false } } },
-        { "if": { "properties": { "result": { "properties": { "status": { "enum": ["failed","canceled"] } } } } }, "then": { "properties": { "result": { "required": ["metadata"] } } } }
+        { "if": { "properties": { "status": { "const": "success" } }, "required": ["status"] },
+          "then": { "properties": { "result": {} }, "required": ["result"] } },
+        { "if": { "properties": { "status": { "const": "error" } }, "required": ["status"] },
+          "then": { "properties": { "error": {}, "result": false }, "required": ["error"] } },
+        { "if": { "properties": { "result": { "properties": { "status": { "enum": ["failed", "canceled"] } } } } },
+          "then": { "properties": { "result": { "properties": { "metadata": {} }, "required": ["metadata"] } } } }
       ]
     }
   ]
