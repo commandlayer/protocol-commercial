@@ -2,9 +2,17 @@
 
 For contributors and implementers:
 
-1. Validate local changes:  
-   `npm run validate`
-2. Update `manifest.json` when adding verbs
-3. Regenerate checksums before commit:  
-   `npm run generate:checksums`
-4. Never mutate locked versions in-place
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Validate local changes:
+   ```bash
+   npm run validate
+   ```
+3. Update `manifest.json` when adding verbs or version metadata.
+4. Regenerate checksums before commit:
+   ```bash
+   npm run generate:checksums
+   ```
+5. Never mutate locked versions in-place.

@@ -6,5 +6,18 @@ Compliance requires:
 - `sha256sum -c checksums.txt` passes
 - All examples validate under strict mode
 
+## Required CI checks
+
 CI MUST run:
-`npm run validate`
+
+```bash
+npm run validate
+```
+
+## Suggested local validation flow
+
+```bash
+npm install
+npm run validate
+sha256sum -c checksums.txt
+```
