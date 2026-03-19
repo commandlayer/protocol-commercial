@@ -62,8 +62,9 @@ Protocol-Commercial uses a compact actor model:
 - `merchant`: the seller or commercial principal governing the offer, order, or fulfillment
 - `provider`: an optional facilitating runtime or service performing settlement or fulfillment work on the merchant
 - `carrier`: the shipment operator once physical fulfillment exists
-- `requester`: the party initiating a verification request
 - `verifier`: the authority performing or attesting the verification result
+
+`requester` is a verify-specific initiator field, not a seventh governed actor role. It reuses the general actor identity shape so a payer, merchant, provider, verifier, or other documented commercial party can ask for verification without expanding the normative role vocabulary.
 
 Field names are normative. A `merchant` field MUST carry a `merchant` actor, a `payer` field MUST carry a `payer` actor, and so on. `payee` is used only for settlement destination semantics; if omitted, the merchant is implicitly the payee.
 

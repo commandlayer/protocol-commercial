@@ -28,10 +28,10 @@ a2a5e61fa04e12786a848e03bbabbc3f9d066ca55a6f48cb1ae1140f6373bf94  examples/v1.1.
 ef5da55ba5acdd43e8d2715204938762a63819dd370ebc8dfedad014617259c3  schemas/v1.1.0/commercial/authorize/authorize.request.schema.json
 66e39d85a503ec2fa096d789b5b3136a451387186fa33424c4bcb07ce9aea49b  schemas/v1.1.0/commercial/checkout/checkout.receipt.schema.json
 c4ca52ae4c5054a151c099d6108af57b17025ed7d86a99889c2cf7ffc9a341fa  schemas/v1.1.0/commercial/checkout/checkout.request.schema.json
-79b8f2fb15567b7b4ef87697ddcbc852df52852aa93d59e0aa44dbae230b5248  schemas/v1.1.0/commercial/purchase/purchase.receipt.schema.json
+43e7d8a289a7ac2a28dde896e13f22ad1e2aa8ebb1923d5a495c085b8b6f4203  schemas/v1.1.0/commercial/purchase/purchase.receipt.schema.json
 e9b62cf29d5f58fed922e9bc77c8d3e13e6f7ed04785baad7a7e4fc600ab44b8  schemas/v1.1.0/commercial/purchase/purchase.request.schema.json
 209f3449f0c580f919a5d9d93cf863b37b70cdcf873a49fbbb57241c361034dd  schemas/v1.1.0/commercial/ship/ship.receipt.schema.json
 b876f8ffbfd87e5554374de114414f9e4091ba09c80d07b9b99a40ff1befd7c5  schemas/v1.1.0/commercial/ship/ship.request.schema.json
-5edde96068c144b3684ae36354c0cd97a26b4d5bf7fcf0da9a4847deead6ffc7  schemas/v1.1.0/commercial/verify/verify.receipt.schema.json
-06061bbb301a9d60fed64c0eea137dfa9d39c459e30079e6ba91c903a96e1ed5  schemas/v1.1.0/commercial/verify/verify.request.schema.json
+7abc8e8a2dec058298ba5dd0603f20d9f95f6bc411fcd429fdb3c7a116dcbcca  schemas/v1.1.0/commercial/verify/verify.receipt.schema.json
+09707b90a6317d10d13f6e5339bc17a7ddc4d5938970ff7e25842876b7f2eea5  schemas/v1.1.0/commercial/verify/verify.request.schema.json
 1431008b047fc5eb8fe2e0647a7a9d5e27e731ad89b97866c259a5e9937cc549  schemas/v1.1.0/index.json
