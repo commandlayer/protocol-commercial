@@ -1,5 +1,7 @@
 # SECURITY — Protocol-Commercial
 
+This document applies repo-wide to the security posture of published Protocol-Commercial release lines unless a section states a narrower scope.
+
 Protocol-Commercial provides schema-level security properties, not transaction or fraud guarantees.
 
 ## What this repository is responsible for
@@ -30,5 +32,7 @@ Protocol-Commercial provides schema-level security properties, not transaction o
 npm run validate
 sha256sum -c checksums.txt
 ```
+
+`sha256sum -c checksums.txt` verifies only the checksum-covered machine-artifact surface, not release prose docs.
 
 Security contact: `security@commandlayer.org`
