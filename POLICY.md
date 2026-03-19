@@ -1,5 +1,7 @@
 # POLICY — Protocol-Commercial
 
+This policy governs the current release line and its release-management rules. Repo-wide governance and security reporting are defined separately.
+
 ## Current line
 
 `v1.1.0` is the current Protocol-Commercial line.
@@ -14,7 +16,9 @@
 
 ## Normative artifact state
 
-The normative release state consists of the current schema tree, current examples tree, `manifest.json`, and `checksums.txt`.
+The checksum-covered release state consists of the current schema tree, current examples tree, and `manifest.json`. `checksums.txt` is the generated ledger for that machine-artifact set.
+
+Release-defining prose docs may govern interpretation and process, but they are outside checksum coverage unless the checksum tooling is changed deliberately.
 
 ## Governance threshold
 

@@ -236,7 +236,22 @@
       ]
     },
     "verifier": {
-      "$ref": "#/$defs/verifier_actor"
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "verifier"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
     },
     "target_type": {
       "type": "string",
@@ -278,6 +293,7 @@
     "issued_at",
     "request_id",
     "status",
+    "verifier",
     "target_type",
     "target_ref",
     "evidence_refs",

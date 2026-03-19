@@ -1,4 +1,6 @@
-# ONBOARDING — Protocol-Commercial v1.1.0
+# ONBOARDING — Protocol-Commercial
+
+This document describes the current-line maintainer workflow for the active v1.1.0 release line.
 
 ## Maintainer workflow
 
@@ -21,6 +23,8 @@
    sha256sum -c checksums.txt
    ```
 
+When editing only prose docs outside the checksum surface, do not regenerate `checksums.txt` unless a checksum-covered machine artifact also changed.
+
 ## Adding a new commercial verb
 
 1. Create a new flat directory under `schemas/<new-version>/commercial/<verb>/`.
@@ -35,13 +39,13 @@
 1. Never mutate a published version directory in place after release.
 2. Create a new `schemas/vX.Y.Z/` and `examples/vX.Y.Z/` tree.
 3. Update `package.json`, `manifest.json`, README, SPEC, policy docs, and workflow assumptions.
-4. Regenerate checksums for the new current line.
+4. Regenerate checksums for the new current line's machine-artifact set.
 
 ## Pinning and mirrors
 
 After merge and before announcement:
 
-1. Pin the release artifact set to IPFS.
+1. Pin the checksum-covered release artifact set to IPFS.
 2. Capture resulting CIDs.
 3. Update commandlayer.org mirrors to match the release paths exactly.
 4. Update any Agent Card schema bindings that reference the superseded version.

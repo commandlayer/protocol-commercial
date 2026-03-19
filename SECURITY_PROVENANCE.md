@@ -1,25 +1,21 @@
 # SECURITY PROVENANCE — Protocol-Commercial
 
-## Current release posture
+## Release posture
 
 Current release line: `v1.1.0`
 
-Normative artifact roots:
+Checksum-covered machine-artifact roots:
 
 - `schemas/v1.1.0/`
 - `examples/v1.1.0/`
 - `manifest.json`
-- `checksums.txt`
 
-## Pending post-merge release actions
+`checksums.txt` is the generated SHA-256 ledger for that machine-artifact set. Release-defining prose docs in the repository are intentionally outside this checksum boundary and must not be described as checksum-protected.
 
-The final v1.1.0 CID values must be captured after the release artifact set is pinned.
+Release integrity state for this repository:
 
-Update after pinning:
+- `manifest.json` marks `v1.1.0` as the current release line.
+- `checksums.txt` records repository-local SHA-256 digests for the normative schema and example artifacts published from this tree.
+- Canonical schema `$id` values resolve to the commandlayer.org release paths for `v1.1.0`.
 
-- schema tree CID
-- example tree CID, if mirrored separately
-- release bundle CID, if used
-- public gateway mirrors
-
-Until those values are captured, `checksums.txt` is the local integrity source of truth for the pending release candidate.
+This file makes only repository-backed claims. It does not assert external pin, CID, or public mirror state unless those values are recorded in this repository.

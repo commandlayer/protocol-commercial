@@ -58,10 +58,14 @@
       "decimals": 2
     }
   },
+  "payment_ref": {
+    "type": "payment",
+    "id": "pay-2001"
+  },
   "payment_proof": {
     "scheme": "x402",
     "proof_type": "payment-proof",
     "proof_ref": "proof-2001",
-    "uri": "https://merchant.example/x402/proofs/proof-2001"
+    "uri": "urn:cl:x402:proof:proof-2001"
   }
 }

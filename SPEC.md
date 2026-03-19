@@ -1,6 +1,6 @@
 # SPEC — Protocol-Commercial v1.1.0
 
-This document is normative.
+This document is normative for the current v1.1.0 commercial release line.
 
 ## 1. Scope
 
@@ -19,17 +19,19 @@ The repository does not govern runtime transport implementation, provider policy
 
 ## 2. Current artifact set
 
-Current normative line:
+Current normative machine-artifact line:
 
 - `schemas/v1.1.0/`
 - `examples/v1.1.0/`
 - `manifest.json`
-- `checksums.txt`
+- `checksums.txt` as the hash ledger for that machine-artifact set
 
 Legacy published line retained but superseded:
 
 - `schemas/v1.0.0/`
 - `examples/v1.0.0/`
+
+Release-defining prose docs remain normative for interpretation, but they are outside the checksum surface unless checksum tooling is expanded intentionally.
 
 ## 3. Version and identity rules
 
@@ -38,7 +40,7 @@ Legacy published line retained but superseded:
 3. A v1.1.0 schema MUST NOT be mutated in place after release publication.
 4. Breaking or meaning-changing edits require a new version directory.
 5. `manifest.json` MUST identify the current release line and any retained legacy lines.
-6. `checksums.txt` MUST cover the machine-verifiable release artifact set.
+6. `checksums.txt` MUST cover the canonical machine-verifiable release artifact set and MUST NOT be described as protecting prose docs it does not hash.
 
 ## 4. Flat schema rule
 
@@ -128,5 +130,5 @@ A conformant release MUST satisfy all of the following:
 - every declared verb has a request schema and a receipt schema
 - every declared verb has valid and invalid examples for both request and receipt artifacts
 - `npm run validate` passes
-- `sha256sum -c checksums.txt` passes
+- `sha256sum -c checksums.txt` passes for the checksum-covered machine-artifact set
 - repository metadata does not drift from the published current line
