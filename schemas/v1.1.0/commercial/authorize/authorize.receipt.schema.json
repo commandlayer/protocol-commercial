@@ -425,6 +425,71 @@
             "type": "string",
             "maxLength": 512
           }
+        },
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "authorization_id"
+              ]
+            },
+            {
+              "required": [
+                "approved_until"
+              ]
+            },
+            {
+              "required": [
+                "payment_requirement_ref"
+              ]
+            },
+            {
+              "required": [
+                "payment_proof"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "pending"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "reason": {
+            "type": "string",
+            "maxLength": 512
+          }
+        },
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "authorization_id"
+              ]
+            },
+            {
+              "required": [
+                "approved_until"
+              ]
+            },
+            {
+              "required": [
+                "payment_requirement_ref"
+              ]
+            },
+            {
+              "required": [
+                "payment_proof"
+              ]
+            }
+          ]
         }
       }
     }

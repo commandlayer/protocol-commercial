@@ -253,7 +253,7 @@
     },
     "requester": {
       "$ref": "#/$defs/actor_identity",
-      "description": "The party initiating the verification request."
+      "description": "The initiating party for this verification request. 'requester' names request direction, not a separate governed actor role; the embedded actor still uses one of the standard commercial roles."
     },
     "verifier": {
       "$ref": "#/$defs/verifier_actor",
