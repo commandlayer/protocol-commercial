@@ -2,7 +2,7 @@
   "$id": "https://commandlayer.org/schemas/v1.1.0/commercial/ship/ship.request.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ship.request",
-  "description": "Bind fulfillment work to a commercial order or purchase.",
+  "description": "Bind commercial fulfillment work to a settled purchase and fulfillment instruction.",
   "type": "object",
   "additionalProperties": false,
   "$defs": {
@@ -21,8 +21,6 @@
             "payee",
             "merchant",
             "provider",
-            "marketplace",
-            "counterparty",
             "carrier",
             "verifier"
           ]
@@ -71,6 +69,7 @@
             "checkout",
             "purchase",
             "shipment",
+            "fulfillment",
             "payment",
             "settlement",
             "receipt",
@@ -158,19 +157,97 @@
       "format": "date-time"
     },
     "merchant": {
-      "$ref": "#/$defs/actor"
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "merchant"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
     },
     "provider": {
-      "$ref": "#/$defs/actor"
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "provider"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
     },
     "order_ref": {
       "$ref": "#/$defs/reference"
     },
     "purchase_ref": {
-      "$ref": "#/$defs/reference"
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "purchase"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      ]
+    },
+    "settlement_ref": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "settlement"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      ]
     },
     "fulfillment_ref": {
-      "$ref": "#/$defs/reference"
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "fulfillment"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      ]
     },
     "items": {
       "type": "array",
@@ -201,7 +278,9 @@
     "requested_at",
     "merchant",
     "provider",
-    "order_ref",
+    "purchase_ref",
+    "settlement_ref",
+    "fulfillment_ref",
     "items",
     "destination",
     "service_level"

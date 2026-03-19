@@ -2,7 +2,7 @@
   "$id": "https://commandlayer.org/schemas/v1.1.0/commercial/ship/ship.receipt.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ship.receipt",
-  "description": "Canonical commercial fulfillment state transition receipt.",
+  "description": "Canonical commercial fulfillment state transition receipt tied to settlement-backed fulfillment work.",
   "type": "object",
   "additionalProperties": false,
   "$defs": {
@@ -21,8 +21,6 @@
             "payee",
             "merchant",
             "provider",
-            "marketplace",
-            "counterparty",
             "carrier",
             "verifier"
           ]
@@ -71,6 +69,7 @@
             "checkout",
             "purchase",
             "shipment",
+            "fulfillment",
             "payment",
             "settlement",
             "receipt",
@@ -136,19 +135,97 @@
       "maxLength": 128
     },
     "merchant": {
-      "$ref": "#/$defs/actor"
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "merchant"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
     },
     "carrier": {
-      "$ref": "#/$defs/actor"
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "carrier"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
     },
     "order_ref": {
       "$ref": "#/$defs/reference"
     },
     "purchase_ref": {
-      "$ref": "#/$defs/reference"
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "purchase"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      ]
+    },
+    "settlement_ref": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "settlement"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      ]
     },
     "fulfillment_ref": {
-      "$ref": "#/$defs/reference"
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "fulfillment"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      ]
     },
     "tracking_number": {
       "type": "string",
@@ -159,6 +236,24 @@
       "type": "string",
       "format": "uri",
       "maxLength": 512
+    },
+    "delivery_proof_ref": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "proof"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      ]
     },
     "event_at": {
       "type": "string",
@@ -179,7 +274,9 @@
     "status",
     "shipment_id",
     "merchant",
-    "order_ref",
+    "purchase_ref",
+    "settlement_ref",
+    "fulfillment_ref",
     "event_at"
   ],
   "allOf": [
@@ -187,15 +284,15 @@
       "if": {
         "properties": {
           "status": {
-            "enum": [
-              "label_created",
-              "in_transit",
-              "delivered"
-            ]
+            "const": "label_created"
           }
         }
       },
       "then": {
+        "required": [
+          "carrier",
+          "tracking_number"
+        ],
         "properties": {
           "carrier": {
             "$ref": "#/$defs/actor"
@@ -205,11 +302,73 @@
             "minLength": 6,
             "maxLength": 128
           }
-        },
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "in_transit"
+          }
+        }
+      },
+      "then": {
         "required": [
           "carrier",
-          "tracking_number"
-        ]
+          "tracking_number",
+          "tracking_url"
+        ],
+        "properties": {
+          "carrier": {
+            "$ref": "#/$defs/actor"
+          },
+          "tracking_number": {
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 128
+          },
+          "tracking_url": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 512
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "delivered"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "carrier",
+          "tracking_number",
+          "tracking_url",
+          "delivery_proof_ref"
+        ],
+        "properties": {
+          "carrier": {
+            "$ref": "#/$defs/actor"
+          },
+          "tracking_number": {
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 128
+          },
+          "tracking_url": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 512
+          },
+          "delivery_proof_ref": {
+            "$ref": "#/$defs/reference"
+          }
+        }
       }
     },
     {
@@ -224,15 +383,15 @@
         }
       },
       "then": {
+        "required": [
+          "reason"
+        ],
         "properties": {
           "reason": {
             "type": "string",
             "maxLength": 512
           }
-        },
-        "required": [
-          "reason"
-        ]
+        }
       }
     }
   ]

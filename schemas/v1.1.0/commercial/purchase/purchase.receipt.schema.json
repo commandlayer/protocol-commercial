@@ -2,7 +2,7 @@
   "$id": "https://commandlayer.org/schemas/v1.1.0/commercial/purchase/purchase.receipt.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "purchase.receipt",
-  "description": "Canonical purchase outcome artifact.",
+  "description": "Canonical one-step purchase outcome artifact.",
   "type": "object",
   "additionalProperties": false,
   "$defs": {
@@ -56,8 +56,6 @@
             "payee",
             "merchant",
             "provider",
-            "marketplace",
-            "counterparty",
             "carrier",
             "verifier"
           ]
@@ -106,6 +104,7 @@
             "checkout",
             "purchase",
             "shipment",
+            "fulfillment",
             "payment",
             "settlement",
             "receipt",
@@ -169,6 +168,38 @@
           "$ref": "#/$defs/money"
         }
       }
+    },
+    "x402_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scheme",
+        "proof_type",
+        "proof_ref"
+      ],
+      "properties": {
+        "scheme": {
+          "type": "string",
+          "const": "x402"
+        },
+        "proof_type": {
+          "type": "string",
+          "enum": [
+            "payment-session",
+            "payment-proof"
+          ]
+        },
+        "proof_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
     }
   },
   "properties": {
@@ -201,8 +232,8 @@
     "status": {
       "type": "string",
       "enum": [
-        "accepted",
-        "rejected",
+        "captured",
+        "failed",
         "pending"
       ]
     },
@@ -212,13 +243,58 @@
       "maxLength": 128
     },
     "payer": {
-      "$ref": "#/$defs/actor"
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "payer"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
     },
     "merchant": {
-      "$ref": "#/$defs/actor"
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "merchant"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
     },
     "provider": {
-      "$ref": "#/$defs/actor"
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "provider"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
     },
     "amount": {
       "$ref": "#/$defs/money"
@@ -234,6 +310,9 @@
     },
     "payment_ref": {
       "$ref": "#/$defs/reference"
+    },
+    "payment_proof": {
+      "$ref": "#/$defs/x402_proof"
     },
     "reason": {
       "type": "string",
@@ -259,21 +338,112 @@
       "if": {
         "properties": {
           "status": {
-            "enum": [
-              "rejected",
-              "pending"
-            ]
+            "const": "captured"
           }
         }
       },
       "then": {
         "properties": {
+          "settlement": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "const": "captured"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "payment_proof": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/x402_proof"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "proof_type": {
+                    "const": "payment-proof"
+                  }
+                },
+                "required": [
+                  "proof_type"
+                ]
+              }
+            ]
+          },
+          "payment_ref": {
+            "$ref": "#/$defs/reference"
+          }
+        },
+        "required": [
+          "settlement",
+          "payment_proof",
+          "payment_ref"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "failed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "settlement": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "const": "failed"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
           "reason": {
             "type": "string",
             "maxLength": 512
           }
         },
         "required": [
+          "settlement",
+          "reason"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "pending"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "settlement": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "const": "pending"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 512
+          }
+        },
+        "required": [
+          "settlement",
           "reason"
         ]
       }

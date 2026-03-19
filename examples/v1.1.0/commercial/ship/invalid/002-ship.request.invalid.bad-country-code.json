@@ -2,7 +2,7 @@
   "protocol": "commercial",
   "version": "1.1.0",
   "verb": "ship",
-  "request_id": "bad-shipreq-001",
+  "request_id": "bad-shipreq-002",
   "requested_at": "2026-03-19T10:15:00Z",
   "merchant": {
     "role": "merchant",
@@ -12,11 +12,24 @@
     "role": "provider",
     "id": "warehouse.example"
   },
-  "order_ref": {
-    "type": "order",
-    "id": "ord-3001"
+  "purchase_ref": {
+    "type": "purchase",
+    "id": "purchase-3001"
   },
-  "items": [],
+  "settlement_ref": {
+    "type": "settlement",
+    "id": "settle-3001"
+  },
+  "fulfillment_ref": {
+    "type": "fulfillment",
+    "id": "fulfillment-3001"
+  },
+  "items": [
+    {
+      "sku": "device-001",
+      "quantity": 1
+    }
+  ],
   "destination": {
     "country_code": "USA"
   },

@@ -56,8 +56,6 @@
             "payee",
             "merchant",
             "provider",
-            "marketplace",
-            "counterparty",
             "carrier",
             "verifier"
           ]
@@ -106,6 +104,7 @@
             "checkout",
             "purchase",
             "shipment",
+            "fulfillment",
             "payment",
             "settlement",
             "receipt",
@@ -267,10 +266,40 @@
       ]
     },
     "payer": {
-      "$ref": "#/$defs/actor"
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "payer"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
     },
     "merchant": {
-      "$ref": "#/$defs/actor"
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "merchant"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
     },
     "order_ref": {
       "$ref": "#/$defs/reference"
@@ -314,21 +343,101 @@
       "if": {
         "properties": {
           "status": {
-            "enum": [
-              "failed",
-              "pending"
-            ]
+            "const": "captured"
           }
         }
       },
       "then": {
         "properties": {
+          "settlement": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "const": "captured"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "payment_proof": {
+            "type": "object",
+            "properties": {
+              "proof_type": {
+                "const": "payment-proof"
+              }
+            },
+            "required": [
+              "proof_type"
+            ]
+          }
+        },
+        "required": [
+          "settlement",
+          "payment_proof"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "failed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "settlement": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "const": "failed"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
           "reason": {
             "type": "string",
             "maxLength": 512
           }
         },
         "required": [
+          "settlement",
+          "reason"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "pending"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "settlement": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "const": "pending"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 512
+          }
+        },
+        "required": [
+          "settlement",
           "reason"
         ]
       }

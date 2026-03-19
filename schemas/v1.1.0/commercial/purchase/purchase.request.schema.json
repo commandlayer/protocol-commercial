@@ -2,7 +2,7 @@
   "$id": "https://commandlayer.org/schemas/v1.1.0/commercial/purchase/purchase.request.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "purchase.request",
-  "description": "Complete a one-step commercial purchase using x402-aware payment inputs.",
+  "description": "Complete a one-step commercial purchase contract with explicit itemization and x402 payment context.",
   "type": "object",
   "additionalProperties": false,
   "$defs": {
@@ -56,8 +56,6 @@
             "payee",
             "merchant",
             "provider",
-            "marketplace",
-            "counterparty",
             "carrier",
             "verifier"
           ]
@@ -106,6 +104,7 @@
             "checkout",
             "purchase",
             "shipment",
+            "fulfillment",
             "payment",
             "settlement",
             "receipt",
@@ -127,16 +126,17 @@
         }
       }
     },
-    "product": {
+    "line_item": {
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "product_id",
+        "sku",
         "description",
-        "quantity"
+        "quantity",
+        "unit_price"
       ],
       "properties": {
-        "product_id": {
+        "sku": {
           "type": "string",
           "minLength": 1,
           "maxLength": 128
@@ -150,17 +150,42 @@
           "type": "integer",
           "minimum": 1,
           "maximum": 1000000
+        },
+        "unit_price": {
+          "$ref": "#/$defs/money"
         }
       }
     },
-    "x402_input": {
+    "fulfillment_intent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode"
+      ],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "digital",
+            "shipment",
+            "service"
+          ]
+        },
+        "destination_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    "payment_context": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "payment_requirement_ref": {
           "$ref": "#/$defs/reference"
         },
-        "payment_proof_ref": {
+        "payment_session_ref": {
           "$ref": "#/$defs/reference"
         }
       },
@@ -177,12 +202,12 @@
         },
         {
           "properties": {
-            "payment_proof_ref": {
+            "payment_session_ref": {
               "$ref": "#/$defs/reference"
             }
           },
           "required": [
-            "payment_proof_ref"
+            "payment_session_ref"
           ]
         }
       ]
@@ -211,16 +236,76 @@
       "format": "date-time"
     },
     "payer": {
-      "$ref": "#/$defs/actor"
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "payer"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
     },
     "merchant": {
-      "$ref": "#/$defs/actor"
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "merchant"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
     },
     "provider": {
-      "$ref": "#/$defs/actor"
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "provider"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
     },
-    "product": {
-      "$ref": "#/$defs/product"
+    "purchase_context_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "merchant_reference": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {
+        "$ref": "#/$defs/line_item"
+      }
     },
     "amount": {
       "$ref": "#/$defs/money"
@@ -231,8 +316,11 @@
     "invoice_ref": {
       "$ref": "#/$defs/reference"
     },
-    "x402": {
-      "$ref": "#/$defs/x402_input"
+    "fulfillment_intent": {
+      "$ref": "#/$defs/fulfillment_intent"
+    },
+    "payment_context": {
+      "$ref": "#/$defs/payment_context"
     }
   },
   "required": [
@@ -243,8 +331,8 @@
     "requested_at",
     "payer",
     "merchant",
-    "product",
+    "items",
     "amount",
-    "x402"
+    "payment_context"
   ]
 }

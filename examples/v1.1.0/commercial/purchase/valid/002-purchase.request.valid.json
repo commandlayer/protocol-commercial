@@ -2,12 +2,12 @@
   "protocol": "commercial",
   "version": "1.1.0",
   "verb": "purchase",
-  "request_id": "purchasereq-001",
-  "requested_at": "2026-03-19T10:10:00Z",
+  "request_id": "purchasereq-002",
+  "requested_at": "2026-03-19T12:10:00Z",
   "payer": {
     "role": "payer",
-    "id": "buyer-001",
-    "kind": "account"
+    "id": "buyer-002",
+    "kind": "wallet"
   },
   "merchant": {
     "role": "merchant",
@@ -19,41 +19,36 @@
     "id": "runtime.commandlayer",
     "kind": "service"
   },
-  "purchase_context_id": "purchase-context-001",
-  "merchant_reference": "instant-2001",
+  "purchase_context_id": "purchase-context-002",
   "items": [
     {
-      "sku": "svc-analysis-pack",
-      "description": "One analysis execution bundle",
+      "sku": "dataset-annual",
+      "description": "Annual data access",
       "quantity": 1,
       "unit_price": {
-        "amount": "12.50",
+        "amount": "120.00",
         "currency": "USDC",
         "decimals": 2
       }
     }
   ],
   "amount": {
-    "amount": "12.50",
+    "amount": "120.00",
     "currency": "USDC",
     "decimals": 2
   },
-  "order_ref": {
-    "type": "order",
-    "id": "ord-2001"
-  },
   "invoice_ref": {
     "type": "invoice",
-    "id": "inv-2001"
+    "id": "inv-2002"
   },
   "fulfillment_intent": {
-    "mode": "service",
-    "destination_ref": "job-2001"
+    "mode": "digital",
+    "destination_ref": "acct-buyer-002"
   },
   "payment_context": {
-    "payment_requirement_ref": {
-      "type": "payment_requirement",
-      "id": "x402-req-2001"
+    "payment_session_ref": {
+      "type": "payment_session",
+      "id": "x402-session-2002"
     }
   }
 }

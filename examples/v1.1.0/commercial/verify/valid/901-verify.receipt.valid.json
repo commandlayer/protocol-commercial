@@ -1,0 +1,27 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "verify",
+  "receipt_id": "verifyrcpt-002",
+  "issued_at": "2026-03-19T18:50:03Z",
+  "request_id": "verifyreq-002",
+  "status": "inconclusive",
+  "verifier": {
+    "role": "verifier",
+    "id": "fulfillment-audit.example",
+    "kind": "service"
+  },
+  "target_type": "shipment",
+  "target_ref": {
+    "type": "shipment",
+    "id": "shipment-002"
+  },
+  "evidence_refs": [
+    {
+      "type": "proof",
+      "id": "delivery-proof-3002"
+    }
+  ],
+  "basis": "Carrier evidence exists but counterparty confirmation window is still open.",
+  "reason": "Awaiting merchant-side delivery attestation."
+}

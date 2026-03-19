@@ -1,22 +1,27 @@
 # POLICY — Protocol-Commercial
 
-## Current line
+This document defines repository-wide release policy. The active policy anchor is the current line, `v1.1.0`.
 
-`v1.1.0` is the current Protocol-Commercial line.
+## Version policy
 
-`v1.0.0` remains published for backward compatibility but is superseded.
+- `v1.1.0` is the current Protocol-Commercial line.
+- `v1.0.0` remains published as a retained legacy line.
+- Published version directories are immutable release artifacts.
 
-## Change control
+## Release policy
 
-- No published version directory may be silently mutated after release.
-- Breaking or semantic changes require a new version directory.
-- Release metadata, examples, schema paths, and checksums must remain internally consistent.
+A valid release must keep all of the following aligned:
 
-## Normative artifact state
+- schema identities
+- examples
+- manifest metadata
+- checksum scope
+- content-addressing metadata
+- root documentation that defines release meaning
 
-The normative release state consists of the current schema tree, current examples tree, `manifest.json`, and `checksums.txt`.
+## Semantic policy
 
-## Governance threshold
-
-- Schema fixes before publication require maintainer signoff.
-- New verbs or version lines require explicit steward approval.
+- Payment outcome vocabulary for settlement receipts is `captured`, `failed`, `pending`.
+- Actor semantics are governed repo-wide.
+- x402 requirement, session, and proof terminology is governed repo-wide.
+- Transitional wording is not acceptable in release-defining documents.

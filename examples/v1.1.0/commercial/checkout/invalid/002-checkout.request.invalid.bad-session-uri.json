@@ -1,0 +1,46 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "checkout",
+  "request_id": "bad-checkout-002",
+  "requested_at": "2026-03-19T10:05:00Z",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-001"
+  },
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example"
+  },
+  "order_ref": {
+    "type": "order",
+    "id": "ord-1001"
+  },
+  "items": [
+    {
+      "sku": "sku-pro-plan",
+      "description": "Protocol Pro Plan",
+      "quantity": 1,
+      "unit_price": {
+        "amount": "49.99",
+        "currency": "USDC"
+      }
+    }
+  ],
+  "amount_breakdown": {
+    "subtotal": {
+      "amount": "49.99",
+      "currency": "USDC"
+    },
+    "total": {
+      "amount": "49.99",
+      "currency": "USDC"
+    }
+  },
+  "capture": "immediate",
+  "payment_session": {
+    "scheme": "x402",
+    "session_id": "x402-session-001",
+    "resource": "not-a-uri"
+  }
+}

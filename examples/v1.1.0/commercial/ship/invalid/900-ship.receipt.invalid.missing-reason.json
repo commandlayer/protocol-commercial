@@ -11,9 +11,17 @@
     "role": "merchant",
     "id": "merchant.example"
   },
-  "order_ref": {
-    "type": "order",
-    "id": "ord-3001"
+  "purchase_ref": {
+    "type": "purchase",
+    "id": "purchase-3001"
+  },
+  "settlement_ref": {
+    "type": "settlement",
+    "id": "settle-3001"
+  },
+  "fulfillment_ref": {
+    "type": "fulfillment",
+    "id": "fulfillment-3001"
   },
   "event_at": "2026-03-19T10:15:05Z"
 }

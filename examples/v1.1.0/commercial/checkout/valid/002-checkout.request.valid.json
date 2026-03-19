@@ -1,0 +1,76 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "checkout",
+  "request_id": "checkoutreq-002",
+  "requested_at": "2026-03-19T11:05:00Z",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-002",
+    "kind": "wallet"
+  },
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "provider": {
+    "role": "provider",
+    "id": "runtime.commandlayer",
+    "kind": "service"
+  },
+  "order_ref": {
+    "type": "order",
+    "id": "ord-1002"
+  },
+  "items": [
+    {
+      "sku": "device-001",
+      "description": "CommandLayer Device",
+      "quantity": 1,
+      "unit_price": {
+        "amount": "199.00",
+        "currency": "USDC",
+        "decimals": 2
+      }
+    },
+    {
+      "sku": "ship-exp",
+      "description": "Express shipping",
+      "quantity": 1,
+      "unit_price": {
+        "amount": "15.00",
+        "currency": "USDC",
+        "decimals": 2
+      }
+    }
+  ],
+  "amount_breakdown": {
+    "subtotal": {
+      "amount": "214.00",
+      "currency": "USDC",
+      "decimals": 2
+    },
+    "shipping": {
+      "amount": "15.00",
+      "currency": "USDC",
+      "decimals": 2,
+      "includes": "shipping"
+    },
+    "total": {
+      "amount": "214.00",
+      "currency": "USDC",
+      "decimals": 2
+    }
+  },
+  "capture": "if_authorized",
+  "payment_session": {
+    "scheme": "x402",
+    "session_id": "x402-session-002",
+    "resource": "https://merchant.example/x402/sessions/x402-session-002"
+  },
+  "fulfillment_intent": {
+    "mode": "shipment",
+    "destination_ref": "shipto-1002"
+  }
+}

@@ -60,11 +60,10 @@
     "./examples/*": "./examples/*"
   },
   "scripts": {
-    "validate:schema": "node scripts/ajv-run.mjs",
     "validate:schemas": "node scripts/validate-all.mjs",
     "validate:examples": "node scripts/validate-examples.mjs",
-    "validate:all": "npm run validate:schemas && npm run validate:examples",
-    "validate": "npm run validate:all",
+    "validate:checksums": "node scripts/validate-checksums.mjs",
+    "validate": "npm run validate:schemas && npm run validate:examples && npm run validate:checksums",
     "generate:checksums": "node scripts/generate-checksums.mjs"
   },
   "devDependencies": {

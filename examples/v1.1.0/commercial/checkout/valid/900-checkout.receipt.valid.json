@@ -48,7 +48,7 @@
     }
   },
   "fulfillment_ref": {
-    "type": "receipt",
+    "type": "fulfillment",
     "id": "fulfill-001",
     "uri": "https://merchant.example/fulfillment/fulfill-001"
   },

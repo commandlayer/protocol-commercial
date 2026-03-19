@@ -1,23 +1,32 @@
 # GOVERNANCE — Protocol-Commercial
 
+This document defines repository-wide governance policy for the Protocol-Commercial release surface. It applies across all versions retained in the repo, with current-line decisions anchored to `v1.1.0`.
+
 **Founding steward:** commandlayer.eth
 
-## Steward responsibility
+## Steward responsibilities
 
-The steward maintains the normative commercial protocol surface until broader governance is established.
+The steward is responsible for:
 
-Steward duties include:
+- preserving release immutability
+- approving new version lines and new verbs
+- preventing schema, example, manifest, checksum, and documentation drift
+- coordinating commandlayer.org mirrors and Agent Card bindings with the published flat current-line paths
 
-- preserving version immutability
-- approving new release lines
-- preventing schema, example, manifest, and checksum drift
-- coordinating with Protocol-Commons, Agent Cards, and commandlayer.org mirrors
+## Current-line governance rules
 
-## Decision rules
+For `v1.1.0` specifically:
+
+- flat schema paths are canonical
+- public docs must teach the flat current-line paths
+- actor and x402 grammar are governed release semantics, not per-file preferences
+- checksum scope and content-addressing metadata are release authority inputs
+
+## Decision table
 
 | Change type | Requirement |
 | --- | --- |
-| Current-line pre-release edits | Steward approval |
-| New verb | Steward approval with docs and examples |
-| New version line | Steward approval with release metadata refresh |
-| In-place published mutation | Prohibited |
+| Current-line clarification before publication | Steward approval |
+| New verb | Steward approval plus schemas, examples, docs, checksums, and manifest updates |
+| New version line | Steward approval plus full release metadata refresh |
+| Silent mutation of a published line | Prohibited |

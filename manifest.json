@@ -1,5 +1,5 @@
 {
-  "$schema": "https://commandlayer.org/schemas/manifest/v1.json",
+  "$schema": "https://commandlayer.org/schemas/manifest/manifest.schema.json",
   "name": "@commandlayer/commercial",
   "class": "commercial",
   "version": "1.1.0",
@@ -12,7 +12,28 @@
   "examples_root": "examples/v1.1.0",
   "current_index": "schemas/v1.1.0/index.json",
   "checksums_file": "checksums.txt",
+  "checksum_scope": [
+    "manifest.json",
+    "package.json",
+    "README.md",
+    "SPEC.md",
+    "GOVERNANCE.md",
+    "POLICY.md",
+    "COMPLIANCE.md",
+    "SECURITY.md",
+    "SECURITY_PROVENANCE.md",
+    "ONBOARDING.md",
+    "RESOLUTION.md",
+    "schemas/v1.1.0",
+    "examples/v1.1.0"
+  ],
   "release_date": "2026-03-19T00:00:00Z",
+  "content_addressing": {
+    "schemas_cid": "bafkreie3jo3l6o7crzke5lap75o7dgrw65w6xwuhtwky2y4ynuzeunernm",
+    "examples_cid": "bafkreihb5p7awsnjgqbt6qolrajpruh34xjtd64nuymorjruamgozvl3i4",
+    "release_bundle_cid": "bafkreic6bsqt5wx3punqp3p5r2gkpcml76myua7bqgbskplqe5235ab3fi",
+    "public_gateway_base": "https://commandlayer.org/ipfs/"
+  },
   "supersedes": [
     "1.0.0"
   ],
@@ -31,7 +52,9 @@
   "commercial_model": {
     "transport": "x402-first",
     "receipts": "canonical commercial receipt artifacts",
-    "runtime_scope": "execution, metering, and provider policy remain out of scope"
+    "runtime_scope": "execution, metering, and provider policy remain out of scope",
+    "actor_grammar": "payer funds value, payee receives authorization settlement direction, merchant defines the contract, provider executes for the merchant, carrier emits shipment state, verifier asserts verification truth.",
+    "x402_grammar": "payment_requirement expresses pre-payment terms, payment_session expresses live settlement state, and payment_proof expresses final captured settlement evidence."
   },
   "aligns_with": {
     "protocol_commons": "1.1.0",

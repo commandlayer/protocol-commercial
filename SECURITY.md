@@ -1,15 +1,19 @@
 # SECURITY — Protocol-Commercial
 
-Protocol-Commercial provides schema-level security properties, not transaction or fraud guarantees.
+This document defines repository-wide security expectations for Protocol-Commercial releases. The operative release line is `v1.1.0`.
 
-## What this repository is responsible for
+Protocol-Commercial provides schema-level integrity and semantic security properties, not fraud guarantees or payment finality guarantees.
+
+## Repository responsibilities
 
 - tamper-evident versioned artifacts
 - deterministic schema identity
 - strict validation of canonical request and receipt shapes
+- drift detection across duplicated flat definitions
 - explicit commercial references for later audit
+- content-addressing and checksum publication for the release surface
 
-## What this repository does not guarantee
+## Repository non-guarantees
 
 - payment success
 - fraud prevention
@@ -19,16 +23,16 @@ Protocol-Commercial provides schema-level security properties, not transaction o
 
 ## Maintainer security expectations
 
-- treat schema and checksum drift as a security issue
+- treat schema, example, checksum, or manifest drift as a security issue
 - treat mirror path mismatches as a trust issue
-- do not encode runtime-only debugging exhaust as canonical receipt truth
-- keep x402 references typed and minimal
+- keep actor semantics and x402 grammar governed across the set
+- do not encode runtime debugging exhaust as canonical receipt truth
 
 ## Verification commands
 
 ```bash
 npm run validate
-sha256sum -c checksums.txt
+npm run validate:checksums
 ```
 
 Security contact: `security@commandlayer.org`

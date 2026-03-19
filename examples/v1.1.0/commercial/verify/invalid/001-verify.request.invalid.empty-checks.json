@@ -8,6 +8,10 @@
     "role": "provider",
     "id": "audit.example"
   },
+  "verifier": {
+    "role": "verifier",
+    "id": "ledger.example"
+  },
   "target": {
     "target_type": "settlement",
     "target_ref": {
@@ -16,5 +20,5 @@
     }
   },
   "checks": [],
-  "strict": "yes"
+  "strict": true
 }

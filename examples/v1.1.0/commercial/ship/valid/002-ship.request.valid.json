@@ -2,8 +2,8 @@
   "protocol": "commercial",
   "version": "1.1.0",
   "verb": "ship",
-  "request_id": "shipreq-001",
-  "requested_at": "2026-03-19T10:15:00Z",
+  "request_id": "shipreq-002",
+  "requested_at": "2026-03-19T12:15:00Z",
   "merchant": {
     "role": "merchant",
     "id": "merchant.example",
@@ -14,32 +14,28 @@
     "id": "warehouse.example",
     "kind": "service"
   },
-  "order_ref": {
-    "type": "order",
-    "id": "ord-3001"
-  },
   "purchase_ref": {
     "type": "purchase",
-    "id": "purchase-3001"
+    "id": "purchase-3002"
   },
   "settlement_ref": {
     "type": "settlement",
-    "id": "settle-3001"
+    "id": "settle-3002"
   },
   "fulfillment_ref": {
     "type": "fulfillment",
-    "id": "fulfillment-3001"
+    "id": "fulfillment-3002"
   },
   "items": [
     {
-      "sku": "device-001",
-      "quantity": 1
+      "sku": "bundle-002",
+      "quantity": 2
     }
   ],
   "destination": {
-    "country_code": "US",
-    "postal_code": "10001",
-    "locality": "New York"
+    "country_code": "CA",
+    "postal_code": "M5V1E3",
+    "locality": "Toronto"
   },
-  "service_level": "express"
+  "service_level": "standard"
 }

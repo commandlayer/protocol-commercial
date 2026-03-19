@@ -1,0 +1,31 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "verify",
+  "request_id": "verifyreq-002",
+  "requested_at": "2026-03-19T18:50:00Z",
+  "requester": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "verifier": {
+    "role": "verifier",
+    "id": "fulfillment-audit.example",
+    "kind": "service"
+  },
+  "target": {
+    "target_type": "shipment",
+    "target_ref": {
+      "type": "shipment",
+      "id": "shipment-002"
+    },
+    "authority": "https://fulfillment-audit.example/verify"
+  },
+  "checks": [
+    "existence",
+    "fulfillment",
+    "counterparty"
+  ],
+  "strict": false
+}

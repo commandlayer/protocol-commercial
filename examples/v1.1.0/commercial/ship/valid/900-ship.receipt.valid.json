@@ -25,8 +25,12 @@
     "type": "purchase",
     "id": "purchase-3001"
   },
+  "settlement_ref": {
+    "type": "settlement",
+    "id": "settle-3001"
+  },
   "fulfillment_ref": {
-    "type": "shipment",
+    "type": "fulfillment",
     "id": "fulfillment-3001"
   },
   "tracking_number": "1Z999AA10123456784",

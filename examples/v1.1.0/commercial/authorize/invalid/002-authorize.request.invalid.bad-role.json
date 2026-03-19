@@ -1,0 +1,22 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "authorize",
+  "request_id": "bad-auth-002",
+  "requested_at": "2026-03-19T10:00:00Z",
+  "payer": {
+    "role": "merchant",
+    "id": "buyer-001"
+  },
+  "payee": {
+    "role": "payee",
+    "id": "merchant-settlement"
+  },
+  "amount": {
+    "amount": "49.99",
+    "currency": "USDC"
+  },
+  "authorization_scope": {
+    "capture_mode": "manual"
+  }
+}

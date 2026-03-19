@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-import fs from "fs/promises";
-import path from "path";
-import Ajv2020 from "ajv/dist/2020.js";
-import addFormats from "ajv-formats";
-import ajvErrors from "ajv-errors";
+import fs from 'fs/promises';
+import path from 'path';
+import Ajv2020 from 'ajv/dist/2020.js';
+import addFormats from 'ajv-formats';
+import ajvErrors from 'ajv-errors';
 
 const ROOT_DIR = process.cwd();
 const CURRENT_VERSION = '1.1.0';
@@ -30,8 +30,8 @@ async function validateVerb(verb) {
     const files = (await fs.readdir(dir)).filter(file => file.endsWith('.json')).sort();
     const requestFiles = files.filter(file => file.includes('request'));
     const receiptFiles = files.filter(file => file.includes('receipt'));
-    if (requestFiles.length === 0 || receiptFiles.length === 0) {
-      throw new Error(`${verb} ${group} examples must include both request and receipt cases`);
+    if (requestFiles.length < 2 || receiptFiles.length < 2) {
+      throw new Error(`${verb} ${group} examples must include at least two request and two receipt cases`);
     }
     for (const file of files) {
       const data = await loadJson(path.join(dir, file));

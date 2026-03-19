@@ -21,8 +21,6 @@
             "payee",
             "merchant",
             "provider",
-            "marketplace",
-            "counterparty",
             "carrier",
             "verifier"
           ]
@@ -71,6 +69,7 @@
             "checkout",
             "purchase",
             "shipment",
+            "fulfillment",
             "payment",
             "settlement",
             "receipt",
@@ -147,7 +146,22 @@
       "$ref": "#/$defs/actor"
     },
     "verifier": {
-      "$ref": "#/$defs/actor"
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "verifier"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
     },
     "target": {
       "$ref": "#/$defs/target"
@@ -178,6 +192,7 @@
     "request_id",
     "requested_at",
     "requester",
+    "verifier",
     "target",
     "checks",
     "strict"

@@ -1,109 +1,129 @@
 # SPEC — Protocol-Commercial v1.1.0
 
-This document is normative.
+This document is normative for the current line, `v1.1.0`.
 
 ## 1. Scope
 
 Protocol-Commercial v1.1.0 defines the canonical commercial contracts that extend Protocol-Commons v1.1.0.
 
-The repository governs:
+This repository governs:
 
-- request schema identities
-- receipt schema identities
+- request and receipt schema identities
 - field-level commercial semantics
-- deterministic versioning rules
-- x402-first commercial binding expectations
-- validation and integrity requirements
+- actor grammar
+- x402 grammar
+- validation and drift-detection rules
+- release metadata, checksums, and content-addressing truth
 
-The repository does not govern runtime transport implementation, provider policy, or legal adjudication.
+This repository does not govern runtime transport implementation, fraud policy, legal adjudication, or provider-specific business logic.
 
-## 2. Current artifact set
+## 2. Normative artifact set
 
-Current normative line:
+The current release surface is:
 
 - `schemas/v1.1.0/`
 - `examples/v1.1.0/`
 - `manifest.json`
-- `checksums.txt`
+- `package.json`
+- release-defining root documentation included in the checksum scope
 
-Legacy published line retained but superseded:
+The retained superseded line is:
 
 - `schemas/v1.0.0/`
 - `examples/v1.0.0/`
 
-## 3. Version and identity rules
+## 3. Identity and version rules
 
-1. Every v1.1.0 schema MUST use a stable `$id` under `https://commandlayer.org/schemas/v1.1.0/...`.
-2. A schema file path and its `$id` MUST agree exactly.
-3. A v1.1.0 schema MUST NOT be mutated in place after release publication.
-4. Breaking or meaning-changing edits require a new version directory.
-5. `manifest.json` MUST identify the current release line and any retained legacy lines.
-6. `checksums.txt` MUST cover the machine-verifiable release artifact set.
+1. Every current-line schema MUST use a stable `$id` under `https://commandlayer.org/schemas/v1.1.0/...`.
+2. Schema file paths and `$id` values MUST match exactly.
+3. Current-line schemas MUST remain flat and self-contained.
+4. Meaning-changing edits require a new version line.
+5. `manifest.json` MUST identify the current line, retained legacy lines, checksum scope, and release CID values.
+6. `checksums.txt` MUST cover the declared checksum scope exactly.
 
-## 4. Flat schema rule
+## 4. Flat-schema drift rule
 
-Protocol-Commercial v1.1.0 uses flat, self-contained per-verb schemas.
+Protocol-Commercial v1.1.0 duplicates shared structures intentionally.
 
-- No v1.1.0 `_shared/` tree is normative.
-- Request schemas MUST be inspectable without cross-file dependency chasing.
-- Receipt schemas MUST be inspectable without cross-file dependency chasing.
-- Limited internal `$defs` within a single schema file are allowed.
+That duplication is only conformant if validation prevents silent drift in the current line. At minimum, validation MUST detect drift in:
 
-## 5. Commercial contract requirements
+- `actor.role`
+- `actor.kind`
+- `reference.type`
+- `money.amount`
+- `money.currency`
+- duplicated settlement and x402 proof structures that are expected to remain identical
 
-All v1.1.0 requests and receipts MUST include:
+## 5. Actor grammar
 
-- `protocol = commercial`
-- `version = 1.1.0`
-- canonical `verb`
-- a stable request or receipt identifier
-- an RFC 3339 timestamp appropriate to the artifact type
+The governed current-line actor roles are:
 
-Commercial schemas SHOULD add stricter structure than Commons wherever value movement is involved, including:
+- `payer`
+- `payee`
+- `merchant`
+- `provider`
+- `carrier`
+- `verifier`
 
-- explicit counterparties
-- typed monetary amounts
-- typed references to order, invoice, authorization, payment, settlement, or shipment artifacts
-- typed settlement status
-- typed verification outcomes
+Property-level role semantics are normative. For example:
 
-## 6. x402 binding expectations
+- a `payer` field MUST contain an actor with `role = payer`
+- a `merchant` field MUST contain an actor with `role = merchant`
+- a `carrier` field MUST contain an actor with `role = carrier`
+- a `verifier` field MUST contain an actor with `role = verifier`
 
-Protocol-Commercial v1.1.0 is x402-first.
+## 6. x402 grammar
+
+Protocol-Commercial v1.1.0 is x402-first and uses three governed payment stages:
+
+1. `payment_requirement`: pre-payment terms
+2. `payment_session`: live payment-session state
+3. `payment_proof`: final settlement evidence
 
 Normative implications:
 
-1. Commercial invocations SHOULD use x402-aware execution infrastructure.
-2. Payment requirements, sessions, authorizations, and proofs SHOULD be referenced explicitly when a verb depends on them.
-3. The receipt MUST capture the canonical commercial outcome, not transport exhaust.
-4. Runtime tracing or provider-specific debugging metadata MUST NOT be treated as normative receipt truth.
+- requests SHOULD reference the payment stage appropriate to their contract position
+- receipts MUST capture the final commercial outcome rather than provider trace exhaust
+- captured payment outcomes MUST carry final x402 evidence when the verb settles value directly
 
-## 7. Receipt philosophy
+## 7. Receipt outcome model
 
-Receipts are canonical commercial artifacts.
+Receipts are canonical commercial truth artifacts.
 
-Receipts MUST represent portable truth about:
+- `checkout.receipt` and `purchase.receipt` use `captured`, `failed`, and `pending`
+- `payment_proof` is required when those receipts report `status = captured`
+- non-final or failed outcomes require an explicit `reason`
+- `verify.receipt` MUST always identify the `verifier`
 
-- authorization outcome
-- settlement outcome
-- fulfillment outcome
-- verification outcome
-- references needed for later audit or linkage
+## 8. Commercial verb expectations
 
-Receipts MUST NOT become generic runtime trace dumps.
+### 8.1 `authorize`
 
-## 8. Agent Cards relationship
+`authorize` reserves commercial payment authority without implying final settlement.
 
-Agent Cards v1.1.0 bind identity and discovery to these schema artifacts.
+### 8.2 `checkout`
 
-For commercial cards, request and receipt schema URIs SHOULD point directly at the stable mirror paths published by this repository.
+`checkout` binds order state, itemization, and capture intent to a live x402 session.
+
+### 8.3 `purchase`
+
+`purchase` is a first-class one-step commercial contract. It MUST make the bought items, final amount, and x402 payment context explicit, and it MUST carry final settlement evidence when captured.
+
+### 8.4 `ship`
+
+`ship` is a commercially grounded fulfillment verb. It MUST link fulfillment work to the upstream purchase and settlement context, and stronger fulfillment states MUST carry stronger evidence.
+
+### 8.5 `verify`
+
+`verify` asserts independent verification truth over a targeted commercial artifact and MUST identify the verifying authority.
 
 ## 9. Conformance
 
 A conformant release MUST satisfy all of the following:
 
-- every declared verb has a request schema and a receipt schema
-- every declared verb has valid and invalid examples for both request and receipt artifacts
+- every declared verb has request and receipt schemas
+- every declared verb has multiple valid and invalid request and receipt examples
+- invalid examples each teach a distinct failure mode
 - `npm run validate` passes
-- `sha256sum -c checksums.txt` passes
-- repository metadata does not drift from the published current line
+- checksum verification passes
+- manifest metadata matches the current release line and checksum scope

@@ -2,21 +2,15 @@
   "protocol": "commercial",
   "version": "1.1.0",
   "verb": "ship",
-  "request_id": "shipreq-001",
+  "request_id": "bad-shipreq-001",
   "requested_at": "2026-03-19T10:15:00Z",
   "merchant": {
     "role": "merchant",
-    "id": "merchant.example",
-    "kind": "organization"
+    "id": "merchant.example"
   },
   "provider": {
     "role": "provider",
-    "id": "warehouse.example",
-    "kind": "service"
-  },
-  "order_ref": {
-    "type": "order",
-    "id": "ord-3001"
+    "id": "warehouse.example"
   },
   "purchase_ref": {
     "type": "purchase",
@@ -27,7 +21,7 @@
     "id": "settle-3001"
   },
   "fulfillment_ref": {
-    "type": "fulfillment",
+    "type": "receipt",
     "id": "fulfillment-3001"
   },
   "items": [
@@ -37,9 +31,7 @@
     }
   ],
   "destination": {
-    "country_code": "US",
-    "postal_code": "10001",
-    "locality": "New York"
+    "country_code": "US"
   },
   "service_level": "express"
 }

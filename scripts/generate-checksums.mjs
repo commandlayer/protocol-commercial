@@ -6,8 +6,18 @@ import crypto from "crypto";
 const ROOT_DIR = process.cwd();
 const OUTPUT_PATH = path.join(ROOT_DIR, "checksums.txt");
 const TARGETS = [
+  "checksums.txt",
   "manifest.json",
-  "schemas/v1.1.0/index.json",
+  "package.json",
+  "README.md",
+  "SPEC.md",
+  "GOVERNANCE.md",
+  "POLICY.md",
+  "COMPLIANCE.md",
+  "SECURITY.md",
+  "SECURITY_PROVENANCE.md",
+  "ONBOARDING.md",
+  "RESOLUTION.md",
   "schemas/v1.1.0",
   "examples/v1.1.0"
 ];
@@ -21,7 +31,7 @@ async function walk(targetPath) {
   for (const entry of entries) {
     const fullPath = path.join(absolute, entry.name);
     if (entry.isDirectory()) files.push(...(await walk(path.relative(ROOT_DIR, fullPath))));
-    else if (entry.isFile() && entry.name.endsWith(".json")) files.push(fullPath);
+    else if (entry.isFile() && /\.(json|md)$/.test(entry.name)) files.push(fullPath);
   }
   return files;
 }
@@ -39,6 +49,7 @@ async function main() {
   for (const target of TARGETS) {
     for (const file of await walk(target)) collected.add(file);
   }
+  collected.delete(path.join(ROOT_DIR, 'checksums.txt'));
   const rows = [];
   for (const file of [...collected].sort()) rows.push(await hashFile(file));
   await fs.writeFile(OUTPUT_PATH, rows.map(({ hash, rel }) => `${hash}  ${rel}`).join("\n") + "\n");

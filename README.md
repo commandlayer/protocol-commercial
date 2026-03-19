@@ -1,167 +1,135 @@
 # Protocol-Commercial
 
-Protocol-Commercial v1.1.0 is the normative commercial schema layer for CommandLayer.
+Protocol-Commercial v1.1.0 is the canonical commercial schema line for CommandLayer.
 
-It defines the canonical commercial overlays that sit on top of Protocol-Commons v1.1.0. Commons defines base semantic actions. Commercial defines the monetized, settlement-aware request and receipt contracts that agents and runtimes use when value moves.
+It defines the payment-aware request and receipt contracts that sit on top of Protocol-Commons v1.1.0. This repository is release material, not a design draft.
 
-Commercial is intentionally semantics-only:
+## Document scope
 
-- no runtime code
-- no provider-specific business policy
-- no pricing engine
-- no routing logic
-- no transport implementation beyond the normative x402 execution assumption
+This README describes the current Protocol-Commercial line, `v1.1.0`, and the repository-wide release surface that publishes it.
 
-## Release status
+## Current line
 
 - Current line: `v1.1.0`
-- Legacy line retained: `v1.0.0` under `schemas/v1.0.0/` and `examples/v1.0.0/`
+- Retained legacy line: `v1.0.0`
 - Current package entrypoint: `schemas/v1.1.0/index.json`
+- Canonical public schema root: `https://commandlayer.org/schemas/v1.1.0/`
 
-## Relationship to the stack
+## Stack position
 
 | Layer | Responsibility |
 | --- | --- |
 | Protocol-Commons v1.1.0 | Base semantic action contracts |
-| Protocol-Commercial v1.1.0 | Commercial overlays for payment, settlement, fulfillment, and verification |
-| Agent Cards v1.1.0 | Identity and discovery bindings to request/receipt schemas |
+| Protocol-Commercial v1.1.0 | Commercial payment, settlement, fulfillment, and verification overlays |
+| Agent Cards v1.1.0 | Identity and discovery bindings to the flat commercial schema URIs |
 | Runtime | x402 transport, execution, metering, policy, and provider integration |
 
-## Commercial execution model
-
-Protocol-Commercial is x402-first.
-
-That means the normative commercial assumption is that commercial execution is gated and proven through x402-compatible payment requirements, sessions, authorizations, and proofs. The schemas in this repository do not define a transport implementation, but they do make the commercial contract explicit enough for an x402-aware runtime to execute deterministically.
-
-## Verb set
+## Canonical verb set
 
 | Verb | Purpose |
 | --- | --- |
-| `authorize` | Reserve payment authority before capture or settlement |
-| `checkout` | Finalize an order and request commercial capture |
-| `purchase` | Complete a one-step paid commercial action |
-| `ship` | Attach fulfillment state to a commercial order or purchase |
-| `verify` | Verify a commercial receipt, settlement, payment, or shipment target |
+| `authorize` | Reserve payment authority before settlement |
+| `checkout` | Bind priced order state and request commercial capture |
+| `purchase` | Execute a one-step commercial contract with direct settlement evidence |
+| `ship` | Bind settled commercial fulfillment work to shipment progress |
+| `verify` | Verify commercial payment, settlement, shipment, or receipt truth |
+
+## Actor grammar
+
+Protocol-Commercial v1.1.0 uses one governed actor vocabulary across the current line:
+
+- `payer`: the party funding payment value
+- `payee`: the settlement destination for an authorization outcome
+- `merchant`: the seller or service principal defining the commercial contract
+- `provider`: the execution or fulfillment service acting for the merchant
+- `carrier`: the shipment carrier emitting fulfillment transport events
+- `verifier`: the authority asserting verification outcomes
+
+Schemas tighten actor-bearing properties so a `payer` field must carry `role = payer`, a `merchant` field must carry `role = merchant`, and so on.
+
+## x402 grammar
+
+Protocol-Commercial v1.1.0 uses one payment evidence model across the current line:
+
+- `payment_requirement`: pre-payment terms used before settlement
+- `payment_session`: live x402 session state while settlement is open
+- `payment_proof`: final x402 proof used once settlement is captured
+
+The model is parallel across verbs:
+
+- `authorize.request` advertises `payment_requirement`
+- `checkout.request` advertises `payment_session`
+- `checkout.receipt` and `purchase.receipt` require `payment_proof` when `status = captured`
+- `ship` links to upstream `settlement_ref` rather than redefining payment semantics
+
+## Flat architecture
+
+Protocol-Commercial v1.1.0 intentionally uses flat, self-contained schemas.
+
+```text
+schemas/v1.1.0/commercial/<verb>/<verb>.request.schema.json
+schemas/v1.1.0/commercial/<verb>/<verb>.receipt.schema.json
+```
+
+There is no current-line `_shared/` tree. Shared semantics are duplicated intentionally and validated for drift.
 
 ## Repository layout
 
 ```text
 protocol-commercial/
 ├── schemas/
-│   ├── v1.0.0/                     # legacy published line
-│   └── v1.1.0/
-│       ├── index.json
-│       └── commercial/
-│           ├── authorize/
-│           │   ├── authorize.request.schema.json
-│           │   └── authorize.receipt.schema.json
-│           ├── checkout/
-│           │   ├── checkout.request.schema.json
-│           │   └── checkout.receipt.schema.json
-│           ├── purchase/
-│           │   ├── purchase.request.schema.json
-│           │   └── purchase.receipt.schema.json
-│           ├── ship/
-│           │   ├── ship.request.schema.json
-│           │   └── ship.receipt.schema.json
-│           └── verify/
-│               ├── verify.request.schema.json
-│               └── verify.receipt.schema.json
+│   ├── manifest/                    # manifest schema authority
+│   ├── v1.0.0/                      # retained legacy line
+│   └── v1.1.0/                      # current canonical line
 ├── examples/
-│   ├── v1.0.0/                     # legacy published line
+│   ├── v1.0.0/
 │   └── v1.1.0/commercial/<verb>/{valid,invalid}/
 ├── manifest.json
 ├── checksums.txt
 └── scripts/
 ```
 
-Protocol-Commercial v1.1.0 intentionally does **not** use a new `_shared/` tree. Each v1.1.0 request and receipt schema is self-contained, flat, and directly mirrorable on commandlayer.org.
+## Integrity scope
 
-## Scope boundaries
+The release checksum scope is intentionally broader than machine schemas alone. `checksums.txt` covers:
 
-This repository defines:
+- `manifest.json`
+- `package.json`
+- current-line schemas and examples
+- release-defining root documentation such as `README.md`, `SPEC.md`, policy docs, and provenance docs
 
-- canonical request and receipt schema identities
-- explicit payment, authorization, settlement, fulfillment, and verification semantics
-- x402-facing references required for commercial execution
-- deterministic release metadata and checksums
+That scope makes public release truth tamper-evident across both machine artifacts and authoritative release text.
 
-This repository does not define:
-
-- merchant onboarding policy
-- fraud decisions
-- custody or treasury operations
-- legal finality
-- provider SLAs
-- runtime traces or debugging exhaust as normative truth
-
-## Example schema path
-
-- Request: `https://commandlayer.org/schemas/v1.1.0/commercial/checkout/checkout.request.schema.json`
-- Receipt: `https://commandlayer.org/schemas/v1.1.0/commercial/checkout/checkout.receipt.schema.json`
-
-## Example request artifact
-
-```json
-{
-  "protocol": "commercial",
-  "version": "1.1.0",
-  "verb": "checkout",
-  "request_id": "checkoutreq-001",
-  "requested_at": "2026-03-19T10:05:00Z",
-  "payer": { "role": "payer", "id": "buyer-001", "kind": "account" },
-  "merchant": { "role": "merchant", "id": "merchant.example", "kind": "organization" },
-  "order_ref": { "type": "order", "id": "ord-1001" },
-  "items": [
-    {
-      "sku": "sku-pro-plan",
-      "description": "Protocol Pro Plan",
-      "quantity": 1,
-      "unit_price": { "amount": "49.99", "currency": "USDC", "decimals": 2 }
-    }
-  ],
-  "amount_breakdown": {
-    "subtotal": { "amount": "49.99", "currency": "USDC", "decimals": 2 },
-    "total": { "amount": "49.99", "currency": "USDC", "decimals": 2 }
-  },
-  "capture": "immediate",
-  "payment_session": {
-    "scheme": "x402",
-    "session_id": "x402-session-001",
-    "resource": "https://merchant.example/x402/sessions/x402-session-001"
-  },
-  "fulfillment_intent": { "mode": "digital", "destination_ref": "acct-buyer-001" }
-}
-```
-
-## Validation
+## Validation flow
 
 ```bash
 npm install
 npm run validate
 npm run generate:checksums
-sha256sum -c checksums.txt
+npm run validate:checksums
 ```
 
-`npm run validate` compiles the v1.1.0 schema line, validates all v1.1.0 examples, and checks release metadata for version drift.
+Validation includes:
 
-## Agent Cards alignment
+- manifest validation against `schemas/manifest/manifest.schema.json`
+- current-line schema compilation
+- drift checks over duplicated flat `$defs`
+- valid and invalid example validation
+- checksum verification for the published release surface
 
-Agent Cards v1.1.0 can bind directly to these stable mirror paths without shared-fragment discovery:
+## Canonical schema paths
 
-- `/schemas/v1.1.0/commercial/authorize/authorize.request.schema.json`
-- `/schemas/v1.1.0/commercial/authorize/authorize.receipt.schema.json`
-- and the equivalent pair for each of the five verbs
+- `https://commandlayer.org/schemas/v1.1.0/commercial/authorize/authorize.request.schema.json`
+- `https://commandlayer.org/schemas/v1.1.0/commercial/authorize/authorize.receipt.schema.json`
+- `https://commandlayer.org/schemas/v1.1.0/commercial/checkout/checkout.request.schema.json`
+- `https://commandlayer.org/schemas/v1.1.0/commercial/checkout/checkout.receipt.schema.json`
+- `https://commandlayer.org/schemas/v1.1.0/commercial/purchase/purchase.request.schema.json`
+- `https://commandlayer.org/schemas/v1.1.0/commercial/purchase/purchase.receipt.schema.json`
+- `https://commandlayer.org/schemas/v1.1.0/commercial/ship/ship.request.schema.json`
+- `https://commandlayer.org/schemas/v1.1.0/commercial/ship/ship.receipt.schema.json`
+- `https://commandlayer.org/schemas/v1.1.0/commercial/verify/verify.request.schema.json`
+- `https://commandlayer.org/schemas/v1.1.0/commercial/verify/verify.receipt.schema.json`
 
-That keeps ENS bindings, commandlayer.org mirrors, and card metadata deterministic.
+## Public alignment rule
 
-## Integrity
-
-The normative release surface for v1.1.0 is represented by:
-
-- `schemas/v1.1.0/`
-- `examples/v1.1.0/`
-- `manifest.json`
-- `checksums.txt`
-
-After any release mutation, new checksums and new pinned content identifiers are required.
+Public documentation, Agent Card bindings, and commandlayer.org mirrors must use the flat paths above. Legacy nested or shared-fragment teaching is non-canonical for the current line.

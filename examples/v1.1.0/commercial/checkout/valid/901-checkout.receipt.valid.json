@@ -1,0 +1,46 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "checkout",
+  "receipt_id": "checkoutrcpt-002",
+  "issued_at": "2026-03-19T11:05:04Z",
+  "request_id": "checkoutreq-002",
+  "status": "pending",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-002",
+    "kind": "wallet"
+  },
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "order_ref": {
+    "type": "order",
+    "id": "ord-1002"
+  },
+  "settlement": {
+    "status": "pending",
+    "method": "x402",
+    "settlement_ref": "settle-002",
+    "amount": {
+      "amount": "214.00",
+      "currency": "USDC",
+      "decimals": 2
+    }
+  },
+  "amount_breakdown": {
+    "subtotal": {
+      "amount": "214.00",
+      "currency": "USDC",
+      "decimals": 2
+    },
+    "total": {
+      "amount": "214.00",
+      "currency": "USDC",
+      "decimals": 2
+    }
+  },
+  "reason": "Payment session remains open and has not settled yet."
+}

@@ -5,7 +5,7 @@
   "receipt_id": "bad-purchasercpt-001",
   "issued_at": "2026-03-19T10:10:02Z",
   "request_id": "purchasereq-001",
-  "status": "rejected",
+  "status": "failed",
   "purchase_id": "purchase-001",
   "payer": {
     "role": "payer",

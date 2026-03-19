@@ -1,0 +1,288 @@
+{
+  "$id": "https://commandlayer.org/schemas/manifest/manifest.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "protocol-commercial manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "class",
+    "version",
+    "status",
+    "description",
+    "repository",
+    "homepage",
+    "license",
+    "schemas_root",
+    "examples_root",
+    "current_index",
+    "checksums_file",
+    "checksum_scope",
+    "release_date",
+    "content_addressing",
+    "supersedes",
+    "legacy_versions",
+    "toolchain",
+    "commercial_model",
+    "aligns_with",
+    "verbs"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "const": "https://commandlayer.org/schemas/manifest/manifest.schema.json"
+    },
+    "name": {
+      "type": "string",
+      "const": "@commandlayer/commercial"
+    },
+    "class": {
+      "type": "string",
+      "const": "commercial"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "current"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512
+    },
+    "repository": {
+      "type": "string",
+      "format": "uri",
+      "maxLength": 512
+    },
+    "homepage": {
+      "type": "string",
+      "format": "uri",
+      "maxLength": 512
+    },
+    "license": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "schemas_root": {
+      "type": "string",
+      "pattern": "^schemas/v[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "examples_root": {
+      "type": "string",
+      "pattern": "^examples/v[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "current_index": {
+      "type": "string",
+      "pattern": "^schemas/v[0-9]+\\.[0-9]+\\.[0-9]+/index\\.json$"
+    },
+    "checksums_file": {
+      "type": "string",
+      "const": "checksums.txt"
+    },
+    "checksum_scope": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 256
+      },
+      "uniqueItems": true
+    },
+    "release_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "content_addressing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemas_cid",
+        "examples_cid",
+        "release_bundle_cid",
+        "public_gateway_base"
+      ],
+      "properties": {
+        "schemas_cid": {
+          "type": "string",
+          "pattern": "^b[a-z2-7]{20,}$"
+        },
+        "examples_cid": {
+          "type": "string",
+          "pattern": "^b[a-z2-7]{20,}$"
+        },
+        "release_bundle_cid": {
+          "type": "string",
+          "pattern": "^b[a-z2-7]{20,}$"
+        },
+        "public_gateway_base": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
+    },
+    "supersedes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+      },
+      "uniqueItems": true
+    },
+    "legacy_versions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "version",
+          "status",
+          "schemas_root",
+          "examples_root"
+        ],
+        "properties": {
+          "version": {
+            "type": "string",
+            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "published-legacy"
+            ]
+          },
+          "schemas_root": {
+            "type": "string",
+            "pattern": "^schemas/v[0-9]+\\.[0-9]+\\.[0-9]+$"
+          },
+          "examples_root": {
+            "type": "string",
+            "pattern": "^examples/v[0-9]+\\.[0-9]+\\.[0-9]+$"
+          }
+        }
+      }
+    },
+    "toolchain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "node",
+        "ajv"
+      ],
+      "properties": {
+        "node": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "ajv": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        }
+      }
+    },
+    "commercial_model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "transport",
+        "receipts",
+        "runtime_scope",
+        "actor_grammar",
+        "x402_grammar"
+      ],
+      "properties": {
+        "transport": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "receipts": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "runtime_scope": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "actor_grammar": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "x402_grammar": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        }
+      }
+    },
+    "aligns_with": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_commons",
+        "agent_cards"
+      ],
+      "properties": {
+        "protocol_commons": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "agent_cards": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        }
+      }
+    },
+    "verbs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "verb",
+          "request_schema",
+          "receipt_schema",
+          "examples"
+        ],
+        "properties": {
+          "verb": {
+            "type": "string",
+            "enum": [
+              "authorize",
+              "checkout",
+              "purchase",
+              "ship",
+              "verify"
+            ]
+          },
+          "request_schema": {
+            "type": "string",
+            "pattern": "^schemas/v[0-9]+\\.[0-9]+\\.[0-9]+/commercial/.+\\.request\\.schema\\.json$"
+          },
+          "receipt_schema": {
+            "type": "string",
+            "pattern": "^schemas/v[0-9]+\\.[0-9]+\\.[0-9]+/commercial/.+\\.receipt\\.schema\\.json$"
+          },
+          "examples": {
+            "type": "string",
+            "pattern": "^examples/v[0-9]+\\.[0-9]+\\.[0-9]+/commercial/.+$"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "purchase",
+  "receipt_id": "purchasercpt-002",
+  "issued_at": "2026-03-19T12:10:02Z",
+  "request_id": "purchasereq-002",
+  "status": "pending",
+  "purchase_id": "purchase-002",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-002",
+    "kind": "wallet"
+  },
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "provider": {
+    "role": "provider",
+    "id": "runtime.commandlayer",
+    "kind": "service"
+  },
+  "amount": {
+    "amount": "120.00",
+    "currency": "USDC",
+    "decimals": 2
+  },
+  "invoice_ref": {
+    "type": "invoice",
+    "id": "inv-2002"
+  },
+  "settlement": {
+    "status": "pending",
+    "method": "x402",
+    "settlement_ref": "settle-2002",
+    "amount": {
+      "amount": "120.00",
+      "currency": "USDC",
+      "decimals": 2
+    }
+  },
+  "reason": "Session exists but final payment proof has not been emitted."
+}
