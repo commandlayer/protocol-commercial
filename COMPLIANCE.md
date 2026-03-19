@@ -6,8 +6,9 @@ Protocol-Commercial compliance is about typed economic semantics and release int
 
 A compliant release candidate must satisfy all of the following:
 
-- schema `$id` values match the canonical mirror paths
+- schema `$id` values match the canonical current mirror paths exactly
 - current release metadata points at `v1.1.0`
+- `schemas/v1.1.0/index.json` and `manifest.json` agree on verb inventory and artifact paths
 - every current verb has valid and invalid request and receipt examples
 - validation passes in strict mode
 - `sha256sum -c checksums.txt` passes for the checksum-covered machine-artifact set

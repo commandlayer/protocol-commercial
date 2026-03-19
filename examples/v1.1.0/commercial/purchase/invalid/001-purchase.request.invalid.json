@@ -6,11 +6,13 @@
   "requested_at": "2026-03-19T10:10:00Z",
   "payer": {
     "role": "payer",
-    "id": "buyer-001"
+    "id": "buyer-001",
+    "kind": "account"
   },
   "merchant": {
     "role": "merchant",
-    "id": "merchant.example"
+    "id": "merchant.example",
+    "kind": "organization"
   },
   "items": [
     {

@@ -1,39 +1,55 @@
 # Protocol-Commercial
 
-Protocol-Commercial v1.1.0 is the normative commercial schema layer for CommandLayer.
+Protocol-Commercial v1.1.0 is the current CommandLayer commercial schema line.
 
 This README describes the current v1.1.0 release line and its release packaging surface. Repo-wide governance and security policy live in the dedicated meta docs.
 
 It defines the canonical commercial overlays that sit on top of Protocol-Commons v1.1.0. Commons defines base semantic actions. Commercial defines the monetized, settlement-aware request and receipt contracts that agents and runtimes use when value moves.
 
-Commercial is intentionally semantics-only:
+Protocol-Commercial is intentionally limited to protocol truth:
 
 - no runtime code
 - no provider-specific business policy
 - no pricing engine
 - no routing logic
-- no transport implementation beyond the normative x402 execution assumption
+- no transport implementation beyond the normative x402-first execution assumption
 
-## Release status
+## Document scope
 
-- Current line: `v1.1.0`
-- Legacy line retained: `v1.0.0` under `schemas/v1.0.0/` and `examples/v1.0.0/`
-- Current package entrypoint: `schemas/v1.1.0/index.json`
+This README is a repo-wide orientation document for the current release line and its retained legacy line.
+
+## Release truth
+
+- **Current canonical line:** `v1.1.0`
+- **Current canonical schema root:** `https://commandlayer.org/schemas/v1.1.0/`
+- **Current package entrypoint:** `schemas/v1.1.0/index.json`
+- **Historical legacy line:** `v1.0.0`, retained under `schemas/v1.0.0/` and `examples/v1.0.0/`
+
+`v1.1.0` is flat. Its canonical schema URIs are the exact file-mirror paths published under `https://commandlayer.org/schemas/v1.1.0/commercial/<verb>/`.
+
+`v1.0.0` is historical only. Its older nested `requests/` and `receipts/` directories remain published for compatibility and audit, not as current teaching.
 
 ## Relationship to the stack
 
-| Layer | Responsibility |
-| --- | --- |
-| Protocol-Commons v1.1.0 | Base semantic action contracts |
-| Protocol-Commercial v1.1.0 | Commercial overlays for payment, settlement, fulfillment, and verification |
-| Agent Cards v1.1.0 | Identity and discovery bindings to request/receipt schemas |
-| Runtime | x402 transport, execution, metering, policy, and provider integration |
+| Layer | Current line | Responsibility |
+| --- | --- | --- |
+| Protocol-Commons | v1.1.0 | Base semantic action contracts |
+| Protocol-Commercial | v1.1.0 | Commercial overlays for payment, settlement, fulfillment, and verification |
+| Agent Cards | v1.1.0 | Identity and discovery bindings to canonical schema URIs |
+| Runtime | implementation-defined | x402 transport, execution, metering, policy, and provider integration |
+
+The stack story is singular:
+
+- Commons defines the base action semantics.
+- Commercial defines the monetized request and receipt contracts.
+- Agent Cards point directly at the current commercial schema URIs.
+- Runtimes execute those contracts but do not redefine them.
 
 ## Commercial execution model
 
 Protocol-Commercial is x402-first.
 
-That means the normative commercial assumption is that commercial execution is gated and proven through x402-compatible payment requirements, sessions, authorizations, and proofs. The schemas in this repository do not define a transport implementation, but they do make the commercial contract explicit enough for an x402-aware runtime to execute deterministically.
+That means commercial execution is expected to be gated and evidenced through x402-compatible payment requirements, sessions, authorizations, and proofs. This repository does not define transport code, but it does define the canonical request and receipt shapes an x402-aware runtime needs in order to execute and later audit a paid interaction deterministically.
 
 ## Commercial grammar decisions
 
@@ -81,7 +97,7 @@ The verbs use those layers intentionally:
 ```text
 protocol-commercial/
 ├── schemas/
-│   ├── v1.0.0/                     # legacy published line
+│   ├── v1.0.0/                     # published legacy line; historical nested layout
 │   └── v1.1.0/
 │       ├── index.json
 │       └── commercial/
@@ -101,14 +117,14 @@ protocol-commercial/
 │               ├── verify.request.schema.json
 │               └── verify.receipt.schema.json
 ├── examples/
-│   ├── v1.0.0/                     # legacy published line
+│   ├── v1.0.0/                     # published legacy line
 │   └── v1.1.0/commercial/<verb>/{valid,invalid}/
 ├── manifest.json
 ├── checksums.txt
 └── scripts/
 ```
 
-Protocol-Commercial v1.1.0 intentionally does **not** use a new `_shared/` tree. Each v1.1.0 request and receipt schema is self-contained, flat, and directly mirrorable on commandlayer.org.
+Protocol-Commercial v1.1.0 does **not** use a current-line `_shared/` tree. Every v1.1.0 request and receipt schema is self-contained, flat, and mirror-safe.
 
 ## Scope boundaries
 
@@ -128,7 +144,7 @@ This repository does not define:
 - provider SLAs
 - runtime traces or debugging exhaust as normative truth
 
-## Example schema path
+## Example current-line schema pair
 
 - Request: `https://commandlayer.org/schemas/v1.1.0/commercial/checkout/checkout.request.schema.json`
 - Receipt: `https://commandlayer.org/schemas/v1.1.0/commercial/checkout/checkout.receipt.schema.json`
@@ -168,28 +184,27 @@ This repository does not define:
 }
 ```
 
-## Validation
+## Validation and integrity
 
 ```bash
 npm install
 npm run validate
+npm run validate:examples
+npm run validate:integrity
 npm run generate:checksums
 sha256sum -c checksums.txt
 ```
 
-`npm run validate` compiles the v1.1.0 schema line, validates all v1.1.0 examples, and checks release metadata for version drift.
+- `npm run validate` checks current-line metadata, schema identity, layout, and release integrity expectations.
+- `npm run validate:examples` validates every current-line valid and invalid example against the canonical schemas.
+- `npm run validate:integrity` verifies the checksum file scope and hash coverage for the current release artifact set.
+- `checksums.txt` intentionally covers machine-validated release payloads only: `manifest.json`, `schemas/v1.1.0/index.json`, `schemas/v1.1.0/`, and `examples/v1.1.0/`.
 
-## Agent Cards alignment
+## Agent Cards and Commons alignment
 
-Agent Cards v1.1.0 can bind directly to these stable mirror paths without shared-fragment discovery:
+Agent Cards v1.1.0 should bind directly to the current flat commercial schema URIs published by this repository. They should not point at the historical v1.0.0 `requests/` or `receipts/` paths when declaring current-line commercial capability.
 
-- `/schemas/v1.1.0/commercial/authorize/authorize.request.schema.json`
-- `/schemas/v1.1.0/commercial/authorize/authorize.receipt.schema.json`
-- and the equivalent pair for each of the five verbs
-
-That keeps ENS bindings, commandlayer.org mirrors, and card metadata deterministic.
-
-## Integrity
+Protocol-Commons and Protocol-Commercial therefore tell one coherent story:
 
 The v1.1.0 checksum surface is intentionally limited to canonical machine artifacts:
 

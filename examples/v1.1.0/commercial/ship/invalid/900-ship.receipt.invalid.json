@@ -9,7 +9,8 @@
   "shipment_id": "shipment-001",
   "merchant": {
     "role": "merchant",
-    "id": "merchant.example"
+    "id": "merchant.example",
+    "kind": "organization"
   },
   "payer": {
     "role": "payer",

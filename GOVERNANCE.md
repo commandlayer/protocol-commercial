@@ -12,8 +12,8 @@ Steward duties include:
 
 - preserving version immutability
 - approving new release lines
-- preventing schema, example, manifest, and checksum drift
-- coordinating with Protocol-Commons, Agent Cards, and commandlayer.org mirrors
+- preventing schema, example, manifest, checksum, and public-doc drift
+- coordinating with Protocol-Commons, Agent Cards, and commandlayer.org mirrors so that current-line path teaching stays coherent
 
 ## Decision rules
 
@@ -22,4 +22,5 @@ Steward duties include:
 | Current-line pre-release edits | Steward approval |
 | New verb | Steward approval with docs and examples |
 | New version line | Steward approval with release metadata refresh |
+| Public current-path model change | Steward approval with cross-repo doc alignment |
 | In-place published mutation | Prohibited |

@@ -6,7 +6,7 @@ This document is normative for the current v1.1.0 commercial release line.
 
 Protocol-Commercial v1.1.0 defines the canonical commercial contracts that extend Protocol-Commons v1.1.0.
 
-The repository governs:
+This specification governs:
 
 - request schema identities
 - receipt schema identities
@@ -15,9 +15,9 @@ The repository governs:
 - x402-first commercial binding expectations
 - validation and integrity requirements
 
-The repository does not govern runtime transport implementation, provider policy, or legal adjudication.
+This specification does not govern runtime transport implementation, provider policy, or legal adjudication.
 
-## 2. Current artifact set
+## 2. Artifact scope by line
 
 Current normative machine-artifact line:
 
@@ -26,7 +26,7 @@ Current normative machine-artifact line:
 - `manifest.json`
 - `checksums.txt` as the hash ledger for that machine-artifact set
 
-Legacy published line retained but superseded:
+Published legacy line retained but superseded:
 
 - `schemas/v1.0.0/`
 - `examples/v1.0.0/`
@@ -42,14 +42,22 @@ Release-defining prose docs remain normative for interpretation, but they are ou
 5. `manifest.json` MUST identify the current release line and any retained legacy lines.
 6. `checksums.txt` MUST cover the canonical machine-verifiable release artifact set and MUST NOT be described as protecting prose docs it does not hash.
 
-## 4. Flat schema rule
+## 4. Current path model
 
 Protocol-Commercial v1.1.0 uses flat, self-contained per-verb schemas.
 
 - No v1.1.0 `_shared/` tree is normative.
+- No v1.1.0 `requests/` or `receipts/` subdirectories are canonical.
 - Request schemas MUST be inspectable without cross-file dependency chasing.
 - Receipt schemas MUST be inspectable without cross-file dependency chasing.
 - Limited internal `$defs` within a single schema file are allowed.
+
+The canonical current-line pattern is:
+
+- `https://commandlayer.org/schemas/v1.1.0/commercial/<verb>/<verb>.request.schema.json`
+- `https://commandlayer.org/schemas/v1.1.0/commercial/<verb>/<verb>.receipt.schema.json`
+
+The older nested `schemas/v1.0.0/commercial/<verb>/{requests,receipts}/...` structure is historical only.
 
 ## 5. Commercial contract requirements
 
@@ -117,11 +125,17 @@ Receipts MUST represent portable truth about:
 
 Receipts MUST NOT become generic runtime trace dumps.
 
-## 8. Agent Cards relationship
+## 8. Stack alignment rule
 
-Agent Cards v1.1.0 bind identity and discovery to these schema artifacts.
+Protocol-Commons, Protocol-Commercial, and Agent Cards MUST tell one non-contradictory current-line story.
 
-For commercial cards, request and receipt schema URIs SHOULD point directly at the stable mirror paths published by this repository.
+For current commercial capability:
+
+- Commons defines base action semantics.
+- Commercial defines the canonical paid request and receipt contracts.
+- Agent Cards SHOULD point directly at the flat v1.1.0 schema URIs published by this repository.
+
+Historical v1.0.0 path teaching MUST NOT be presented as current commercial guidance.
 
 ## 9. Conformance
 
@@ -129,6 +143,8 @@ A conformant release MUST satisfy all of the following:
 
 - every declared verb has a request schema and a receipt schema
 - every declared verb has valid and invalid examples for both request and receipt artifacts
+- every current schema path matches its `$id`
+- `manifest.json` and `schemas/v1.1.0/index.json` agree on the current verb set and path inventory
 - `npm run validate` passes
 - `sha256sum -c checksums.txt` passes for the checksum-covered machine-artifact set
 - repository metadata does not drift from the published current line

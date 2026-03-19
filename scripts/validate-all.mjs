@@ -8,6 +8,7 @@ import ajvErrors from "ajv-errors";
 const ROOT_DIR = process.cwd();
 const CURRENT_VERSION = "1.1.0";
 const SCHEMAS_ROOT = path.join(ROOT_DIR, "schemas", `v${CURRENT_VERSION}`);
+const EXAMPLES_ROOT = path.join(ROOT_DIR, "examples", `v${CURRENT_VERSION}`, "commercial");
 const EXPECTED_VERBS = ["authorize", "checkout", "purchase", "ship", "verify"];
 
 async function collectJsonFiles(dir) {
@@ -29,10 +30,20 @@ async function loadJson(filePath) {
   return JSON.parse(await fs.readFile(filePath, "utf8"));
 }
 
+function expectedVerbEntry(verb) {
+  return {
+    verb,
+    request_schema: `schemas/v${CURRENT_VERSION}/commercial/${verb}/${verb}.request.schema.json`,
+    receipt_schema: `schemas/v${CURRENT_VERSION}/commercial/${verb}/${verb}.receipt.schema.json`,
+    examples: `examples/v${CURRENT_VERSION}/commercial/${verb}`
+  };
+}
+
 async function validateManifest() {
   const manifest = await loadJson(path.join(ROOT_DIR, "manifest.json"));
   assert(!("$schema" in manifest), "manifest.json must not carry a decorative $schema field");
   assert(manifest.version === CURRENT_VERSION, `manifest version must be ${CURRENT_VERSION}`);
+  assert(manifest.status === "current", "manifest status must be current");
   assert(manifest.schemas_root === `schemas/v${CURRENT_VERSION}`, "manifest schemas_root drift");
   assert(manifest.examples_root === `examples/v${CURRENT_VERSION}`, "manifest examples_root drift");
   assert(manifest.current_index === `schemas/v${CURRENT_VERSION}/index.json`, "manifest current_index drift");
@@ -44,6 +55,7 @@ async function validatePackage() {
   const pkg = await loadJson(path.join(ROOT_DIR, "package.json"));
   assert(pkg.version === CURRENT_VERSION, `package version must be ${CURRENT_VERSION}`);
   assert(pkg.main === `schemas/v${CURRENT_VERSION}/index.json`, "package main drift");
+  assert(pkg.exports['.'] === `./schemas/v${CURRENT_VERSION}/index.json`, "package exports current entry drift");
 }
 
 async function validateSchemaTree() {
@@ -59,10 +71,21 @@ async function validateSchemaTree() {
     assert(schema.$schema === "https://json-schema.org/draft/2020-12/schema", `${rel} has unexpected $schema`);
     assert(schema.$id === expectedId, `${rel} has mismatched $id`);
     assert(!rel.includes("/_shared/"), "v1.1.0 current line must not use _shared");
+    assert(!rel.includes("/requests/") && !rel.includes("/receipts/"), "v1.1.0 current line must not use nested request/receipt directories");
     ajv.compile(schema);
   }
-  const indexJson = await loadJson(path.join(SCHEMAS_ROOT, "index.json"));
+}
+
+async function validateIndex() {
+  const indexPath = path.join(SCHEMAS_ROOT, "index.json");
+  const indexJson = await loadJson(indexPath);
   assert(indexJson.version === CURRENT_VERSION, "index.json version drift");
+  assert(indexJson.$id === `https://commandlayer.org/schemas/v${CURRENT_VERSION}/index.json`, "index.json $id drift");
+  assert(indexJson.schemas_root === `https://commandlayer.org/schemas/v${CURRENT_VERSION}/`, "index.json schemas_root drift");
+  assert(JSON.stringify(indexJson.verbs) === JSON.stringify(EXPECTED_VERBS.map(expectedVerbEntry)), "index.json verb inventory drift");
+
+  const manifest = await loadJson(path.join(ROOT_DIR, "manifest.json"));
+  assert(JSON.stringify(indexJson.verbs) === JSON.stringify(manifest.verbs), "manifest/index verb inventory mismatch");
 }
 
 async function validateLayout() {
@@ -71,6 +94,11 @@ async function validateLayout() {
     const entries = await fs.readdir(dir);
     assert(entries.includes(`${verb}.request.schema.json`), `missing ${verb} request schema`);
     assert(entries.includes(`${verb}.receipt.schema.json`), `missing ${verb} receipt schema`);
+
+    const examplesDir = path.join(EXAMPLES_ROOT, verb);
+    const exampleGroups = await fs.readdir(examplesDir);
+    assert(exampleGroups.includes("valid"), `missing ${verb} valid examples directory`);
+    assert(exampleGroups.includes("invalid"), `missing ${verb} invalid examples directory`);
   }
 }
 
@@ -79,7 +107,8 @@ async function main() {
   await validatePackage();
   await validateLayout();
   await validateSchemaTree();
-  console.log("✅ Current release metadata and schemas validated.");
+  await validateIndex();
+  console.log("✅ Current release metadata, paths, and schemas validated.");
 }
 
 main().catch((error) => {

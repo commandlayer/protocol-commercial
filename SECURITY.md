@@ -10,6 +10,7 @@ Protocol-Commercial provides schema-level security properties, not transaction o
 - deterministic schema identity
 - strict validation of canonical request and receipt shapes
 - explicit commercial references for later audit
+- checksum coverage for the machine-validated current release payloads
 
 ## What this repository does not guarantee
 
@@ -18,6 +19,7 @@ Protocol-Commercial provides schema-level security properties, not transaction o
 - merchant solvency
 - legal finality
 - provider honesty
+- runtime-side custody, settlement finality, or external mirror availability
 
 ## Maintainer security expectations
 
@@ -25,11 +27,14 @@ Protocol-Commercial provides schema-level security properties, not transaction o
 - treat mirror path mismatches as a trust issue
 - do not encode runtime-only debugging exhaust as canonical receipt truth
 - keep x402 references typed and minimal
+- do not let current-line docs teach superseded path models
 
 ## Verification commands
 
 ```bash
 npm run validate
+npm run validate:examples
+npm run validate:integrity
 sha256sum -c checksums.txt
 ```
 

@@ -8,11 +8,13 @@
   "status": "failed",
   "payer": {
     "role": "payer",
-    "id": "buyer-001"
+    "id": "buyer-001",
+    "kind": "account"
   },
   "merchant": {
     "role": "merchant",
-    "id": "merchant.example"
+    "id": "merchant.example",
+    "kind": "organization"
   },
   "order_ref": {
     "type": "order",
@@ -24,17 +26,20 @@
     "settlement_ref": "settle-001",
     "amount": {
       "amount": "49.99",
-      "currency": "USDC"
+      "currency": "USDC",
+      "decimals": 2
     }
   },
   "amount_breakdown": {
     "subtotal": {
       "amount": "49.99",
-      "currency": "USDC"
+      "currency": "USDC",
+      "decimals": 2
     },
     "total": {
       "amount": "49.99",
-      "currency": "USDC"
+      "currency": "USDC",
+      "decimals": 2
     }
   }
 }
