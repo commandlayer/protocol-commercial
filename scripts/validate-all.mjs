@@ -39,8 +39,67 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
+function assertNoDuplicateObjectKeys(source, filePath) {
+  const objectKeySets = [];
+  let inString = false;
+  let escape = false;
+
+  for (let index = 0; index < source.length; index += 1) {
+    const char = source[index];
+
+    if (inString) {
+      if (escape) {
+        escape = false;
+        continue;
+      }
+      if (char === "\\") {
+        escape = true;
+        continue;
+      }
+      if (char === '"') inString = false;
+      continue;
+    }
+
+    if (char === '"') {
+      let end = index + 1;
+      let stringEscape = false;
+      while (end < source.length) {
+        const nextChar = source[end];
+        if (stringEscape) {
+          stringEscape = false;
+        } else if (nextChar === "\\") {
+          stringEscape = true;
+        } else if (nextChar === '"') {
+          break;
+        }
+        end += 1;
+      }
+
+      const raw = source.slice(index, end + 1);
+      let cursor = end + 1;
+      while (cursor < source.length && /\s/.test(source[cursor])) cursor += 1;
+      if (cursor < source.length && source[cursor] === ':' && objectKeySets.length > 0) {
+        const key = JSON.parse(raw);
+        const currentKeys = objectKeySets[objectKeySets.length - 1];
+        if (currentKeys.has(key)) {
+          throw new Error(`${filePath} contains a duplicate JSON object key: ${key}`);
+        }
+        currentKeys.add(key);
+      }
+
+      index = end;
+      continue;
+    }
+
+    if (char === '{') objectKeySets.push(new Set());
+    if (char === '}') objectKeySets.pop();
+  }
+}
+
 async function loadJson(filePath) {
-  return loadJsonStrict(filePath);
+  const source = await fs.readFile(filePath, "utf8");
+  assertNoDuplicateObjectKeys(source, filePath);
+  return JSON.parse(source);
 }
 
 function expectedVerbEntry(verb) {

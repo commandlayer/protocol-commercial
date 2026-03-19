@@ -21,5 +21,9 @@
     "amount": "49.99",
     "currency": "USDC",
     "decimals": 2
+  },
+  "payment_requirement_ref": {
+    "type": "payment_requirement",
+    "id": "x402-auth-001"
   }
 }

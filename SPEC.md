@@ -88,7 +88,9 @@ Protocol-Commercial v1.1.0 uses a compact governed actor grammar:
 - `carrier` = the shipment operator for physical fulfillment
 - `verifier` = the authority performing or attesting the verification result
 
-Actor field names are normative. A field named `merchant` MUST contain an actor whose role is `merchant`, and likewise for the other actor fields. In `verify.request`, `requester` identifies the initiator slot only; it does not add a seventh governed actor role, so the embedded actor still uses one of the standard commercial roles.
+`requester` is a verify-specific initiator field, not a seventh governed actor role. It reuses the general actor identity shape so an existing commercial actor can request verification without expanding the normative role vocabulary.
+
+Actor field names are normative. A field named `merchant` MUST contain an actor whose role is `merchant`, and likewise for the other actor fields.
 
 ### 5.2 Payment grammar
 

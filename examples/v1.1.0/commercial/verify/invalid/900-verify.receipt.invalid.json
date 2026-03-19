@@ -6,6 +6,11 @@
   "issued_at": "2026-03-19T10:20:02Z",
   "request_id": "verifyreq-001",
   "status": "not_verified",
+  "verifier": {
+    "role": "verifier",
+    "id": "ledger.example",
+    "kind": "service"
+  },
   "target_type": "settlement",
   "target_ref": {
     "type": "settlement",
@@ -17,5 +22,5 @@
       "id": "proof-2001"
     }
   ],
-  "basis": "Missing reason should fail."
+  "basis": "Canonical settlement proof was found, but the ledger amount did not reconcile."
 }
