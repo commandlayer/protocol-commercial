@@ -1,0 +1,254 @@
+{
+  "$id": "https://commandlayer.org/schemas/v1.1.0/commercial/authorize/authorize.request.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "authorize.request",
+  "description": "Reserve payment authority for a later commercial capture or settlement.",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "money": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "amount",
+        "currency"
+      ],
+      "properties": {
+        "amount": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]{1,6})?$",
+          "maxLength": 40
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z0-9]{2,16}$"
+        },
+        "decimals": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18
+        },
+        "includes": {
+          "type": "string",
+          "enum": [
+            "subtotal",
+            "tax",
+            "shipping",
+            "fees",
+            "discount",
+            "total"
+          ]
+        }
+      }
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "id"
+      ],
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": [
+            "payer",
+            "payee",
+            "merchant",
+            "provider",
+            "marketplace",
+            "counterparty",
+            "carrier",
+            "verifier"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "agent",
+            "organization",
+            "wallet",
+            "account",
+            "service",
+            "human"
+          ]
+        },
+        "display_name": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "id"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "order",
+            "invoice",
+            "authorization",
+            "checkout",
+            "purchase",
+            "shipment",
+            "payment",
+            "settlement",
+            "receipt",
+            "payment_requirement",
+            "payment_session",
+            "proof",
+            "agent_card"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
+    },
+    "x402_requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scheme",
+        "resource",
+        "max_amount"
+      ],
+      "properties": {
+        "scheme": {
+          "type": "string",
+          "const": "x402"
+        },
+        "resource": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        },
+        "network": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "max_amount": {
+          "$ref": "#/$defs/money"
+        },
+        "payment_request_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    "authorization_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "capture_mode"
+      ],
+      "properties": {
+        "capture_mode": {
+          "type": "string",
+          "enum": [
+            "manual",
+            "automatic"
+          ]
+        },
+        "valid_until": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reusable": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "properties": {
+    "protocol": {
+      "type": "string",
+      "const": "commercial"
+    },
+    "version": {
+      "type": "string",
+      "const": "1.1.0"
+    },
+    "verb": {
+      "type": "string",
+      "const": "authorize"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "requested_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "payer": {
+      "$ref": "#/$defs/actor"
+    },
+    "payee": {
+      "$ref": "#/$defs/actor"
+    },
+    "merchant": {
+      "$ref": "#/$defs/actor"
+    },
+    "amount": {
+      "$ref": "#/$defs/money"
+    },
+    "authorization_scope": {
+      "$ref": "#/$defs/authorization_scope"
+    },
+    "payment_requirement": {
+      "$ref": "#/$defs/x402_requirement"
+    },
+    "order_ref": {
+      "$ref": "#/$defs/reference"
+    },
+    "invoice_ref": {
+      "$ref": "#/$defs/reference"
+    },
+    "merchant_reference": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "idempotency_key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    }
+  },
+  "required": [
+    "protocol",
+    "version",
+    "verb",
+    "request_id",
+    "requested_at",
+    "payer",
+    "payee",
+    "amount",
+    "authorization_scope"
+  ]
+}

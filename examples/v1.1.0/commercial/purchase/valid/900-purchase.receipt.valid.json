@@ -1,0 +1,53 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "purchase",
+  "receipt_id": "purchasercpt-001",
+  "issued_at": "2026-03-19T10:10:02Z",
+  "request_id": "purchasereq-001",
+  "status": "accepted",
+  "purchase_id": "purchase-001",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-001",
+    "kind": "account"
+  },
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "provider": {
+    "role": "provider",
+    "id": "runtime.commandlayer",
+    "kind": "service"
+  },
+  "amount": {
+    "amount": "12.50",
+    "currency": "USDC",
+    "decimals": 2
+  },
+  "order_ref": {
+    "type": "order",
+    "id": "ord-2001"
+  },
+  "invoice_ref": {
+    "type": "invoice",
+    "id": "inv-2001"
+  },
+  "settlement": {
+    "status": "captured",
+    "method": "x402",
+    "settlement_ref": "settle-2001",
+    "network_ref": "0xdef456",
+    "amount": {
+      "amount": "12.50",
+      "currency": "USDC",
+      "decimals": 2
+    }
+  },
+  "payment_ref": {
+    "type": "payment",
+    "id": "pay-2001"
+  }
+}

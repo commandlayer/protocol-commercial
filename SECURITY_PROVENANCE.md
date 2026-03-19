@@ -1,26 +1,25 @@
 # SECURITY PROVENANCE — Protocol-Commercial
 
-This file records the pinned, content-addressed provenance for the current normative release.
+## Current release posture
 
-## Normative release
+Current release line: `v1.1.0`
 
-- Version: **v1.0.0**
-- Canonical root: `schemas/v1.0.0`
-- CID root: `bafybeiftjpyw6lwy3zm52sipbbwryssg5hoyu2qhr53j5gaqjvwfgfc344`
+Normative artifact roots:
 
-## Mirrors
+- `schemas/v1.1.0/`
+- `examples/v1.1.0/`
+- `manifest.json`
+- `checksums.txt`
 
-- `ipfs://bafybeiftjpyw6lwy3zm52sipbbwryssg5hoyu2qhr53j5gaqjvwfgfc344/commercial-v1.0.0`
-- `https://gateway.pinata.cloud/ipfs/bafybeiftjpyw6lwy3zm52sipbbwryssg5hoyu2qhr53j5gaqjvwfgfc344/commercial-v1.0.0`
+## Pending post-merge release actions
 
-## Verification requirements
+The final v1.1.0 CID values must be captured after the release artifact set is pinned.
 
-All files in `schemas/v1.0.0` MUST match `checksums.txt`.
+Update after pinning:
 
-Verification command:
+- schema tree CID
+- example tree CID, if mirrored separately
+- release bundle CID, if used
+- public gateway mirrors
 
-```bash
-sha256sum -c checksums.txt
-```
-
-Any mismatch MUST be treated as non-normative and untrusted.
+Until those values are captured, `checksums.txt` is the local integrity source of truth for the pending release candidate.

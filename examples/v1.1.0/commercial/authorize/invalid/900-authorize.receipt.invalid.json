@@ -1,0 +1,22 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "authorize",
+  "receipt_id": "bad-authrcpt-001",
+  "issued_at": "2026-03-19T10:00:05Z",
+  "request_id": "authreq-001",
+  "status": "approved",
+  "authorization_id": "auth-001",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-001"
+  },
+  "payee": {
+    "role": "payee",
+    "id": "merchant-settlement"
+  },
+  "amount": {
+    "amount": "49.99",
+    "currency": "USDC"
+  }
+}

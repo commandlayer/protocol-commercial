@@ -1,0 +1,20 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "verify",
+  "request_id": "bad-verifyreq-001",
+  "requested_at": "2026-03-19T10:20:00Z",
+  "requester": {
+    "role": "provider",
+    "id": "audit.example"
+  },
+  "target": {
+    "target_type": "settlement",
+    "target_ref": {
+      "type": "settlement",
+      "id": "settle-2001"
+    }
+  },
+  "checks": [],
+  "strict": "yes"
+}

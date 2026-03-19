@@ -1,7 +1,7 @@
 {
   "name": "@commandlayer/commercial",
-  "version": "1.0.0",
-  "description": "Commercial verbs, schemas, and execution contracts for CommandLayer.",
+  "version": "1.1.0",
+  "description": "Normative commercial schemas and examples for x402-first CommandLayer execution.",
   "author": "Greg Soucy <dev@commandlayer.org> (commandlayer.eth)",
   "maintainers": [
     "Greg Soucy <dev@commandlayer.org> (commandlayer.eth)"
@@ -21,17 +21,12 @@
     "url": "https://github.com/commandlayer/protocol-commercial/issues"
   },
   "keywords": [
-    "agent",
+    "agent-cards",
     "agents",
-    "ai-agents",
-    "autonomous-agents",
     "authorize",
     "checkout",
     "commercial",
     "commandlayer",
-    "ethereum",
-    "eth",
-    "erc8004",
     "json-schema",
     "payments",
     "protocol",
@@ -46,16 +41,31 @@
     "examples/",
     "checksums.txt",
     "manifest.json",
-    "README.md"
+    "README.md",
+    "SPEC.md",
+    "POLICY.md",
+    "GOVERNANCE.md",
+    "RESOLUTION.md",
+    "SECURITY.md",
+    "SECURITY_PROVENANCE.md",
+    "COMPLIANCE.md",
+    "ONBOARDING.md"
   ],
-  "main": "schemas/v1.0.0/index.json",
+  "main": "schemas/v1.1.0/index.json",
+  "exports": {
+    ".": "./schemas/v1.1.0/index.json",
+    "./manifest.json": "./manifest.json",
+    "./checksums.txt": "./checksums.txt",
+    "./schemas/*": "./schemas/*",
+    "./examples/*": "./examples/*"
+  },
   "scripts": {
     "validate:schema": "node scripts/ajv-run.mjs",
     "validate:schemas": "node scripts/validate-all.mjs",
     "validate:examples": "node scripts/validate-examples.mjs",
     "validate:all": "npm run validate:schemas && npm run validate:examples",
     "validate": "npm run validate:all",
-    "generate:checksums": "node scripts/generate-checksums.mjs schemas/v1.0.0 checksums.txt"
+    "generate:checksums": "node scripts/generate-checksums.mjs"
   },
   "devDependencies": {
     "ajv": "^8.17.1",

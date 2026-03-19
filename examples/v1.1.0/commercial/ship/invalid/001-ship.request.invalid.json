@@ -1,0 +1,24 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "ship",
+  "request_id": "bad-shipreq-001",
+  "requested_at": "2026-03-19T10:15:00Z",
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example"
+  },
+  "provider": {
+    "role": "provider",
+    "id": "warehouse.example"
+  },
+  "order_ref": {
+    "type": "order",
+    "id": "ord-3001"
+  },
+  "items": [],
+  "destination": {
+    "country_code": "USA"
+  },
+  "service_level": "express"
+}

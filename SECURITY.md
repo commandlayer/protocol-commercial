@@ -1,15 +1,30 @@
 # SECURITY — Protocol-Commercial
 
-Economic semantics must be **verifiable and tamper-evident**.
+Protocol-Commercial provides schema-level security properties, not transaction or fraud guarantees.
 
-## Baseline requirements
+## What this repository is responsible for
 
-- strict schema validation
-- deterministic `$id` values + checksums
-- traceable envelopes + receipts
-- runtime enforcement compatibility
+- tamper-evident versioned artifacts
+- deterministic schema identity
+- strict validation of canonical request and receipt shapes
+- explicit commercial references for later audit
 
-## Integrity checks
+## What this repository does not guarantee
+
+- payment success
+- fraud prevention
+- merchant solvency
+- legal finality
+- provider honesty
+
+## Maintainer security expectations
+
+- treat schema and checksum drift as a security issue
+- treat mirror path mismatches as a trust issue
+- do not encode runtime-only debugging exhaust as canonical receipt truth
+- keep x402 references typed and minimal
+
+## Verification commands
 
 ```bash
 npm run validate
