@@ -20,5 +20,6 @@ jobs:
       - run: npm ci
       - run: npm run validate:schemas
       - run: npm run validate:examples
+      - run: npm run validate:integrity
       - run: npm run generate:checksums
-      - run: git diff --exit-code checksums.txt
+      - run: git diff --exit-code -- checksums.txt
