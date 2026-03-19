@@ -6,11 +6,13 @@
   "requested_at": "2026-03-19T10:10:00Z",
   "payer": {
     "role": "payer",
-    "id": "buyer-001"
+    "id": "buyer-001",
+    "kind": "account"
   },
   "merchant": {
     "role": "merchant",
-    "id": "merchant.example"
+    "id": "merchant.example",
+    "kind": "organization"
   },
   "product": {
     "product_id": "svc-analysis-pack",
@@ -19,7 +21,13 @@
   },
   "amount": {
     "amount": "12.50",
-    "currency": "USDC"
+    "currency": "USDC",
+    "decimals": 2
   },
-  "x402": {}
+  "x402": {
+    "payment_requirement_ref": {
+      "type": "payment_requirement",
+      "id": "x402-req-2001"
+    }
+  }
 }

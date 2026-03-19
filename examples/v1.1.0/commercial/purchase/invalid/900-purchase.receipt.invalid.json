@@ -9,15 +9,18 @@
   "purchase_id": "purchase-001",
   "payer": {
     "role": "payer",
-    "id": "buyer-001"
+    "id": "buyer-001",
+    "kind": "account"
   },
   "merchant": {
     "role": "merchant",
-    "id": "merchant.example"
+    "id": "merchant.example",
+    "kind": "organization"
   },
   "amount": {
     "amount": "12.50",
-    "currency": "USDC"
+    "currency": "USDC",
+    "decimals": 2
   },
   "settlement": {
     "status": "failed",
@@ -25,7 +28,8 @@
     "settlement_ref": "settle-2001",
     "amount": {
       "amount": "12.50",
-      "currency": "USDC"
+      "currency": "USDC",
+      "decimals": 2
     }
   }
 }

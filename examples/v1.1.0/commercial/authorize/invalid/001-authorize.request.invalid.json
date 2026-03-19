@@ -6,15 +6,18 @@
   "requested_at": "2026-03-19T10:00:00Z",
   "payer": {
     "role": "payer",
-    "id": "buyer-001"
+    "id": "buyer-001",
+    "kind": "account"
   },
   "payee": {
     "role": "payee",
-    "id": "merchant-settlement"
+    "id": "merchant-settlement",
+    "kind": "wallet"
   },
   "amount": {
     "amount": 49.99,
-    "currency": "USDC"
+    "currency": "USDC",
+    "decimals": 2
   },
   "authorization_scope": {
     "capture_mode": "manual"

@@ -6,7 +6,8 @@
   "requested_at": "2026-03-19T10:20:00Z",
   "requester": {
     "role": "provider",
-    "id": "audit.example"
+    "id": "audit.example",
+    "kind": "service"
   },
   "target": {
     "target_type": "settlement",
@@ -16,5 +17,5 @@
     }
   },
   "checks": [],
-  "strict": "yes"
+  "strict": true
 }

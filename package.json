@@ -63,7 +63,8 @@
     "validate:schema": "node scripts/ajv-run.mjs",
     "validate:schemas": "node scripts/validate-all.mjs",
     "validate:examples": "node scripts/validate-examples.mjs",
-    "validate:all": "npm run validate:schemas && npm run validate:examples",
+    "validate:integrity": "node scripts/validate-integrity.mjs",
+    "validate:all": "npm run validate:schemas && npm run validate:examples && npm run validate:integrity",
     "validate": "npm run validate:all",
     "generate:checksums": "node scripts/generate-checksums.mjs"
   },
