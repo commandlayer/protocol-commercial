@@ -236,22 +236,7 @@
       ]
     },
     "verifier": {
-      "allOf": [
-        {
-          "$ref": "#/$defs/actor_identity"
-        },
-        {
-          "type": "object",
-          "properties": {
-            "role": {
-              "const": "verifier"
-            }
-          },
-          "required": [
-            "role"
-          ]
-        }
-      ]
+      "$ref": "#/$defs/verifier_actor"
     },
     "target_type": {
       "type": "string",

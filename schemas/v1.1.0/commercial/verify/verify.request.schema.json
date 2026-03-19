@@ -253,7 +253,7 @@
     },
     "requester": {
       "$ref": "#/$defs/actor_identity",
-      "description": "The party initiating the verification request."
+      "description": "The party initiating the verification request; this is a verify-specific initiator field, not a distinct governed actor role."
     },
     "verifier": {
       "$ref": "#/$defs/verifier_actor",
