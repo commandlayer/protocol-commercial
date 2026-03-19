@@ -169,6 +169,38 @@
           "$ref": "#/$defs/money"
         }
       }
+    },
+    "x402_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scheme",
+        "proof_type",
+        "proof_ref"
+      ],
+      "properties": {
+        "scheme": {
+          "type": "string",
+          "const": "x402"
+        },
+        "proof_type": {
+          "type": "string",
+          "enum": [
+            "payment-session",
+            "payment-proof"
+          ]
+        },
+        "proof_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
     }
   },
   "properties": {
@@ -201,8 +233,8 @@
     "status": {
       "type": "string",
       "enum": [
-        "accepted",
-        "rejected",
+        "captured",
+        "failed",
         "pending"
       ]
     },
@@ -235,6 +267,9 @@
     "payment_ref": {
       "$ref": "#/$defs/reference"
     },
+    "payment_proof": {
+      "$ref": "#/$defs/x402_proof"
+    },
     "reason": {
       "type": "string",
       "maxLength": 512
@@ -259,8 +294,27 @@
       "if": {
         "properties": {
           "status": {
+            "const": "captured"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payment_proof": {
+            "$ref": "#/$defs/x402_proof"
+          }
+        },
+        "required": [
+          "payment_proof"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
             "enum": [
-              "rejected",
+              "failed",
               "pending"
             ]
           }
