@@ -5,7 +5,7 @@
   "receipt_id": "purchasercpt-001",
   "issued_at": "2026-03-19T10:10:02Z",
   "request_id": "purchasereq-001",
-  "status": "accepted",
+  "status": "captured",
   "purchase_id": "purchase-001",
   "payer": {
     "role": "payer",
@@ -49,5 +49,11 @@
   "payment_ref": {
     "type": "payment",
     "id": "pay-2001"
+  },
+  "payment_proof": {
+    "scheme": "x402",
+    "proof_type": "payment-proof",
+    "proof_ref": "proof-2001",
+    "uri": "urn:cl:x402:proof:proof-2001"
   }
 }
