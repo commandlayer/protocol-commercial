@@ -1,0 +1,25 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "purchase",
+  "request_id": "bad-purchasereq-001",
+  "requested_at": "2026-03-19T10:10:00Z",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-001"
+  },
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example"
+  },
+  "product": {
+    "product_id": "svc-analysis-pack",
+    "description": "One analysis execution bundle",
+    "quantity": 0
+  },
+  "amount": {
+    "amount": "12.50",
+    "currency": "USDC"
+  },
+  "x402": {}
+}

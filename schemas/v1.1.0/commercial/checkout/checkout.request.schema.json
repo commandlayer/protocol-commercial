@@ -1,0 +1,317 @@
+{
+  "$id": "https://commandlayer.org/schemas/v1.1.0/commercial/checkout/checkout.request.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "checkout.request",
+  "description": "Finalize an order, bind pricing, and request capture over x402.",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "money": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "amount",
+        "currency"
+      ],
+      "properties": {
+        "amount": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]{1,6})?$",
+          "maxLength": 40
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z0-9]{2,16}$"
+        },
+        "decimals": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18
+        },
+        "includes": {
+          "type": "string",
+          "enum": [
+            "subtotal",
+            "tax",
+            "shipping",
+            "fees",
+            "discount",
+            "total"
+          ]
+        }
+      }
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "id"
+      ],
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": [
+            "payer",
+            "payee",
+            "merchant",
+            "provider",
+            "marketplace",
+            "counterparty",
+            "carrier",
+            "verifier"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "agent",
+            "organization",
+            "wallet",
+            "account",
+            "service",
+            "human"
+          ]
+        },
+        "display_name": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "id"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "order",
+            "invoice",
+            "authorization",
+            "checkout",
+            "purchase",
+            "shipment",
+            "payment",
+            "settlement",
+            "receipt",
+            "payment_requirement",
+            "payment_session",
+            "proof",
+            "agent_card"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
+    },
+    "line_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sku",
+        "description",
+        "quantity",
+        "unit_price"
+      ],
+      "properties": {
+        "sku": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "quantity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "unit_price": {
+          "$ref": "#/$defs/money"
+        }
+      }
+    },
+    "amount_breakdown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "subtotal",
+        "total"
+      ],
+      "properties": {
+        "subtotal": {
+          "$ref": "#/$defs/money"
+        },
+        "tax": {
+          "$ref": "#/$defs/money"
+        },
+        "fees": {
+          "$ref": "#/$defs/money"
+        },
+        "discount": {
+          "$ref": "#/$defs/money"
+        },
+        "shipping": {
+          "$ref": "#/$defs/money"
+        },
+        "total": {
+          "$ref": "#/$defs/money"
+        }
+      }
+    },
+    "fulfillment_intent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode"
+      ],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "digital",
+            "shipment",
+            "service"
+          ]
+        },
+        "destination_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    "payment_session": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scheme",
+        "session_id",
+        "resource"
+      ],
+      "properties": {
+        "scheme": {
+          "type": "string",
+          "const": "x402"
+        },
+        "session_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "resource": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        },
+        "network": {
+          "type": "string",
+          "maxLength": 64
+        }
+      }
+    }
+  },
+  "properties": {
+    "protocol": {
+      "type": "string",
+      "const": "commercial"
+    },
+    "version": {
+      "type": "string",
+      "const": "1.1.0"
+    },
+    "verb": {
+      "type": "string",
+      "const": "checkout"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "requested_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "payer": {
+      "$ref": "#/$defs/actor"
+    },
+    "merchant": {
+      "$ref": "#/$defs/actor"
+    },
+    "provider": {
+      "$ref": "#/$defs/actor"
+    },
+    "order_ref": {
+      "$ref": "#/$defs/reference"
+    },
+    "invoice_ref": {
+      "$ref": "#/$defs/reference"
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {
+        "$ref": "#/$defs/line_item"
+      }
+    },
+    "amount_breakdown": {
+      "$ref": "#/$defs/amount_breakdown"
+    },
+    "capture": {
+      "type": "string",
+      "enum": [
+        "immediate",
+        "if_authorized"
+      ]
+    },
+    "payment_session": {
+      "$ref": "#/$defs/payment_session"
+    },
+    "fulfillment_intent": {
+      "$ref": "#/$defs/fulfillment_intent"
+    }
+  },
+  "required": [
+    "protocol",
+    "version",
+    "verb",
+    "request_id",
+    "requested_at",
+    "payer",
+    "merchant",
+    "order_ref",
+    "items",
+    "amount_breakdown",
+    "capture",
+    "payment_session",
+    "fulfillment_intent"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "ship",
+  "receipt_id": "shiprcpt-001",
+  "issued_at": "2026-03-19T10:15:05Z",
+  "request_id": "shipreq-001",
+  "status": "in_transit",
+  "shipment_id": "shipment-001",
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "carrier": {
+    "role": "carrier",
+    "id": "ups",
+    "kind": "service"
+  },
+  "order_ref": {
+    "type": "order",
+    "id": "ord-3001"
+  },
+  "purchase_ref": {
+    "type": "purchase",
+    "id": "purchase-3001"
+  },
+  "fulfillment_ref": {
+    "type": "shipment",
+    "id": "fulfillment-3001"
+  },
+  "tracking_number": "1Z999AA10123456784",
+  "tracking_url": "https://carrier.example/track/1Z999AA10123456784",
+  "event_at": "2026-03-19T10:15:05Z"
+}

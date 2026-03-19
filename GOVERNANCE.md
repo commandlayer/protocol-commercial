@@ -1,19 +1,23 @@
 # GOVERNANCE — Protocol-Commercial
 
-**Founding Steward:** commandlayer.eth  
-**Role:** maintain canonical economic semantics until multi-party oversight matures.
+**Founding steward:** commandlayer.eth
 
-## Stewardship Timeline
+## Steward responsibility
 
-1. Single-maintainer (today)
-2. Multi-maintainer (Q2 2026)
-3. Standards committee handoff (future)
+The steward maintains the normative commercial protocol surface until broader governance is established.
 
-## Decision Requirements
+Steward duties include:
 
-| Change Type                   | Approval Threshold |
-|------------------------------|------------------:|
-| Fixes within version folder  | Steward signoff    |
-| New verbs / schema versions  | Committee vote     |
+- preserving version immutability
+- approving new release lines
+- preventing schema, example, manifest, and checksum drift
+- coordinating with Protocol-Commons, Agent Cards, and commandlayer.org mirrors
 
-Resolvers MUST treat disallowed changes as **untrusted**.
+## Decision rules
+
+| Change type | Requirement |
+| --- | --- |
+| Current-line pre-release edits | Steward approval |
+| New verb | Steward approval with docs and examples |
+| New version line | Steward approval with release metadata refresh |
+| In-place published mutation | Prohibited |

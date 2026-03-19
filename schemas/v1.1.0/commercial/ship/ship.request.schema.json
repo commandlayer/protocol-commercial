@@ -1,0 +1,209 @@
+{
+  "$id": "https://commandlayer.org/schemas/v1.1.0/commercial/ship/ship.request.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ship.request",
+  "description": "Bind fulfillment work to a commercial order or purchase.",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "id"
+      ],
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": [
+            "payer",
+            "payee",
+            "merchant",
+            "provider",
+            "marketplace",
+            "counterparty",
+            "carrier",
+            "verifier"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "agent",
+            "organization",
+            "wallet",
+            "account",
+            "service",
+            "human"
+          ]
+        },
+        "display_name": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "id"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "order",
+            "invoice",
+            "authorization",
+            "checkout",
+            "purchase",
+            "shipment",
+            "payment",
+            "settlement",
+            "receipt",
+            "payment_requirement",
+            "payment_session",
+            "proof",
+            "agent_card"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
+    },
+    "item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sku",
+        "quantity"
+      ],
+      "properties": {
+        "sku": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "quantity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        }
+      }
+    },
+    "destination": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "country_code"
+      ],
+      "properties": {
+        "country_code": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$"
+        },
+        "postal_code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32
+        },
+        "locality": {
+          "type": "string",
+          "maxLength": 128
+        }
+      }
+    }
+  },
+  "properties": {
+    "protocol": {
+      "type": "string",
+      "const": "commercial"
+    },
+    "version": {
+      "type": "string",
+      "const": "1.1.0"
+    },
+    "verb": {
+      "type": "string",
+      "const": "ship"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "requested_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "merchant": {
+      "$ref": "#/$defs/actor"
+    },
+    "provider": {
+      "$ref": "#/$defs/actor"
+    },
+    "order_ref": {
+      "$ref": "#/$defs/reference"
+    },
+    "purchase_ref": {
+      "$ref": "#/$defs/reference"
+    },
+    "fulfillment_ref": {
+      "$ref": "#/$defs/reference"
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {
+        "$ref": "#/$defs/item"
+      }
+    },
+    "destination": {
+      "$ref": "#/$defs/destination"
+    },
+    "service_level": {
+      "type": "string",
+      "enum": [
+        "standard",
+        "expedited",
+        "express",
+        "overnight"
+      ]
+    }
+  },
+  "required": [
+    "protocol",
+    "version",
+    "verb",
+    "request_id",
+    "requested_at",
+    "merchant",
+    "provider",
+    "order_ref",
+    "items",
+    "destination",
+    "service_level"
+  ]
+}

@@ -1,263 +1,167 @@
-# CommandLayer Protocol — Commercial
+# Protocol-Commercial
 
-**Canonical economic verbs & schemas for autonomous agents.**  
-**Commercial semantics are free — value lives in execution.**
+Protocol-Commercial v1.1.0 is the normative commercial schema layer for CommandLayer.
 
-[![Schemas](https://img.shields.io/badge/Schemas-Stable%20v1.0.0-brightgreen)](https://github.com/commandlayer/protocol-commercial/tree/main/schemas/v1.0.0)
-[![NPM Version](https://img.shields.io/npm/v/%40commandlayer%2Fcommercial)](https://www.npmjs.com/package/@commandlayer/commercial)
-[![CI Status](https://img.shields.io/github/actions/workflow/status/commandlayer/protocol-commercial/validate.yml?branch=main&label=CI)](https://github.com/commandlayer/protocol-commercial/actions/workflows/validate.yml)
-[![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](https://github.com/commandlayer/protocol-commercial/blob/main/LICENSE)
+It defines the canonical commercial overlays that sit on top of Protocol-Commons v1.1.0. Commons defines base semantic actions. Commercial defines the monetized, settlement-aware request and receipt contracts that agents and runtimes use when value moves.
 
----
+Commercial is intentionally semantics-only:
 
-## Why this exists
+- no runtime code
+- no provider-specific business policy
+- no pricing engine
+- no routing logic
+- no transport implementation beyond the normative x402 execution assumption
 
-Protocol-Commons gives agents a **shared language of actions** (analyze, summarize, fetch, …).
+## Release status
 
-Protocol-Commercial answers a different question:
+- Current line: `v1.1.0`
+- Legacy line retained: `v1.0.0` under `schemas/v1.0.0/` and `examples/v1.0.0/`
+- Current package entrypoint: `schemas/v1.1.0/index.json`
 
-> **“How does value move when these actions are monetized?”**
+## Relationship to the stack
 
-`@commandlayer/commercial` defines **canonical economic verb schemas** so that:
+| Layer | Responsibility |
+| --- | --- |
+| Protocol-Commons v1.1.0 | Base semantic action contracts |
+| Protocol-Commercial v1.1.0 | Commercial overlays for payment, settlement, fulfillment, and verification |
+| Agent Cards v1.1.0 | Identity and discovery bindings to request/receipt schemas |
+| Runtime | x402 transport, execution, metering, policy, and provider integration |
 
-- payment, billing, and settlement are consistent across vendors  
-- receipts for paid work are **typed and auditable**  
-- runtimes and marketplaces interoperate instead of inventing their own silos
+## Commercial execution model
 
-This repo is **semantics-only**:
+Protocol-Commercial is x402-first.
 
-- **Schemas are always free**
-- **No auth**, **no pricing**, **no routing**
-- **Execution lives in Runtime**
+That means the normative commercial assumption is that commercial execution is gated and proven through x402-compatible payment requirements, sessions, authorizations, and proofs. The schemas in this repository do not define a transport implementation, but they do make the commercial contract explicit enough for an x402-aware runtime to execute deterministically.
 
----
+## Verb set
 
-## Relationship to the other repos
+| Verb | Purpose |
+| --- | --- |
+| `authorize` | Reserve payment authority before capture or settlement |
+| `checkout` | Finalize an order and request commercial capture |
+| `purchase` | Complete a one-step paid commercial action |
+| `ship` | Attach fulfillment state to a commercial order or purchase |
+| `verify` | Verify a commercial receipt, settlement, payment, or shipment target |
 
-Commercial sits between semantics and execution:
-
-```text
-+-----------------------------+
-|  Runtime                    |  execution, metering, paywalls
-+-------------▲---------------+
-              |
-              v
-+-----------------------------+
-|  Protocol-Commercial        |  economic verbs + schemas
-+-------------▲---------------+
-              |
-              v
-+-----------------------------+
-|  Protocol-Commons           |  core verbs + schemas
-+-----------------------------+
-              |
-              v
-+-----------------------------+
-|  Agent-Cards                |  identity + discovery
-+-----------------------------+
-```
-
-## CommandLayer Protocol Stack
-
-| Layer               | Role                                                             |
-| ------------------- | ---------------------------------------------------------------- |
-| Protocol-Commons    | Canonical verbs & schemas (machine intent grammar)               |
-| Agent-Cards         | Identity, discovery, and invocation metadata                     |
-| Protocol-Commercial | Canonical commercial/economic verbs (schemas & receipt defaults) |
-| Runtime             | Transport adapters, execution, and structured receipts           |
-
-- **Schemas = roads**
-- **Runtime = toll booths**
-
-## What this repo defines
-
-| Component            | Purpose                                       |
-| -------------------- | --------------------------------------------- |
-| Commercial verbs     | Price discovery, fulfillment, settlement      |
-| Request schemas      | Payment instructions, billing metadata        |
-| Receipt schemas      | Settlement proof, economic finality           |
-| Shared schemas       | Reusable payment amount/settlement structures |
-| Example fixtures     | Validation & auditability                     |
-| Checksums + manifest | Integrity surface for v1.0.0                  |
-
-## What this repo does **not** define
-
-This repository is **semantics only**. It does **not** define:
-
-- auth or quotas
-- pricing logic
-- routing decisions
-- provider selection
-- x402 endpoints
-
-Those are **Runtime** concerns.
-
-**Commercial** defines the rules of value exchange —  
-not who gets paid, on which infra, or under what business model.
-
-## Commercial Verbs in v1.0.0
-
-The initial stable set is **five** verbs:
-
-| Category     | Verb        | Purpose                                       |
-| ------------ | ----------- | --------------------------------------------- |
-| Payments     | `authorize` | Pre-authorize a payment for later capture     |
-| Commerce     | `checkout`  | Capture funds and finalize an order           |
-| Commerce     | `purchase`  | One-shot purchase (authorize + capture)       |
-| Fulfillment  | `ship`      | Attach shipping / logistics state to an order |
-| Risk & Trust | `verify`    | Verify a specific payment / settlement outcome |
-
-Future versions may introduce additional verbs (quotes, refunds, subscriptions, etc.) under new minor/major versions.
-
-## Schema Contract
-
-Commercial and Commons share strict JSON Schema rules:
-
-| Feature                      | Guarantee                            |
-| ---------------------------- | ------------------------------------ |
-| Typed requests & receipts    | Canonical envelope for all runtimes  |
-| Deterministic `$id`          | Version immutability                 |
-| No silent mutation           | All changes logged + re-CID required |
-| Valid + invalid test vectors | Reproducibility                      |
-
-## Repository Structure
+## Repository layout
 
 ```text
 protocol-commercial/
 ├── schemas/
-│   └── v1.0.0/
+│   ├── v1.0.0/                     # legacy published line
+│   └── v1.1.0/
+│       ├── index.json
 │       └── commercial/
-│           └── <verb>/
-│               ├── requests/<verb>.request.schema.json
-│               └── receipts/<verb>.receipt.schema.json
-│
+│           ├── authorize/
+│           │   ├── authorize.request.schema.json
+│           │   └── authorize.receipt.schema.json
+│           ├── checkout/
+│           │   ├── checkout.request.schema.json
+│           │   └── checkout.receipt.schema.json
+│           ├── purchase/
+│           │   ├── purchase.request.schema.json
+│           │   └── purchase.receipt.schema.json
+│           ├── ship/
+│           │   ├── ship.request.schema.json
+│           │   └── ship.receipt.schema.json
+│           └── verify/
+│               ├── verify.request.schema.json
+│               └── verify.receipt.schema.json
 ├── examples/
-│   └── v1.0.0/commercial/<verb>/
-│       ├── valid/*.json
-│       └── invalid/*.json
-│
-├── checksums.txt
+│   ├── v1.0.0/                     # legacy published line
+│   └── v1.1.0/commercial/<verb>/{valid,invalid}/
 ├── manifest.json
-├── SPEC.md
-├── POLICY.md
-├── GOVERNANCE.md
-├── SECURITY.md
-├── SECURITY_PROVENANCE.md
-├── RESOLUTION.md
-├── ONBOARDING.md
-├── package.json
-└── README.md
+├── checksums.txt
+└── scripts/
 ```
 
-## Versioning & Immutability
+Protocol-Commercial v1.1.0 intentionally does **not** use a new `_shared/` tree. Each v1.1.0 request and receipt schema is self-contained, flat, and directly mirrorable on commandlayer.org.
 
-When v1.0.0 is published, it becomes normative:
+## Scope boundaries
 
-```text
-schemas/v1.0.0/commercial/<verb>/
+This repository defines:
+
+- canonical request and receipt schema identities
+- explicit payment, authorization, settlement, fulfillment, and verification semantics
+- x402-facing references required for commercial execution
+- deterministic release metadata and checksums
+
+This repository does not define:
+
+- merchant onboarding policy
+- fraud decisions
+- custody or treasury operations
+- legal finality
+- provider SLAs
+- runtime traces or debugging exhaust as normative truth
+
+## Example schema path
+
+- Request: `https://commandlayer.org/schemas/v1.1.0/commercial/checkout/checkout.request.schema.json`
+- Receipt: `https://commandlayer.org/schemas/v1.1.0/commercial/checkout/checkout.receipt.schema.json`
+
+## Example request artifact
+
+```json
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "checkout",
+  "request_id": "checkoutreq-001",
+  "requested_at": "2026-03-19T10:05:00Z",
+  "payer": { "role": "payer", "id": "buyer-001", "kind": "account" },
+  "merchant": { "role": "merchant", "id": "merchant.example", "kind": "organization" },
+  "order_ref": { "type": "order", "id": "ord-1001" },
+  "items": [
+    {
+      "sku": "sku-pro-plan",
+      "description": "Protocol Pro Plan",
+      "quantity": 1,
+      "unit_price": { "amount": "49.99", "currency": "USDC", "decimals": 2 }
+    }
+  ],
+  "amount_breakdown": {
+    "subtotal": { "amount": "49.99", "currency": "USDC", "decimals": 2 },
+    "total": { "amount": "49.99", "currency": "USDC", "decimals": 2 }
+  },
+  "capture": "immediate",
+  "payment_session": {
+    "scheme": "x402",
+    "session_id": "x402-session-001",
+    "resource": "https://merchant.example/x402/sessions/x402-session-001"
+  },
+  "fulfillment_intent": { "mode": "digital", "destination_ref": "acct-buyer-001" }
+}
 ```
-
-After that:
-
-- Any mutation → new version
-- All files → new CID + checksums
-- ENS binds versioned schemas only
-
-No breaking changes allowed in-place.
-No schema drift tolerated.
-
-## Integrity Notice — Protocol-Commercial v1.0.0 (Normative)
-
-The canonical Protocol-Commercial schemas are pinned and immutable.
-
-- Normative artifact: `schemas/v1.0.0/`
-- IPFS CID: `bafybeiftjpyw6lwy3zm52sipbbwryssg5hoyu2qhr53j5gaqjvwfgfc344`
-
-This CID **defines the authoritative protocol state** for Protocol-Commercial v1.0.0.
-
-Any artifact not matching this CID is non-normative and untrusted.
-
-## Integrity Verification
-
-To verify a local copy:
-
-```bash
-sha256sum -c checksums.txt
-```
-
-- **All checksums must pass**
-- Any mismatch indicates a **tampered or invalid artifact**
-
-## Normative Binding Rules
-
-- ENS TXT records **must reference versioned schema URLs**
-- Runtimes **must validate requests and receipts** against these schemas
-- Receipts **must be verifiable** against the pinned schema definitions
-- Future versions **must not modify v1.0.0 artifacts**
-
-## ENS TXT — Discovery Rules
-
-Commercial TXT keys are **optional** until Runtime v1.0.0.
-Once locked, keys follow the same schema as Commons + Agent-Cards:
-
-| TXT Key                      | Purpose                      | Required at v1.0.0 |
-| ---------------------------- | ---------------------------- | ------------------ |
-| `cl.verb`                    | Primary verb name            | Yes                |
-| `cl.version`                 | Card/schema version          | Yes                |
-| `cl.cid.schemas`             | Commercial schemas CID       | Yes                |
-| `cl.schema.request`          | Canonical request schema URI | Yes                |
-| `cl.schema.receipt`          | Canonical receipt schema URI | Yes                |
-| `cl.checksum.schema.request` | SHA-256 of request schema    | Yes                |
-| `cl.checksum.schema.receipt` | SHA-256 of receipt schema    | Yes                |
-| `cl.agentcard`               | Binding to identity          | Yes                |
-| `cl.owner`                   | Steward ENS name             | Yes                |
 
 ## Validation
-
-Strict JSON Schema validation:
 
 ```bash
 npm install
 npm run validate
+npm run generate:checksums
+sha256sum -c checksums.txt
 ```
 
-Runs:
+`npm run validate` compiles the v1.1.0 schema line, validates all v1.1.0 examples, and checks release metadata for version drift.
 
-- schema validation
-- example fixtures
-- integrity rules
+## Agent Cards alignment
 
-Any failure = **non-compliant.**
+Agent Cards v1.1.0 can bind directly to these stable mirror paths without shared-fragment discovery:
 
-## License
+- `/schemas/v1.1.0/commercial/authorize/authorize.request.schema.json`
+- `/schemas/v1.1.0/commercial/authorize/authorize.receipt.schema.json`
+- and the equivalent pair for each of the five verbs
 
-**Apache-2.0**
+That keeps ENS bindings, commandlayer.org mirrors, and card metadata deterministic.
 
-- Schemas remain open and neutral
-- Value creation happens only when agents execute
+## Integrity
 
-## Next Layer — Protocol-Runtime
+The normative release surface for v1.1.0 is represented by:
 
-Where execution becomes value.
+- `schemas/v1.1.0/`
+- `examples/v1.1.0/`
+- `manifest.json`
+- `checksums.txt`
 
-The Runtime enforces **economic contracts** defined by Commercial,
-and produces **verifiable settlement receipts**.
-
-### Runtime responsibilities
-
-- Execute x402 entrypoints for every agent
-- Meter usage — compute time, tokens, or call counts
-- Gate access — auth, quotas, risk checks
-- Settle value — stablecoins, credits, cross-vendor routing
-- Issue auditable receipts — typed, traceable, final
-- Monitor health & compliance — tracing + analytics
-
-Runtime **imports and enforces**:
-
-- `@commandlayer/commons` — semantic validation
-- `@commandlayer/commercial` — economic semantics
-- `@commandlayer/agent-cards` — identity + routing
-
-> **Schemas stay free — Runtime is the toll road for autonomous agents.**
-
----
+After any release mutation, new checksums and new pinned content identifiers are required.

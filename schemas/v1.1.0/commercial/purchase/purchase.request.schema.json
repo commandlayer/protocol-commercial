@@ -1,0 +1,250 @@
+{
+  "$id": "https://commandlayer.org/schemas/v1.1.0/commercial/purchase/purchase.request.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "purchase.request",
+  "description": "Complete a one-step commercial purchase using x402-aware payment inputs.",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "money": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "amount",
+        "currency"
+      ],
+      "properties": {
+        "amount": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]{1,6})?$",
+          "maxLength": 40
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z0-9]{2,16}$"
+        },
+        "decimals": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 18
+        },
+        "includes": {
+          "type": "string",
+          "enum": [
+            "subtotal",
+            "tax",
+            "shipping",
+            "fees",
+            "discount",
+            "total"
+          ]
+        }
+      }
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "id"
+      ],
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": [
+            "payer",
+            "payee",
+            "merchant",
+            "provider",
+            "marketplace",
+            "counterparty",
+            "carrier",
+            "verifier"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "agent",
+            "organization",
+            "wallet",
+            "account",
+            "service",
+            "human"
+          ]
+        },
+        "display_name": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "id"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "order",
+            "invoice",
+            "authorization",
+            "checkout",
+            "purchase",
+            "shipment",
+            "payment",
+            "settlement",
+            "receipt",
+            "payment_requirement",
+            "payment_session",
+            "proof",
+            "agent_card"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
+    },
+    "product": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "product_id",
+        "description",
+        "quantity"
+      ],
+      "properties": {
+        "product_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "quantity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        }
+      }
+    },
+    "x402_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "payment_requirement_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "payment_proof_ref": {
+          "$ref": "#/$defs/reference"
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "payment_requirement_ref": {
+              "$ref": "#/$defs/reference"
+            }
+          },
+          "required": [
+            "payment_requirement_ref"
+          ]
+        },
+        {
+          "properties": {
+            "payment_proof_ref": {
+              "$ref": "#/$defs/reference"
+            }
+          },
+          "required": [
+            "payment_proof_ref"
+          ]
+        }
+      ]
+    }
+  },
+  "properties": {
+    "protocol": {
+      "type": "string",
+      "const": "commercial"
+    },
+    "version": {
+      "type": "string",
+      "const": "1.1.0"
+    },
+    "verb": {
+      "type": "string",
+      "const": "purchase"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "requested_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "payer": {
+      "$ref": "#/$defs/actor"
+    },
+    "merchant": {
+      "$ref": "#/$defs/actor"
+    },
+    "provider": {
+      "$ref": "#/$defs/actor"
+    },
+    "product": {
+      "$ref": "#/$defs/product"
+    },
+    "amount": {
+      "$ref": "#/$defs/money"
+    },
+    "order_ref": {
+      "$ref": "#/$defs/reference"
+    },
+    "invoice_ref": {
+      "$ref": "#/$defs/reference"
+    },
+    "x402": {
+      "$ref": "#/$defs/x402_input"
+    }
+  },
+  "required": [
+    "protocol",
+    "version",
+    "verb",
+    "request_id",
+    "requested_at",
+    "payer",
+    "merchant",
+    "product",
+    "amount",
+    "x402"
+  ]
+}

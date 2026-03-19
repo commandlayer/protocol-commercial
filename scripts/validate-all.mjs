@@ -1,14 +1,4 @@
 #!/usr/bin/env node
-/**
- * validate-all.mjs
- *
- * Compile all JSON Schemas under schemas/v1.0.0 using Ajv 2020-12 in strict mode.
- * Fails if:
- *  - any schema cannot be parsed,
- *  - any $ref cannot be resolved,
- *  - any schema fails compilation.
- */
-
 import { promises as fs } from "fs";
 import path from "path";
 import Ajv2020 from "ajv/dist/2020.js";
@@ -16,106 +6,81 @@ import addFormats from "ajv-formats";
 import ajvErrors from "ajv-errors";
 
 const ROOT_DIR = process.cwd();
-const SCHEMAS_ROOT = path.join(ROOT_DIR, "schemas", "v1.0.0");
+const CURRENT_VERSION = "1.1.0";
+const SCHEMAS_ROOT = path.join(ROOT_DIR, "schemas", `v${CURRENT_VERSION}`);
+const EXPECTED_VERBS = ["authorize", "checkout", "purchase", "ship", "verify"];
 
-async function collectSchemaFiles(dir) {
+async function collectJsonFiles(dir) {
   const entries = await fs.readdir(dir, { withFileTypes: true });
   const files = [];
-
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      const nested = await collectSchemaFiles(fullPath);
-      files.push(...nested);
-    } else if (entry.isFile() && entry.name.endsWith(".schema.json")) {
-      files.push(fullPath);
-    }
+    if (entry.isDirectory()) files.push(...await collectJsonFiles(fullPath));
+    else if (entry.isFile() && entry.name.endsWith(".json")) files.push(fullPath);
   }
-
   return files;
 }
 
-async function loadSchemas(ajv, files) {
-  const loaded = [];
-  let hasError = false;
-
-  for (const file of files) {
-    try {
-      const raw = await fs.readFile(file, "utf8");
-      const schema = JSON.parse(raw);
-      const id = schema.$id || `file://${file.replace(/\\/g, "/")}`;
-      ajv.addSchema(schema, id);
-      loaded.push({ id, file, schema });
-    } catch (err) {
-      hasError = true;
-      console.error(`❌ Failed to load schema: ${file}`);
-      console.error(err);
-    }
-  }
-
-  if (hasError) {
-    console.error("❌ One or more schemas could not be loaded. Aborting.");
-    process.exit(1);
-  }
-
-  return loaded;
+function assert(condition, message) {
+  if (!condition) throw new Error(message);
 }
 
-async function compileSchemas(ajv, loaded) {
-  let compiledCount = 0;
-  let hasError = false;
+async function loadJson(filePath) {
+  return JSON.parse(await fs.readFile(filePath, "utf8"));
+}
 
-  for (const { id, file, schema } of loaded) {
-    try {
-      const refId = schema.$id || id;
-      ajv.getSchema(refId) || ajv.compile(schema);
-      compiledCount++;
-    } catch (err) {
-      hasError = true;
-      console.error(`❌ Failed to compile schema: ${file}`);
-      console.error(err);
-    }
+async function validateManifest() {
+  const manifest = await loadJson(path.join(ROOT_DIR, "manifest.json"));
+  assert(manifest.version === CURRENT_VERSION, `manifest version must be ${CURRENT_VERSION}`);
+  assert(manifest.schemas_root === `schemas/v${CURRENT_VERSION}`, "manifest schemas_root drift");
+  assert(manifest.examples_root === `examples/v${CURRENT_VERSION}`, "manifest examples_root drift");
+  assert(JSON.stringify(manifest.verbs.map((v) => v.verb)) === JSON.stringify(EXPECTED_VERBS), "manifest verb list drift");
+}
+
+async function validatePackage() {
+  const pkg = await loadJson(path.join(ROOT_DIR, "package.json"));
+  assert(pkg.version === CURRENT_VERSION, `package version must be ${CURRENT_VERSION}`);
+  assert(pkg.main === `schemas/v${CURRENT_VERSION}/index.json`, "package main drift");
+}
+
+async function validateSchemaTree() {
+  const schemaFiles = (await collectJsonFiles(SCHEMAS_ROOT)).filter((file) => file.endsWith(".schema.json"));
+  assert(schemaFiles.length === 10, "expected 10 current-line schema files");
+  const ajv = new Ajv2020({ strict: true, allErrors: true, allowUnionTypes: false });
+  addFormats(ajv);
+  ajvErrors(ajv);
+  for (const file of schemaFiles) {
+    const schema = await loadJson(file);
+    const rel = path.relative(ROOT_DIR, file).replace(/\\/g, "/");
+    const expectedId = `https://commandlayer.org/${rel}`;
+    assert(schema.$schema === "https://json-schema.org/draft/2020-12/schema", `${rel} has unexpected $schema`);
+    assert(schema.$id === expectedId, `${rel} has mismatched $id`);
+    assert(!rel.includes("/_shared/"), "v1.1.0 current line must not use _shared");
+    ajv.compile(schema);
   }
+  const indexJson = await loadJson(path.join(SCHEMAS_ROOT, "index.json"));
+  assert(indexJson.version === CURRENT_VERSION, "index.json version drift");
+}
 
-  if (hasError) {
-    console.error("❌ One or more schemas failed compilation.");
-    process.exit(1);
+async function validateLayout() {
+  for (const verb of EXPECTED_VERBS) {
+    const dir = path.join(SCHEMAS_ROOT, "commercial", verb);
+    const entries = await fs.readdir(dir);
+    assert(entries.includes(`${verb}.request.schema.json`), `missing ${verb} request schema`);
+    assert(entries.includes(`${verb}.receipt.schema.json`), `missing ${verb} receipt schema`);
   }
-
-  console.log(`✅ All ${compiledCount} schemas compiled successfully.`);
 }
 
 async function main() {
-  console.log("🔎 Scanning for schemas under:", SCHEMAS_ROOT);
-
-  let files;
-  try {
-    files = await collectSchemaFiles(SCHEMAS_ROOT);
-  } catch (err) {
-    console.error("❌ Failed to read schemas directory:", SCHEMAS_ROOT);
-    console.error(err);
-    process.exit(1);
-  }
-
-  if (files.length === 0) {
-    console.warn("⚠️ No *.schema.json files found. Nothing to validate.");
-    process.exit(0);
-  }
-
-  const ajv = new Ajv2020({
-    strict: true,
-    allErrors: true,
-    allowUnionTypes: false
-  });
-  addFormats(ajv);
-  ajvErrors(ajv);
-
-  const loaded = await loadSchemas(ajv, files);
-  await compileSchemas(ajv, loaded);
+  await validateManifest();
+  await validatePackage();
+  await validateLayout();
+  await validateSchemaTree();
+  console.log("✅ Current release metadata and schemas validated.");
 }
 
-main().catch((err) => {
-  console.error("❌ Unexpected error in validate-all.mjs:");
-  console.error(err);
+main().catch((error) => {
+  console.error("❌ Schema validation failed.");
+  console.error(error);
   process.exit(1);
 });
