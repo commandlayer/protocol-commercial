@@ -6,11 +6,13 @@
   "requested_at": "2026-03-19T10:15:00Z",
   "merchant": {
     "role": "merchant",
-    "id": "merchant.example"
+    "id": "merchant.example",
+    "kind": "organization"
   },
   "provider": {
     "role": "provider",
-    "id": "warehouse.example"
+    "id": "warehouse.example",
+    "kind": "service"
   },
   "order_ref": {
     "type": "order",
@@ -18,7 +20,9 @@
   },
   "items": [],
   "destination": {
-    "country_code": "USA"
+    "country_code": "US",
+    "postal_code": "10001",
+    "locality": "New York"
   },
   "service_level": "express"
 }

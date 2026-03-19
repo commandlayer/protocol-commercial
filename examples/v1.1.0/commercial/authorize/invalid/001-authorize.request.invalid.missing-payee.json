@@ -1,0 +1,38 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "authorize",
+  "request_id": "bad-auth-001",
+  "requested_at": "2026-03-19T10:00:00Z",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-001",
+    "kind": "account"
+  },
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "amount": {
+    "amount": "49.99",
+    "currency": "USDC",
+    "decimals": 2
+  },
+  "authorization_scope": {
+    "capture_mode": "manual",
+    "valid_until": "2026-03-20T10:00:00Z",
+    "reusable": false
+  },
+  "payment_requirement": {
+    "scheme": "x402",
+    "resource": "https://merchant.example/x402/authorize/bad-auth-001",
+    "network": "eip155:8453",
+    "max_amount": {
+      "amount": "49.99",
+      "currency": "USDC",
+      "decimals": 2
+    },
+    "payment_request_id": "x402-auth-bad-001"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "authorize",
+  "receipt_id": "bad-authrcpt-002",
+  "issued_at": "2026-03-19T10:02:05Z",
+  "request_id": "authreq-002",
+  "status": "denied",
+  "authorization_id": "auth-002",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-002",
+    "kind": "account"
+  },
+  "payee": {
+    "role": "payee",
+    "id": "merchant-settlement",
+    "kind": "wallet"
+  },
+  "amount": {
+    "amount": "89.00",
+    "currency": "USDC",
+    "decimals": 2
+  }
+}

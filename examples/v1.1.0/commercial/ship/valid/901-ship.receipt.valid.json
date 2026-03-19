@@ -1,0 +1,35 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "ship",
+  "receipt_id": "shiprcpt-002",
+  "issued_at": "2026-03-20T16:45:00Z",
+  "request_id": "shipreq-002",
+  "status": "delivered",
+  "shipment_id": "shipment-002",
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "carrier": {
+    "role": "carrier",
+    "id": "fedex",
+    "kind": "service"
+  },
+  "order_ref": {
+    "type": "order",
+    "id": "ord-3002"
+  },
+  "purchase_ref": {
+    "type": "purchase",
+    "id": "purchase-3002"
+  },
+  "fulfillment_ref": {
+    "type": "shipment",
+    "id": "fulfillment-3002"
+  },
+  "tracking_number": "773456789012",
+  "tracking_url": "https://carrier.example/track/773456789012",
+  "event_at": "2026-03-20T16:44:52Z"
+}

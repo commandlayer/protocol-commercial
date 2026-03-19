@@ -1,0 +1,47 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "purchase",
+  "request_id": "purchasereq-002",
+  "requested_at": "2026-03-19T10:12:00Z",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-002",
+    "kind": "account"
+  },
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "provider": {
+    "role": "provider",
+    "id": "marketplace.commandlayer",
+    "kind": "service"
+  },
+  "product": {
+    "product_id": "svc-review-pack",
+    "description": "Human review execution bundle",
+    "quantity": 2
+  },
+  "amount": {
+    "amount": "75.00",
+    "currency": "USDC",
+    "decimals": 2
+  },
+  "order_ref": {
+    "type": "order",
+    "id": "ord-2002"
+  },
+  "invoice_ref": {
+    "type": "invoice",
+    "id": "inv-2002"
+  },
+  "x402": {
+    "payment_proof_ref": {
+      "type": "proof",
+      "id": "proof-2002",
+      "uri": "https://merchant.example/x402/proofs/proof-2002"
+    }
+  }
+}

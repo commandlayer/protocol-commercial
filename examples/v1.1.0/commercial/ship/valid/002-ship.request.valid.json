@@ -1,0 +1,45 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "ship",
+  "request_id": "shipreq-002",
+  "requested_at": "2026-03-19T10:16:00Z",
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "provider": {
+    "role": "provider",
+    "id": "warehouse.example",
+    "kind": "service"
+  },
+  "order_ref": {
+    "type": "order",
+    "id": "ord-3002"
+  },
+  "purchase_ref": {
+    "type": "purchase",
+    "id": "purchase-3002"
+  },
+  "fulfillment_ref": {
+    "type": "receipt",
+    "id": "fulfillment-3002"
+  },
+  "items": [
+    {
+      "sku": "device-002",
+      "quantity": 2
+    },
+    {
+      "sku": "cable-002",
+      "quantity": 1
+    }
+  ],
+  "destination": {
+    "country_code": "US",
+    "postal_code": "94105",
+    "locality": "San Francisco"
+  },
+  "service_level": "standard"
+}

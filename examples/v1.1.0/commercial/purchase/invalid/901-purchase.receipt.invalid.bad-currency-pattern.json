@@ -1,0 +1,49 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "purchase",
+  "receipt_id": "bad-purchasercpt-002",
+  "issued_at": "2026-03-19T10:12:03Z",
+  "request_id": "purchasereq-002",
+  "status": "pending",
+  "purchase_id": "purchase-002",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-002",
+    "kind": "account"
+  },
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "provider": {
+    "role": "provider",
+    "id": "marketplace.commandlayer",
+    "kind": "service"
+  },
+  "amount": {
+    "amount": "75.00",
+    "currency": "usd-coin",
+    "decimals": 2
+  },
+  "order_ref": {
+    "type": "order",
+    "id": "ord-2002"
+  },
+  "invoice_ref": {
+    "type": "invoice",
+    "id": "inv-2002"
+  },
+  "settlement": {
+    "status": "pending",
+    "method": "x402",
+    "settlement_ref": "settle-2002",
+    "amount": {
+      "amount": "75.00",
+      "currency": "USDC",
+      "decimals": 2
+    }
+  },
+  "reason": "Purchase is queued while delegated provider capacity is assigned."
+}

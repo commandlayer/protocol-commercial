@@ -5,18 +5,21 @@
   "receipt_id": "bad-authrcpt-001",
   "issued_at": "2026-03-19T10:00:05Z",
   "request_id": "authreq-001",
-  "status": "approved",
+  "status": "approvedd",
   "authorization_id": "auth-001",
   "payer": {
     "role": "payer",
-    "id": "buyer-001"
+    "id": "buyer-001",
+    "kind": "account"
   },
   "payee": {
     "role": "payee",
-    "id": "merchant-settlement"
+    "id": "merchant-settlement",
+    "kind": "wallet"
   },
   "amount": {
     "amount": "49.99",
-    "currency": "USDC"
+    "currency": "USDC",
+    "decimals": 2
   }
 }

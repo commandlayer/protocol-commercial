@@ -1,0 +1,61 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "checkout",
+  "receipt_id": "bad-checkoutrcpt-002",
+  "issued_at": "2026-03-19T10:07:04Z",
+  "request_id": "checkoutreq-002",
+  "status": "pending",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-002",
+    "kind": "account"
+  },
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "order_ref": {
+    "type": "order",
+    "id": "ord-1002"
+  },
+  "invoice_ref": {
+    "type": "invoice",
+    "id": "inv-1002"
+  },
+  "settlement": {
+    "status": "pending",
+    "method": "x402",
+    "settlement_ref": "settle-002",
+    "amount": {
+      "amount": "99.00",
+      "currency": "USDC",
+      "decimals": 2
+    }
+  },
+  "amount_breakdown": {
+    "subtotal": {
+      "amount": "90.00",
+      "currency": "USDC",
+      "decimals": 2
+    },
+    "tax": {
+      "amount": "9.00",
+      "currency": "USDC",
+      "decimals": 2
+    },
+    "total": {
+      "amount": "99.00",
+      "currency": "USDC",
+      "decimals": 2
+    }
+  },
+  "payment_proof": {
+    "scheme": "x402",
+    "proof_type": "payment-session",
+    "proof_ref": "proof-002",
+    "uri": "not-a-uri"
+  },
+  "reason": "Waiting for final settlement confirmation from the x402 network."
+}

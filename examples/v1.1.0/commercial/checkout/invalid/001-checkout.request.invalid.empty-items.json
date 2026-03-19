@@ -6,11 +6,13 @@
   "requested_at": "2026-03-19T10:05:00Z",
   "payer": {
     "role": "payer",
-    "id": "buyer-001"
+    "id": "buyer-001",
+    "kind": "account"
   },
   "merchant": {
     "role": "merchant",
-    "id": "merchant.example"
+    "id": "merchant.example",
+    "kind": "organization"
   },
   "order_ref": {
     "type": "order",
@@ -20,20 +22,24 @@
   "amount_breakdown": {
     "subtotal": {
       "amount": "49.99",
-      "currency": "USDC"
+      "currency": "USDC",
+      "decimals": 2
     },
     "total": {
       "amount": "49.99",
-      "currency": "USDC"
+      "currency": "USDC",
+      "decimals": 2
     }
   },
   "capture": "immediate",
   "payment_session": {
     "scheme": "x402",
     "session_id": "x402-session-001",
-    "resource": "https://merchant.example/x402/sessions/x402-session-001"
+    "resource": "https://merchant.example/x402/sessions/x402-session-001",
+    "network": "eip155:8453"
   },
   "fulfillment_intent": {
-    "mode": "digital"
+    "mode": "digital",
+    "destination_ref": "acct-buyer-001"
   }
 }

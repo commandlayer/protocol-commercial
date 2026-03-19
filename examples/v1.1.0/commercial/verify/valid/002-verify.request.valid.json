@@ -1,0 +1,30 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "verify",
+  "request_id": "verifyreq-002",
+  "requested_at": "2026-03-19T10:22:00Z",
+  "requester": {
+    "role": "provider",
+    "id": "audit.example",
+    "kind": "service"
+  },
+  "verifier": {
+    "role": "verifier",
+    "id": "ledger.example",
+    "kind": "service"
+  },
+  "target": {
+    "target_type": "shipment",
+    "target_ref": {
+      "type": "shipment",
+      "id": "shipment-3002"
+    },
+    "authority": "https://ledger.example/verify/shipment"
+  },
+  "checks": [
+    "existence",
+    "fulfillment"
+  ],
+  "strict": false
+}

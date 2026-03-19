@@ -1,0 +1,47 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "authorize",
+  "request_id": "bad-auth-002",
+  "requested_at": "2026-03-19T10:02:00Z",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-002",
+    "kind": "account"
+  },
+  "payee": {
+    "role": "payee",
+    "id": "merchant-settlement",
+    "kind": "wallet"
+  },
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "amount": {
+    "amount": "89.00",
+    "currency": "USDC",
+    "decimals": 2
+  },
+  "authorization_scope": {
+    "capture_mode": "automatic",
+    "valid_until": "2026-03-20T10:02:00Z",
+    "reusable": true
+  },
+  "payment_requirement": {
+    "scheme": "x402",
+    "resource": "merchant.example/x402/authorize/bad-auth-002",
+    "network": "eip155:8453",
+    "max_amount": {
+      "amount": "89.00",
+      "currency": "USDC",
+      "decimals": 2
+    },
+    "payment_request_id": "x402-auth-bad-002"
+  },
+  "order_ref": {
+    "type": "order",
+    "id": "ord-1002"
+  }
+}
