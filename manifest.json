@@ -1,5 +1,4 @@
 {
-  "$schema": "https://commandlayer.org/schemas/manifest/v1.json",
   "name": "@commandlayer/commercial",
   "class": "commercial",
   "version": "1.1.0",

@@ -31,9 +31,12 @@ async function loadJson(filePath) {
 
 async function validateManifest() {
   const manifest = await loadJson(path.join(ROOT_DIR, "manifest.json"));
+  assert(!("$schema" in manifest), "manifest.json must not carry a decorative $schema field");
   assert(manifest.version === CURRENT_VERSION, `manifest version must be ${CURRENT_VERSION}`);
   assert(manifest.schemas_root === `schemas/v${CURRENT_VERSION}`, "manifest schemas_root drift");
   assert(manifest.examples_root === `examples/v${CURRENT_VERSION}`, "manifest examples_root drift");
+  assert(manifest.current_index === `schemas/v${CURRENT_VERSION}/index.json`, "manifest current_index drift");
+  assert(manifest.checksums_file === "checksums.txt", "manifest checksums_file drift");
   assert(JSON.stringify(manifest.verbs.map((v) => v.verb)) === JSON.stringify(EXPECTED_VERBS), "manifest verb list drift");
 }
 

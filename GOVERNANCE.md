@@ -1,5 +1,7 @@
 # GOVERNANCE — Protocol-Commercial
 
+This document applies repo-wide and is version-independent unless a section says otherwise.
+
 **Founding steward:** commandlayer.eth
 
 ## Steward responsibility

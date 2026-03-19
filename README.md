@@ -2,6 +2,8 @@
 
 Protocol-Commercial v1.1.0 is the normative commercial schema layer for CommandLayer.
 
+This README describes the current v1.1.0 release line and its release packaging surface. Repo-wide governance and security policy live in the dedicated meta docs.
+
 It defines the canonical commercial overlays that sit on top of Protocol-Commons v1.1.0. Commons defines base semantic actions. Commercial defines the monetized, settlement-aware request and receipt contracts that agents and runtimes use when value moves.
 
 Commercial is intentionally semantics-only:
@@ -84,7 +86,7 @@ This repository defines:
 - canonical request and receipt schema identities
 - explicit payment, authorization, settlement, fulfillment, and verification semantics
 - x402-facing references required for commercial execution
-- deterministic release metadata and checksums
+- deterministic release metadata and machine-artifact checksums
 
 This repository does not define:
 
@@ -157,11 +159,12 @@ That keeps ENS bindings, commandlayer.org mirrors, and card metadata determinist
 
 ## Integrity
 
-The normative release surface for v1.1.0 is represented by:
+The v1.1.0 checksum surface is intentionally limited to canonical machine artifacts:
 
 - `schemas/v1.1.0/`
 - `examples/v1.1.0/`
 - `manifest.json`
-- `checksums.txt`
 
-After any release mutation, new checksums and new pinned content identifiers are required.
+`checksums.txt` records hashes for that machine-verifiable set only. Release-defining prose docs such as `README.md`, `SPEC.md`, `POLICY.md`, `SECURITY_PROVENANCE.md`, and `ONBOARDING.md` are authoritative guidance, but they are outside the checksum surface unless the tooling is expanded deliberately in a later release.
+
+After any mutation to the checksum-covered set, regenerate `checksums.txt` and repin any release bundle that depends on those artifacts.

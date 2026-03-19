@@ -4,12 +4,13 @@
 
 Current release line: `v1.1.0`
 
-Normative artifact roots:
+Checksum-covered machine-artifact roots:
 
 - `schemas/v1.1.0/`
 - `examples/v1.1.0/`
 - `manifest.json`
-- `checksums.txt`
+
+`checksums.txt` is the generated SHA-256 ledger for that machine-artifact set. Release-defining prose docs in the repository are intentionally outside this checksum boundary and must not be described as checksum-protected.
 
 Release integrity state for this repository:
 
