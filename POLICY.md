@@ -32,3 +32,4 @@ Release-defining prose docs may govern interpretation and process, but they are 
 - `payment_requirement`, `payment_session`, and `payment_proof` are the canonical payment-layer names for shared semantics.
 - `fulfillment_ref` denotes the merchant or provider controlled fulfillment artifact, not a generic external pointer.
 - Shipment receipts must remain commercially scoped and tied to an upstream checkout or purchase.
+- `requester` is the governed field for the initiator of a `verify.request`; `verifier` is reserved for the authority that issues or attests the verification receipt.

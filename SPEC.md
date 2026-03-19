@@ -86,7 +86,8 @@ Protocol-Commercial v1.1.0 uses a compact governed actor grammar:
 - `merchant` = the commercial principal offering, selling, or fulfilling the order
 - `provider` = an optional facilitator executing settlement or fulfillment work for the merchant
 - `carrier` = the shipment operator for physical fulfillment
-- `verifier` = the authority validating commercial evidence
+- `requester` = the party initiating a verification request
+- `verifier` = the authority performing or attesting the verification result
 
 Actor field names are normative. A field named `merchant` MUST contain an actor whose role is `merchant`, and likewise for the other actor fields.
 

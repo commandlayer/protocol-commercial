@@ -238,7 +238,7 @@
     "verifier": {
       "allOf": [
         {
-          "$ref": "#/$defs/actor"
+          "$ref": "#/$defs/actor_identity"
         },
         {
           "type": "object",

@@ -355,6 +355,7 @@
     "requested_at",
     "payer",
     "payee",
+    "merchant",
     "amount",
     "authorization_scope"
   ]

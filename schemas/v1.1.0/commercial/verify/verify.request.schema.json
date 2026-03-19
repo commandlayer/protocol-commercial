@@ -252,10 +252,12 @@
       "format": "date-time"
     },
     "requester": {
-      "$ref": "#/$defs/actor_identity"
+      "$ref": "#/$defs/actor_identity",
+      "description": "The party initiating the verification request."
     },
     "verifier": {
-      "$ref": "#/$defs/verifier_actor"
+      "$ref": "#/$defs/verifier_actor",
+      "description": "The authority expected to perform or attest the verification result, when designated in advance."
     },
     "target": {
       "$ref": "#/$defs/target"
