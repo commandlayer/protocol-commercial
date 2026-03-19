@@ -41,92 +41,6 @@
         }
       }
     },
-    "actor": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "role",
-        "id"
-      ],
-      "properties": {
-        "role": {
-          "type": "string",
-          "enum": [
-            "payer",
-            "payee",
-            "merchant",
-            "provider",
-            "marketplace",
-            "counterparty",
-            "carrier",
-            "verifier"
-          ]
-        },
-        "id": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128
-        },
-        "kind": {
-          "type": "string",
-          "enum": [
-            "agent",
-            "organization",
-            "wallet",
-            "account",
-            "service",
-            "human"
-          ]
-        },
-        "display_name": {
-          "type": "string",
-          "maxLength": 128
-        },
-        "uri": {
-          "type": "string",
-          "format": "uri",
-          "maxLength": 512
-        }
-      }
-    },
-    "reference": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "type",
-        "id"
-      ],
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "order",
-            "invoice",
-            "authorization",
-            "checkout",
-            "purchase",
-            "shipment",
-            "payment",
-            "settlement",
-            "receipt",
-            "payment_requirement",
-            "payment_session",
-            "proof",
-            "agent_card"
-          ]
-        },
-        "id": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128
-        },
-        "uri": {
-          "type": "string",
-          "format": "uri",
-          "maxLength": 512
-        }
-      }
-    },
     "amount_breakdown": {
       "type": "object",
       "additionalProperties": false,
@@ -198,7 +112,7 @@
         }
       }
     },
-    "x402_proof": {
+    "payment_proof": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -215,10 +129,204 @@
           "type": "string",
           "enum": [
             "payment-session",
+            "payment-authorization",
             "payment-proof"
           ]
         },
         "proof_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
+    },
+    "actor_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "id"
+      ],
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": [
+            "payer",
+            "payee",
+            "merchant",
+            "provider",
+            "carrier",
+            "verifier"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "agent",
+            "organization",
+            "wallet",
+            "account",
+            "service",
+            "human"
+          ]
+        },
+        "display_name": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
+    },
+    "payer_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "payer"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "payee_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "payee"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "merchant_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "merchant"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "provider_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "provider"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "carrier_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "carrier"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "verifier_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "verifier"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "id"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "order",
+            "invoice",
+            "authorization",
+            "checkout",
+            "purchase",
+            "fulfillment",
+            "shipment",
+            "payment",
+            "settlement",
+            "receipt",
+            "payment_requirement",
+            "payment_session",
+            "payment_proof",
+            "agent_card"
+          ]
+        },
+        "id": {
           "type": "string",
           "minLength": 1,
           "maxLength": 128
@@ -267,10 +375,13 @@
       ]
     },
     "payer": {
-      "$ref": "#/$defs/actor"
+      "$ref": "#/$defs/payer_actor"
     },
     "merchant": {
-      "$ref": "#/$defs/actor"
+      "$ref": "#/$defs/merchant_actor"
+    },
+    "payee": {
+      "$ref": "#/$defs/payee_actor"
     },
     "order_ref": {
       "$ref": "#/$defs/reference"
@@ -288,7 +399,7 @@
       "$ref": "#/$defs/reference"
     },
     "payment_proof": {
-      "$ref": "#/$defs/x402_proof"
+      "$ref": "#/$defs/payment_proof"
     },
     "reason": {
       "type": "string",
@@ -310,6 +421,25 @@
     "amount_breakdown"
   ],
   "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "captured"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "payment_proof": {
+            "$ref": "#/$defs/payment_proof"
+          }
+        },
+        "required": [
+          "payment_proof"
+        ]
+      }
+    },
     {
       "if": {
         "properties": {

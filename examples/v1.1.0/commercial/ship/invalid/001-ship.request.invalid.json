@@ -8,6 +8,10 @@
     "role": "merchant",
     "id": "merchant.example"
   },
+  "payer": {
+    "role": "payer",
+    "id": "buyer-001"
+  },
   "provider": {
     "role": "provider",
     "id": "warehouse.example"
@@ -15,6 +19,14 @@
   "order_ref": {
     "type": "order",
     "id": "ord-3001"
+  },
+  "commercial_ref": {
+    "type": "authorization",
+    "id": "auth-3001"
+  },
+  "fulfillment_ref": {
+    "type": "receipt",
+    "id": "fulfillment-3001"
   },
   "items": [],
   "destination": {

@@ -14,6 +14,11 @@
     "id": "merchant.example",
     "kind": "organization"
   },
+  "payee": {
+    "role": "payee",
+    "id": "merchant-settlement",
+    "kind": "wallet"
+  },
   "provider": {
     "role": "provider",
     "id": "runtime.commandlayer",

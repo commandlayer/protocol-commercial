@@ -15,16 +15,22 @@
     "role": "merchant",
     "id": "merchant.example"
   },
-  "amount": {
-    "amount": "12.50",
-    "currency": "USDC"
+  "amount_breakdown": {
+    "subtotal": {
+      "amount": "15.00",
+      "currency": "USDC"
+    },
+    "total": {
+      "amount": "15.00",
+      "currency": "USDC"
+    }
   },
   "settlement": {
-    "status": "failed",
+    "status": "captured",
     "method": "x402",
     "settlement_ref": "settle-2001",
     "amount": {
-      "amount": "12.50",
+      "amount": "15.00",
       "currency": "USDC"
     }
   }

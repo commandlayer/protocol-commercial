@@ -2,7 +2,7 @@
   "$id": "https://commandlayer.org/schemas/v1.1.0/commercial/purchase/purchase.request.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "purchase.request",
-  "description": "Complete a one-step commercial purchase using x402-aware payment inputs.",
+  "description": "Complete a one-step commercial purchase using pre-agreed x402 payment inputs rather than a negotiated checkout session.",
   "type": "object",
   "additionalProperties": false,
   "$defs": {
@@ -41,7 +41,145 @@
         }
       }
     },
-    "actor": {
+    "purchase_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sku",
+        "description",
+        "quantity",
+        "unit_price"
+      ],
+      "properties": {
+        "sku": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "quantity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+        },
+        "unit_price": {
+          "$ref": "#/$defs/money"
+        }
+      }
+    },
+    "amount_breakdown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "subtotal",
+        "total"
+      ],
+      "properties": {
+        "subtotal": {
+          "$ref": "#/$defs/money"
+        },
+        "tax": {
+          "$ref": "#/$defs/money"
+        },
+        "fees": {
+          "$ref": "#/$defs/money"
+        },
+        "discount": {
+          "$ref": "#/$defs/money"
+        },
+        "shipping": {
+          "$ref": "#/$defs/money"
+        },
+        "total": {
+          "$ref": "#/$defs/money"
+        }
+      }
+    },
+    "payment_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scheme",
+        "proof_type",
+        "proof_ref"
+      ],
+      "properties": {
+        "scheme": {
+          "type": "string",
+          "const": "x402"
+        },
+        "proof_type": {
+          "type": "string",
+          "enum": [
+            "payment-session",
+            "payment-authorization",
+            "payment-proof"
+          ]
+        },
+        "proof_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
+    },
+    "payment_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "payment_requirement_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "payment_session_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "payment_proof": {
+          "$ref": "#/$defs/payment_proof"
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "payment_requirement_ref": {
+              "$ref": "#/$defs/reference"
+            }
+          },
+          "required": [
+            "payment_requirement_ref"
+          ]
+        },
+        {
+          "properties": {
+            "payment_session_ref": {
+              "$ref": "#/$defs/reference"
+            }
+          },
+          "required": [
+            "payment_session_ref"
+          ]
+        },
+        {
+          "properties": {
+            "payment_proof": {
+              "$ref": "#/$defs/payment_proof"
+            }
+          },
+          "required": [
+            "payment_proof"
+          ]
+        }
+      ]
+    },
+    "actor_identity": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -56,8 +194,6 @@
             "payee",
             "merchant",
             "provider",
-            "marketplace",
-            "counterparty",
             "carrier",
             "verifier"
           ]
@@ -89,6 +225,114 @@
         }
       }
     },
+    "payer_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "payer"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "payee_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "payee"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "merchant_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "merchant"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "provider_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "provider"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "carrier_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "carrier"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "verifier_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "verifier"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
     "reference": {
       "type": "object",
       "additionalProperties": false,
@@ -105,13 +349,14 @@
             "authorization",
             "checkout",
             "purchase",
+            "fulfillment",
             "shipment",
             "payment",
             "settlement",
             "receipt",
             "payment_requirement",
             "payment_session",
-            "proof",
+            "payment_proof",
             "agent_card"
           ]
         },
@@ -126,66 +371,6 @@
           "maxLength": 512
         }
       }
-    },
-    "product": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "product_id",
-        "description",
-        "quantity"
-      ],
-      "properties": {
-        "product_id": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128
-        },
-        "description": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 256
-        },
-        "quantity": {
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 1000000
-        }
-      }
-    },
-    "x402_input": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "payment_requirement_ref": {
-          "$ref": "#/$defs/reference"
-        },
-        "payment_proof_ref": {
-          "$ref": "#/$defs/reference"
-        }
-      },
-      "oneOf": [
-        {
-          "properties": {
-            "payment_requirement_ref": {
-              "$ref": "#/$defs/reference"
-            }
-          },
-          "required": [
-            "payment_requirement_ref"
-          ]
-        },
-        {
-          "properties": {
-            "payment_proof_ref": {
-              "$ref": "#/$defs/reference"
-            }
-          },
-          "required": [
-            "payment_proof_ref"
-          ]
-        }
-      ]
     }
   },
   "properties": {
@@ -211,19 +396,27 @@
       "format": "date-time"
     },
     "payer": {
-      "$ref": "#/$defs/actor"
+      "$ref": "#/$defs/payer_actor"
     },
     "merchant": {
-      "$ref": "#/$defs/actor"
+      "$ref": "#/$defs/merchant_actor"
+    },
+    "payee": {
+      "$ref": "#/$defs/payee_actor"
     },
     "provider": {
-      "$ref": "#/$defs/actor"
+      "$ref": "#/$defs/provider_actor"
     },
-    "product": {
-      "$ref": "#/$defs/product"
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "items": {
+        "$ref": "#/$defs/purchase_item"
+      }
     },
-    "amount": {
-      "$ref": "#/$defs/money"
+    "amount_breakdown": {
+      "$ref": "#/$defs/amount_breakdown"
     },
     "order_ref": {
       "$ref": "#/$defs/reference"
@@ -231,8 +424,13 @@
     "invoice_ref": {
       "$ref": "#/$defs/reference"
     },
-    "x402": {
-      "$ref": "#/$defs/x402_input"
+    "merchant_reference": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "payment_input": {
+      "$ref": "#/$defs/payment_input"
     }
   },
   "required": [
@@ -243,8 +441,8 @@
     "requested_at",
     "payer",
     "merchant",
-    "product",
-    "amount",
-    "x402"
+    "items",
+    "amount_breakdown",
+    "payment_input"
   ]
 }

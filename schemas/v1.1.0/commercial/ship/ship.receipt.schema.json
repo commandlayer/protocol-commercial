@@ -6,7 +6,40 @@
   "type": "object",
   "additionalProperties": false,
   "$defs": {
-    "actor": {
+    "payment_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scheme",
+        "proof_type",
+        "proof_ref"
+      ],
+      "properties": {
+        "scheme": {
+          "type": "string",
+          "const": "x402"
+        },
+        "proof_type": {
+          "type": "string",
+          "enum": [
+            "payment-session",
+            "payment-authorization",
+            "payment-proof"
+          ]
+        },
+        "proof_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
+    },
+    "actor_identity": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -21,8 +54,6 @@
             "payee",
             "merchant",
             "provider",
-            "marketplace",
-            "counterparty",
             "carrier",
             "verifier"
           ]
@@ -54,6 +85,114 @@
         }
       }
     },
+    "payer_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "payer"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "payee_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "payee"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "merchant_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "merchant"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "provider_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "provider"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "carrier_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "carrier"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "verifier_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "verifier"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
     "reference": {
       "type": "object",
       "additionalProperties": false,
@@ -70,13 +209,14 @@
             "authorization",
             "checkout",
             "purchase",
+            "fulfillment",
             "shipment",
             "payment",
             "settlement",
             "receipt",
             "payment_requirement",
             "payment_session",
-            "proof",
+            "payment_proof",
             "agent_card"
           ]
         },
@@ -136,15 +276,18 @@
       "maxLength": 128
     },
     "merchant": {
-      "$ref": "#/$defs/actor"
+      "$ref": "#/$defs/merchant_actor"
+    },
+    "payer": {
+      "$ref": "#/$defs/payer_actor"
     },
     "carrier": {
-      "$ref": "#/$defs/actor"
+      "$ref": "#/$defs/carrier_actor"
     },
     "order_ref": {
       "$ref": "#/$defs/reference"
     },
-    "purchase_ref": {
+    "commercial_ref": {
       "$ref": "#/$defs/reference"
     },
     "fulfillment_ref": {
@@ -164,6 +307,16 @@
       "type": "string",
       "format": "date-time"
     },
+    "delivered_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "delivery_proof_ref": {
+      "$ref": "#/$defs/reference"
+    },
+    "payment_ref": {
+      "$ref": "#/$defs/reference"
+    },
     "reason": {
       "type": "string",
       "maxLength": 512
@@ -179,10 +332,68 @@
     "status",
     "shipment_id",
     "merchant",
+    "payer",
     "order_ref",
+    "commercial_ref",
+    "fulfillment_ref",
     "event_at"
   ],
   "allOf": [
+    {
+      "properties": {
+        "commercial_ref": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "enum": [
+                "checkout",
+                "purchase"
+              ]
+            }
+          },
+          "required": [
+            "type"
+          ]
+        },
+        "fulfillment_ref": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "fulfillment"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "tracking_number": {
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 128
+          }
+        },
+        "required": [
+          "tracking_number"
+        ]
+      },
+      "then": {
+        "properties": {
+          "tracking_url": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 512
+          }
+        },
+        "required": [
+          "tracking_url"
+        ]
+      }
+    },
     {
       "if": {
         "properties": {
@@ -198,17 +409,47 @@
       "then": {
         "properties": {
           "carrier": {
-            "$ref": "#/$defs/actor"
+            "$ref": "#/$defs/carrier_actor"
           },
           "tracking_number": {
             "type": "string",
             "minLength": 6,
             "maxLength": 128
+          },
+          "tracking_url": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 512
           }
         },
         "required": [
           "carrier",
-          "tracking_number"
+          "tracking_number",
+          "tracking_url"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "delivered"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "delivered_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "delivery_proof_ref": {
+            "$ref": "#/$defs/reference"
+          }
+        },
+        "required": [
+          "delivered_at",
+          "delivery_proof_ref"
         ]
       }
     },

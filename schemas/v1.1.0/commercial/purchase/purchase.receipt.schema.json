@@ -2,7 +2,7 @@
   "$id": "https://commandlayer.org/schemas/v1.1.0/commercial/purchase/purchase.receipt.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "purchase.receipt",
-  "description": "Canonical purchase outcome artifact.",
+  "description": "Canonical purchase outcome artifact for a one-step commercial contract.",
   "type": "object",
   "additionalProperties": false,
   "$defs": {
@@ -41,7 +41,111 @@
         }
       }
     },
-    "actor": {
+    "amount_breakdown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "subtotal",
+        "total"
+      ],
+      "properties": {
+        "subtotal": {
+          "$ref": "#/$defs/money"
+        },
+        "tax": {
+          "$ref": "#/$defs/money"
+        },
+        "fees": {
+          "$ref": "#/$defs/money"
+        },
+        "discount": {
+          "$ref": "#/$defs/money"
+        },
+        "shipping": {
+          "$ref": "#/$defs/money"
+        },
+        "total": {
+          "$ref": "#/$defs/money"
+        }
+      }
+    },
+    "settlement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "method",
+        "settlement_ref",
+        "amount"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "captured",
+            "failed",
+            "pending"
+          ]
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "x402",
+            "stablecoin",
+            "card",
+            "bank_transfer",
+            "credit"
+          ]
+        },
+        "settlement_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "network_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "amount": {
+          "$ref": "#/$defs/money"
+        }
+      }
+    },
+    "payment_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scheme",
+        "proof_type",
+        "proof_ref"
+      ],
+      "properties": {
+        "scheme": {
+          "type": "string",
+          "const": "x402"
+        },
+        "proof_type": {
+          "type": "string",
+          "enum": [
+            "payment-session",
+            "payment-authorization",
+            "payment-proof"
+          ]
+        },
+        "proof_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
+    },
+    "actor_identity": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -56,8 +160,6 @@
             "payee",
             "merchant",
             "provider",
-            "marketplace",
-            "counterparty",
             "carrier",
             "verifier"
           ]
@@ -89,6 +191,114 @@
         }
       }
     },
+    "payer_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "payer"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "payee_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "payee"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "merchant_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "merchant"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "provider_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "provider"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "carrier_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "carrier"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "verifier_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "verifier"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
     "reference": {
       "type": "object",
       "additionalProperties": false,
@@ -105,13 +315,14 @@
             "authorization",
             "checkout",
             "purchase",
+            "fulfillment",
             "shipment",
             "payment",
             "settlement",
             "receipt",
             "payment_requirement",
             "payment_session",
-            "proof",
+            "payment_proof",
             "agent_card"
           ]
         },
@@ -244,16 +455,19 @@
       "maxLength": 128
     },
     "payer": {
-      "$ref": "#/$defs/actor"
+      "$ref": "#/$defs/payer_actor"
     },
     "merchant": {
-      "$ref": "#/$defs/actor"
+      "$ref": "#/$defs/merchant_actor"
+    },
+    "payee": {
+      "$ref": "#/$defs/payee_actor"
     },
     "provider": {
-      "$ref": "#/$defs/actor"
+      "$ref": "#/$defs/provider_actor"
     },
-    "amount": {
-      "$ref": "#/$defs/money"
+    "amount_breakdown": {
+      "$ref": "#/$defs/amount_breakdown"
     },
     "order_ref": {
       "$ref": "#/$defs/reference"
@@ -264,8 +478,8 @@
     "settlement": {
       "$ref": "#/$defs/settlement"
     },
-    "payment_ref": {
-      "$ref": "#/$defs/reference"
+    "payment_proof": {
+      "$ref": "#/$defs/payment_proof"
     },
     "payment_proof": {
       "$ref": "#/$defs/x402_proof"
@@ -286,7 +500,7 @@
     "purchase_id",
     "payer",
     "merchant",
-    "amount",
+    "amount_breakdown",
     "settlement"
   ],
   "allOf": [

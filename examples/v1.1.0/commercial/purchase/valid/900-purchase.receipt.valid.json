@@ -17,15 +17,27 @@
     "id": "merchant.example",
     "kind": "organization"
   },
+  "payee": {
+    "role": "payee",
+    "id": "merchant-settlement",
+    "kind": "wallet"
+  },
   "provider": {
     "role": "provider",
     "id": "runtime.commandlayer",
     "kind": "service"
   },
-  "amount": {
-    "amount": "12.50",
-    "currency": "USDC",
-    "decimals": 2
+  "amount_breakdown": {
+    "subtotal": {
+      "amount": "15.00",
+      "currency": "USDC",
+      "decimals": 2
+    },
+    "total": {
+      "amount": "15.00",
+      "currency": "USDC",
+      "decimals": 2
+    }
   },
   "order_ref": {
     "type": "order",
@@ -41,7 +53,7 @@
     "settlement_ref": "settle-2001",
     "network_ref": "0xdef456",
     "amount": {
-      "amount": "12.50",
+      "amount": "15.00",
       "currency": "USDC",
       "decimals": 2
     }

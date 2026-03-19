@@ -65,9 +65,32 @@ Commercial schemas SHOULD add stricter structure than Commons wherever value mov
 
 - explicit counterparties
 - typed monetary amounts
-- typed references to order, invoice, authorization, payment, settlement, or shipment artifacts
+- typed references to order, invoice, authorization, fulfillment, payment, settlement, or shipment artifacts
 - typed settlement status
 - typed verification outcomes
+
+### 5.1 Actor grammar
+
+Protocol-Commercial v1.1.0 uses a compact governed actor grammar:
+
+- `payer` = the party that funds or bears the payment obligation
+- `payee` = the settlement recipient when distinct from the merchant
+- `merchant` = the commercial principal offering, selling, or fulfilling the order
+- `provider` = an optional facilitator executing settlement or fulfillment work for the merchant
+- `carrier` = the shipment operator for physical fulfillment
+- `verifier` = the authority validating commercial evidence
+
+Actor field names are normative. A field named `merchant` MUST contain an actor whose role is `merchant`, and likewise for the other actor fields.
+
+### 5.2 Payment grammar
+
+Protocol-Commercial v1.1.0 uses one payment language across the family:
+
+- `payment_requirement` = pre-payment terms or authorization preconditions
+- `payment_session` = live x402 negotiation/session state
+- `payment_proof` = final authorization or settlement evidence
+
+Requests SHOULD carry the earliest payment layer the caller can truthfully provide. Receipts MUST carry the latest payment layer the verb has canonically established. Successful capture receipts for `checkout` and `purchase` MUST carry `payment_proof`. `ship` MUST link to the upstream commercial transaction and MAY carry payment evidence by reference rather than re-embedding settlement state.
 
 ## 6. x402 binding expectations
 
