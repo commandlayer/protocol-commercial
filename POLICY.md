@@ -1,8 +1,6 @@
 # POLICY — Protocol-Commercial
 
-## Document scope
-
-This policy is repo-wide and version-independent unless it names a specific release line.
+This policy governs the current release line and its release-management rules. Repo-wide governance and security reporting are defined separately.
 
 ## Current line
 
@@ -19,12 +17,18 @@ This policy is repo-wide and version-independent unless it names a specific rele
 
 ## Normative artifact state
 
-The machine-verifiable release state consists of the current schema tree, current examples tree, `manifest.json`, and `checksums.txt`.
+The checksum-covered release state consists of the current schema tree, current examples tree, and `manifest.json`. `checksums.txt` is the generated ledger for that machine-artifact set.
 
-Human-readable docs remain authoritative public guidance, but checksum scope is intentionally limited to the machine-validated release payloads.
+Release-defining prose docs may govern interpretation and process, but they are outside checksum coverage unless the checksum tooling is changed deliberately.
 
 ## Governance threshold
 
 - Schema fixes before publication require maintainer signoff.
 - New verbs or version lines require explicit steward approval.
-- Current-vs-legacy path wording changes require the same review discipline as schema path changes.
+
+## Commercial language governance
+
+- Actor roles are governed repo-wide; new roles require explicit steward approval.
+- `payment_requirement`, `payment_session`, and `payment_proof` are the canonical payment-layer names for shared semantics.
+- `fulfillment_ref` denotes the merchant or provider controlled fulfillment artifact, not a generic external pointer.
+- Shipment receipts must remain commercially scoped and tied to an upstream checkout or purchase.

@@ -9,6 +9,11 @@
     "id": "merchant.example",
     "kind": "organization"
   },
+  "payer": {
+    "role": "payer",
+    "id": "buyer-001",
+    "kind": "account"
+  },
   "provider": {
     "role": "provider",
     "id": "warehouse.example",
@@ -18,12 +23,12 @@
     "type": "order",
     "id": "ord-3001"
   },
-  "purchase_ref": {
+  "commercial_ref": {
     "type": "purchase",
     "id": "purchase-3001"
   },
   "fulfillment_ref": {
-    "type": "receipt",
+    "type": "fulfillment",
     "id": "fulfillment-3001"
   },
   "items": [

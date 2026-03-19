@@ -18,9 +18,9 @@
   },
   "evidence_refs": [
     {
-      "type": "proof",
-      "id": "proof-001",
-      "uri": "https://merchant.example/x402/proofs/proof-001"
+      "type": "payment_proof",
+      "id": "proof-2001",
+      "uri": "https://merchant.example/x402/proofs/proof-2001"
     }
   ],
   "basis": "Matched canonical x402 settlement proof and merchant ledger entry."

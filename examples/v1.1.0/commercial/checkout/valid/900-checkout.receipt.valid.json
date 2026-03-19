@@ -16,6 +16,11 @@
     "id": "merchant.example",
     "kind": "organization"
   },
+  "payee": {
+    "role": "payee",
+    "id": "merchant-settlement",
+    "kind": "wallet"
+  },
   "order_ref": {
     "type": "order",
     "id": "ord-1001"
@@ -48,7 +53,7 @@
     }
   },
   "fulfillment_ref": {
-    "type": "receipt",
+    "type": "fulfillment",
     "id": "fulfill-001",
     "uri": "https://merchant.example/fulfillment/fulfill-001"
   },

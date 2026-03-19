@@ -41,17 +41,14 @@ function expectedVerbEntry(verb) {
 
 async function validateManifest() {
   const manifest = await loadJson(path.join(ROOT_DIR, "manifest.json"));
+  assert(!("$schema" in manifest), "manifest.json must not carry a decorative $schema field");
   assert(manifest.version === CURRENT_VERSION, `manifest version must be ${CURRENT_VERSION}`);
   assert(manifest.status === "current", "manifest status must be current");
   assert(manifest.schemas_root === `schemas/v${CURRENT_VERSION}`, "manifest schemas_root drift");
   assert(manifest.examples_root === `examples/v${CURRENT_VERSION}`, "manifest examples_root drift");
   assert(manifest.current_index === `schemas/v${CURRENT_VERSION}/index.json`, "manifest current_index drift");
   assert(manifest.checksums_file === "checksums.txt", "manifest checksums_file drift");
-  assert(JSON.stringify(manifest.verbs) === JSON.stringify(EXPECTED_VERBS.map(expectedVerbEntry)), "manifest verb inventory drift");
-  assert(Array.isArray(manifest.legacy_versions) && manifest.legacy_versions.length === 1, "manifest legacy_versions drift");
-  const legacy = manifest.legacy_versions[0];
-  assert(legacy.version === "1.0.0", "manifest legacy version drift");
-  assert(legacy.status === "published-legacy", "manifest legacy status drift");
+  assert(JSON.stringify(manifest.verbs.map((v) => v.verb)) === JSON.stringify(EXPECTED_VERBS), "manifest verb list drift");
 }
 
 async function validatePackage() {

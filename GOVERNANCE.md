@@ -1,8 +1,6 @@
 # GOVERNANCE — Protocol-Commercial
 
-## Document scope
-
-This document is repo-wide and version-independent unless a specific release line is named.
+This document applies repo-wide and is version-independent unless a section says otherwise.
 
 **Founding steward:** commandlayer.eth
 

@@ -14,20 +14,26 @@
     "id": "merchant.example",
     "kind": "organization"
   },
-  "product": {
-    "product_id": "svc-analysis-pack",
-    "description": "One analysis execution bundle",
-    "quantity": 0
-  },
-  "amount": {
-    "amount": "12.50",
-    "currency": "USDC",
-    "decimals": 2
-  },
-  "x402": {
-    "payment_requirement_ref": {
-      "type": "payment_requirement",
-      "id": "x402-req-2001"
+  "items": [
+    {
+      "sku": "svc-analysis-pack",
+      "description": "One analysis execution bundle",
+      "quantity": 0,
+      "unit_price": {
+        "amount": "12.50",
+        "currency": "USDC"
+      }
     }
-  }
+  ],
+  "amount_breakdown": {
+    "subtotal": {
+      "amount": "12.50",
+      "currency": "USDC"
+    },
+    "total": {
+      "amount": "12.50",
+      "currency": "USDC"
+    }
+  },
+  "payment_input": {}
 }

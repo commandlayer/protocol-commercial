@@ -5,12 +5,17 @@
   "receipt_id": "shiprcpt-001",
   "issued_at": "2026-03-19T10:15:05Z",
   "request_id": "shipreq-001",
-  "status": "in_transit",
+  "status": "delivered",
   "shipment_id": "shipment-001",
   "merchant": {
     "role": "merchant",
     "id": "merchant.example",
     "kind": "organization"
+  },
+  "payer": {
+    "role": "payer",
+    "id": "buyer-001",
+    "kind": "account"
   },
   "carrier": {
     "role": "carrier",
@@ -21,15 +26,25 @@
     "type": "order",
     "id": "ord-3001"
   },
-  "purchase_ref": {
+  "commercial_ref": {
     "type": "purchase",
     "id": "purchase-3001"
   },
   "fulfillment_ref": {
-    "type": "shipment",
+    "type": "fulfillment",
     "id": "fulfillment-3001"
+  },
+  "payment_ref": {
+    "type": "payment_proof",
+    "id": "proof-2001"
   },
   "tracking_number": "1Z999AA10123456784",
   "tracking_url": "https://carrier.example/track/1Z999AA10123456784",
-  "event_at": "2026-03-19T10:15:05Z"
+  "event_at": "2026-03-19T10:15:05Z",
+  "delivered_at": "2026-03-19T10:15:05Z",
+  "delivery_proof_ref": {
+    "type": "receipt",
+    "id": "delivery-scan-3001",
+    "uri": "https://carrier.example/proof/delivery-scan-3001"
+  }
 }

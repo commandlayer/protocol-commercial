@@ -1,6 +1,6 @@
 # SPEC — Protocol-Commercial v1.1.0
 
-This document is normative for the current release line.
+This document is normative for the current v1.1.0 commercial release line.
 
 ## 1. Scope
 
@@ -19,17 +19,19 @@ This specification does not govern runtime transport implementation, provider po
 
 ## 2. Artifact scope by line
 
-Current normative line:
+Current normative machine-artifact line:
 
 - `schemas/v1.1.0/`
 - `examples/v1.1.0/`
 - `manifest.json`
-- `checksums.txt`
+- `checksums.txt` as the hash ledger for that machine-artifact set
 
 Published legacy line retained but superseded:
 
 - `schemas/v1.0.0/`
 - `examples/v1.0.0/`
+
+Release-defining prose docs remain normative for interpretation, but they are outside the checksum surface unless checksum tooling is expanded intentionally.
 
 ## 3. Version and identity rules
 
@@ -38,8 +40,7 @@ Published legacy line retained but superseded:
 3. A v1.1.0 schema MUST NOT be mutated in place after release publication.
 4. Breaking or meaning-changing edits require a new version directory.
 5. `manifest.json` MUST identify the current release line and any retained legacy lines.
-6. `schemas/v1.1.0/index.json` MUST enumerate the current verb set and exact repository-relative schema/example paths.
-7. `checksums.txt` MUST cover the machine-verifiable current artifact set exactly as documented by this repository.
+6. `checksums.txt` MUST cover the canonical machine-verifiable release artifact set and MUST NOT be described as protecting prose docs it does not hash.
 
 ## 4. Current path model
 
@@ -72,9 +73,32 @@ Commercial schemas SHOULD add stricter structure than Commons wherever value mov
 
 - explicit counterparties
 - typed monetary amounts
-- typed references to order, invoice, authorization, payment, settlement, or shipment artifacts
+- typed references to order, invoice, authorization, fulfillment, payment, settlement, or shipment artifacts
 - typed settlement status
 - typed verification outcomes
+
+### 5.1 Actor grammar
+
+Protocol-Commercial v1.1.0 uses a compact governed actor grammar:
+
+- `payer` = the party that funds or bears the payment obligation
+- `payee` = the settlement recipient when distinct from the merchant
+- `merchant` = the commercial principal offering, selling, or fulfilling the order
+- `provider` = an optional facilitator executing settlement or fulfillment work for the merchant
+- `carrier` = the shipment operator for physical fulfillment
+- `verifier` = the authority validating commercial evidence
+
+Actor field names are normative. A field named `merchant` MUST contain an actor whose role is `merchant`, and likewise for the other actor fields.
+
+### 5.2 Payment grammar
+
+Protocol-Commercial v1.1.0 uses one payment language across the family:
+
+- `payment_requirement` = pre-payment terms or authorization preconditions
+- `payment_session` = live x402 negotiation/session state
+- `payment_proof` = final authorization or settlement evidence
+
+Requests SHOULD carry the earliest payment layer the caller can truthfully provide. Receipts MUST carry the latest payment layer the verb has canonically established. Successful capture receipts for `checkout` and `purchase` MUST carry `payment_proof`. `ship` MUST link to the upstream commercial transaction and MAY carry payment evidence by reference rather than re-embedding settlement state.
 
 ## 6. x402 binding expectations
 
@@ -122,7 +146,5 @@ A conformant release MUST satisfy all of the following:
 - every current schema path matches its `$id`
 - `manifest.json` and `schemas/v1.1.0/index.json` agree on the current verb set and path inventory
 - `npm run validate` passes
-- `npm run validate:examples` passes
-- `npm run validate:integrity` passes
-- `sha256sum -c checksums.txt` passes
+- `sha256sum -c checksums.txt` passes for the checksum-covered machine-artifact set
 - repository metadata does not drift from the published current line

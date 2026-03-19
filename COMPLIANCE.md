@@ -1,10 +1,8 @@
 # COMPLIANCE — Protocol-Commercial
 
-## Document scope
+This document describes current-line release compliance expectations for the active v1.1.0 commercial line.
 
-This document describes current release compliance criteria for Protocol-Commercial v1.1.0.
-
-Protocol-Commercial compliance is about typed economic semantics, path correctness, and release integrity.
+Protocol-Commercial compliance is about typed economic semantics and release integrity.
 
 A compliant release candidate must satisfy all of the following:
 
@@ -13,7 +11,6 @@ A compliant release candidate must satisfy all of the following:
 - `schemas/v1.1.0/index.json` and `manifest.json` agree on verb inventory and artifact paths
 - every current verb has valid and invalid request and receipt examples
 - validation passes in strict mode
-- checksum scope matches the documented current release artifact set
-- `sha256sum -c checksums.txt` passes
+- `sha256sum -c checksums.txt` passes for the checksum-covered machine-artifact set
 
 Protocol-Commercial does not make legal, regulatory, AML, sanctions, tax, or fraud adjudication claims on behalf of implementers.

@@ -41,7 +41,40 @@
         }
       }
     },
-    "actor": {
+    "payment_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scheme",
+        "proof_type",
+        "proof_ref"
+      ],
+      "properties": {
+        "scheme": {
+          "type": "string",
+          "const": "x402"
+        },
+        "proof_type": {
+          "type": "string",
+          "enum": [
+            "payment-session",
+            "payment-authorization",
+            "payment-proof"
+          ]
+        },
+        "proof_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
+    },
+    "actor_identity": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -56,8 +89,6 @@
             "payee",
             "merchant",
             "provider",
-            "marketplace",
-            "counterparty",
             "carrier",
             "verifier"
           ]
@@ -89,6 +120,114 @@
         }
       }
     },
+    "payer_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "payer"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "payee_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "payee"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "merchant_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "merchant"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "provider_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "provider"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "carrier_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "carrier"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "verifier_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "verifier"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
     "reference": {
       "type": "object",
       "additionalProperties": false,
@@ -105,50 +244,18 @@
             "authorization",
             "checkout",
             "purchase",
+            "fulfillment",
             "shipment",
             "payment",
             "settlement",
             "receipt",
             "payment_requirement",
             "payment_session",
-            "proof",
+            "payment_proof",
             "agent_card"
           ]
         },
         "id": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128
-        },
-        "uri": {
-          "type": "string",
-          "format": "uri",
-          "maxLength": 512
-        }
-      }
-    },
-    "x402_proof": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "scheme",
-        "proof_type",
-        "proof_ref"
-      ],
-      "properties": {
-        "scheme": {
-          "type": "string",
-          "const": "x402"
-        },
-        "proof_type": {
-          "type": "string",
-          "enum": [
-            "payment-session",
-            "payment-authorization",
-            "payment-proof"
-          ]
-        },
-        "proof_ref": {
           "type": "string",
           "minLength": 1,
           "maxLength": 128
@@ -202,10 +309,13 @@
       "maxLength": 128
     },
     "payer": {
-      "$ref": "#/$defs/actor"
+      "$ref": "#/$defs/payer_actor"
     },
     "payee": {
-      "$ref": "#/$defs/actor"
+      "$ref": "#/$defs/payee_actor"
+    },
+    "merchant": {
+      "$ref": "#/$defs/merchant_actor"
     },
     "amount": {
       "$ref": "#/$defs/money"
@@ -214,7 +324,7 @@
       "type": "string",
       "format": "date-time"
     },
-    "settlement_precondition_ref": {
+    "payment_requirement_ref": {
       "$ref": "#/$defs/reference"
     },
     "order_ref": {
@@ -224,7 +334,7 @@
       "$ref": "#/$defs/reference"
     },
     "payment_proof": {
-      "$ref": "#/$defs/x402_proof"
+      "$ref": "#/$defs/payment_proof"
     },
     "reason": {
       "type": "string",
@@ -254,14 +364,42 @@
         }
       },
       "then": {
+        "required": [
+          "approved_until"
+        ],
         "properties": {
           "approved_until": {
             "type": "string",
             "format": "date-time"
+          },
+          "payment_requirement_ref": {
+            "$ref": "#/$defs/reference"
+          },
+          "payment_proof": {
+            "$ref": "#/$defs/payment_proof"
           }
         },
-        "required": [
-          "approved_until"
+        "anyOf": [
+          {
+            "properties": {
+              "payment_requirement_ref": {
+                "$ref": "#/$defs/reference"
+              }
+            },
+            "required": [
+              "payment_requirement_ref"
+            ]
+          },
+          {
+            "properties": {
+              "payment_proof": {
+                "$ref": "#/$defs/payment_proof"
+              }
+            },
+            "required": [
+              "payment_proof"
+            ]
+          }
         ]
       }
     },
@@ -277,15 +415,15 @@
         }
       },
       "then": {
+        "required": [
+          "reason"
+        ],
         "properties": {
           "reason": {
             "type": "string",
             "maxLength": 512
           }
-        },
-        "required": [
-          "reason"
-        ]
+        }
       }
     }
   ]

@@ -2,7 +2,9 @@
 
 Protocol-Commercial v1.1.0 is the current CommandLayer commercial schema line.
 
-It defines the canonical commercial request and receipt contracts that extend Protocol-Commons v1.1.0. Commons governs base action semantics. Commercial governs the payment-aware overlays that bind those actions to authorization, checkout, purchase, shipment, and verification artifacts.
+This README describes the current v1.1.0 release line and its release packaging surface. Repo-wide governance and security policy live in the dedicated meta docs.
+
+It defines the canonical commercial overlays that sit on top of Protocol-Commons v1.1.0. Commons defines base semantic actions. Commercial defines the monetized, settlement-aware request and receipt contracts that agents and runtimes use when value moves.
 
 Protocol-Commercial is intentionally limited to protocol truth:
 
@@ -49,15 +51,46 @@ Protocol-Commercial is x402-first.
 
 That means commercial execution is expected to be gated and evidenced through x402-compatible payment requirements, sessions, authorizations, and proofs. This repository does not define transport code, but it does define the canonical request and receipt shapes an x402-aware runtime needs in order to execute and later audit a paid interaction deterministically.
 
+## Commercial grammar decisions
+
+### Actor grammar
+
+Protocol-Commercial uses a compact actor model:
+
+- `payer`: the party funding or bearing the commercial obligation
+- `payee`: the settlement recipient when it differs from the merchant identity
+- `merchant`: the seller or commercial principal governing the offer, order, or fulfillment
+- `provider`: an optional facilitating runtime or service performing settlement or fulfillment work on the merchant
+- `carrier`: the shipment operator once physical fulfillment exists
+- `verifier`: an authority that validates commercial evidence
+
+Field names are normative. A `merchant` field MUST carry a `merchant` actor, a `payer` field MUST carry a `payer` actor, and so on. `payee` is used only for settlement destination semantics; if omitted, the merchant is implicitly the payee.
+
+### x402 / payment grammar
+
+Protocol-Commercial standardizes three payment layers across the verb family:
+
+- `payment_requirement`: pre-payment terms or authorization preconditions
+- `payment_session`: live x402 negotiation/session state
+- `payment_proof`: final payment evidence for authorization or captured settlement
+
+The verbs use those layers intentionally:
+
+- `authorize` centers on `payment_requirement` and may emit authorization-flavored `payment_proof`
+- `checkout` centers on `payment_session` and requires `payment_proof` when capture succeeds
+- `purchase` accepts direct `payment_input` and requires `payment_proof` when capture succeeds
+- `ship` links to upstream commercial settlement through `commercial_ref` and optional `payment_ref`, rather than restating the full payment flow
+- `verify` verifies `payment_proof`, settlement, fulfillment, and receipt evidence
+
 ## Verb set
 
-| Verb | Purpose | Canonical request schema | Canonical receipt schema |
-| --- | --- | --- | --- |
-| `authorize` | Reserve payment authority before later capture or settlement | `https://commandlayer.org/schemas/v1.1.0/commercial/authorize/authorize.request.schema.json` | `https://commandlayer.org/schemas/v1.1.0/commercial/authorize/authorize.receipt.schema.json` |
-| `checkout` | Finalize an order and request commercial capture | `https://commandlayer.org/schemas/v1.1.0/commercial/checkout/checkout.request.schema.json` | `https://commandlayer.org/schemas/v1.1.0/commercial/checkout/checkout.receipt.schema.json` |
-| `purchase` | Complete a one-step paid commercial action | `https://commandlayer.org/schemas/v1.1.0/commercial/purchase/purchase.request.schema.json` | `https://commandlayer.org/schemas/v1.1.0/commercial/purchase/purchase.receipt.schema.json` |
-| `ship` | Attach fulfillment state to a commercial order or purchase | `https://commandlayer.org/schemas/v1.1.0/commercial/ship/ship.request.schema.json` | `https://commandlayer.org/schemas/v1.1.0/commercial/ship/ship.receipt.schema.json` |
-| `verify` | Verify a commercial receipt, settlement, payment, or shipment target | `https://commandlayer.org/schemas/v1.1.0/commercial/verify/verify.request.schema.json` | `https://commandlayer.org/schemas/v1.1.0/commercial/verify/verify.receipt.schema.json` |
+| Verb | Purpose |
+| --- | --- |
+| `authorize` | Reserve payment authority before capture or settlement |
+| `checkout` | Finalize an order and request commercial capture |
+| `purchase` | Complete a one-step paid commercial action |
+| `ship` | Advance commercial fulfillment state for a settled checkout or purchase |
+| `verify` | Verify a commercial receipt, settlement, payment, or shipment target |
 
 ## Repository layout
 
@@ -100,7 +133,7 @@ This repository defines:
 - canonical request and receipt schema identities
 - explicit payment, authorization, settlement, fulfillment, and verification semantics
 - x402-facing references required for commercial execution
-- release metadata and machine-verifiable checksums for the current artifact set
+- deterministic release metadata and machine-artifact checksums
 
 This repository does not define:
 
@@ -141,6 +174,7 @@ This repository does not define:
     "total": { "amount": "49.99", "currency": "USDC", "decimals": 2 }
   },
   "capture": "immediate",
+  "payee": { "role": "payee", "id": "merchant-settlement", "kind": "wallet" },
   "payment_session": {
     "scheme": "x402",
     "session_id": "x402-session-001",
@@ -172,10 +206,12 @@ Agent Cards v1.1.0 should bind directly to the current flat commercial schema UR
 
 Protocol-Commons and Protocol-Commercial therefore tell one coherent story:
 
-- Commons defines the action semantics.
-- Commercial refines those semantics into paid request and receipt contracts.
-- Agent Cards publish direct bindings to the exact current `$id` values.
+The v1.1.0 checksum surface is intentionally limited to canonical machine artifacts:
 
-## Legacy handling rule
+- `schemas/v1.1.0/`
+- `examples/v1.1.0/`
+- `manifest.json`
 
-Legacy references may be retained for compatibility, audit, and migration notes. They are never the canonical path model for `v1.1.0`.
+`checksums.txt` records hashes for that machine-verifiable set only. Release-defining prose docs such as `README.md`, `SPEC.md`, `POLICY.md`, `SECURITY_PROVENANCE.md`, and `ONBOARDING.md` are authoritative guidance, but they are outside the checksum surface unless the tooling is expanded deliberately in a later release.
+
+After any mutation to the checksum-covered set, regenerate `checksums.txt` and repin any release bundle that depends on those artifacts.
