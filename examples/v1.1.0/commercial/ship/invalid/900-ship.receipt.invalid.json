@@ -14,7 +14,13 @@
   },
   "payer": {
     "role": "payer",
-    "id": "buyer-001"
+    "id": "buyer-001",
+    "kind": "account"
+  },
+  "carrier": {
+    "role": "carrier",
+    "id": "ups",
+    "kind": "service"
   },
   "order_ref": {
     "type": "order",
@@ -28,5 +34,8 @@
     "type": "fulfillment",
     "id": "fulfillment-3001"
   },
-  "event_at": "2026-03-19T10:15:05Z"
+  "tracking_number": "1Z999AA10123456784",
+  "tracking_url": "https://carrier.example/track/1Z999AA10123456784",
+  "event_at": "2026-03-19T10:15:05Z",
+  "delivered_at": "2026-03-19T10:15:05Z"
 }
