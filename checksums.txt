@@ -19,6 +19,7 @@ b9bcdbcd34058ab229df851448925370a586e2bbedc77a8e28b535e1a9468c6e  examples/v1.1.
 56d02915471d62f7687e3f6258d75754c8e7a44ca717e4ca0906dd4bb6fc34fb  examples/v1.1.0/commercial/verify/valid/001-verify.request.valid.json
 440c964d06f48470e17110a4cd683085740cae97e937a2452c0e4d4eec2b8bb4  examples/v1.1.0/commercial/verify/valid/900-verify.receipt.valid.json
 4a34e9bbf71aa69cb04a2375ccd0ae123931ad032e623bbda8f33ef9c62e8d43  manifest.json
+a46a34cd9297232d127fd3c6086c8e502683a185988d47a4f7f877d321e18760  package.json
 ee1f2a87bdb06533b565c66b8fe07752355552deafc2df3545d697c2e0d15b7d  schemas/v1.1.0/commercial/authorize/authorize.receipt.schema.json
 11fc5cb599ee08ba242cf099f5283a3e46d24ccbd68d21c64b494a9f60180f78  schemas/v1.1.0/commercial/authorize/authorize.request.schema.json
 c32d8dd62a5bf9b63c1e1bd6c75fdc619abd2336239eabdaaffb1c4ced07c221  schemas/v1.1.0/commercial/checkout/checkout.receipt.schema.json

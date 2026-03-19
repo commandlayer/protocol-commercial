@@ -6,6 +6,7 @@ import crypto from "crypto";
 const ROOT_DIR = process.cwd();
 const OUTPUT_PATH = path.join(ROOT_DIR, "checksums.txt");
 const TARGETS = [
+  "package.json",
   "manifest.json",
   "schemas/v1.1.0/index.json",
   "schemas/v1.1.0",

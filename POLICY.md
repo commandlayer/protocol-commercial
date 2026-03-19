@@ -14,7 +14,7 @@
 
 ## Normative artifact state
 
-The normative release state consists of the current schema tree, current examples tree, `manifest.json`, and `checksums.txt`.
+The normative release state consists of the current schema tree, current examples tree, `package.json`, `manifest.json`, and `checksums.txt`.
 
 ## Governance threshold
 

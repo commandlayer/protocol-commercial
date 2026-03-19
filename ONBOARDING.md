@@ -18,7 +18,7 @@
 5. Re-run validation and checksum verification.
    ```bash
    npm run validate
-   sha256sum -c checksums.txt
+   npm run validate:checksums
    ```
 
 ## Adding a new commercial verb
@@ -35,7 +35,7 @@
 1. Never mutate a published version directory in place after release.
 2. Create a new `schemas/vX.Y.Z/` and `examples/vX.Y.Z/` tree.
 3. Update `package.json`, `manifest.json`, README, SPEC, policy docs, and workflow assumptions.
-4. Regenerate checksums for the new current line.
+4. Regenerate checksums for the new current line so package metadata stays inside the integrity boundary.
 
 ## Pinning and mirrors
 

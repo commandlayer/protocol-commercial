@@ -10,7 +10,7 @@ Steward duties include:
 
 - preserving version immutability
 - approving new release lines
-- preventing schema, example, manifest, and checksum drift
+- preventing schema, example, package, manifest, and checksum drift
 - coordinating with Protocol-Commons, Agent Cards, and commandlayer.org mirrors
 
 ## Decision rules

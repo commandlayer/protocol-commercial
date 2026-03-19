@@ -8,6 +8,7 @@ Normative artifact roots:
 
 - `schemas/v1.1.0/`
 - `examples/v1.1.0/`
+- `package.json`
 - `manifest.json`
 - `checksums.txt`
 
@@ -22,4 +23,4 @@ Update after pinning:
 - release bundle CID, if used
 - public gateway mirrors
 
-Until those values are captured, `checksums.txt` is the local integrity source of truth for the pending release candidate.
+Until those values are captured, `checksums.txt` is the local integrity source of truth for the pending release candidate, covering the shipped package metadata alongside the current schema and example trees.

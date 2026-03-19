@@ -28,7 +28,7 @@ Protocol-Commercial provides schema-level security properties, not transaction o
 
 ```bash
 npm run validate
-sha256sum -c checksums.txt
+npm run validate:checksums
 ```
 
 Security contact: `security@commandlayer.org`

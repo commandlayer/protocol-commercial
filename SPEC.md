@@ -23,6 +23,7 @@ Current normative line:
 
 - `schemas/v1.1.0/`
 - `examples/v1.1.0/`
+- `package.json`
 - `manifest.json`
 - `checksums.txt`
 
@@ -38,7 +39,7 @@ Legacy published line retained but superseded:
 3. A v1.1.0 schema MUST NOT be mutated in place after release publication.
 4. Breaking or meaning-changing edits require a new version directory.
 5. `manifest.json` MUST identify the current release line and any retained legacy lines.
-6. `checksums.txt` MUST cover the machine-verifiable release artifact set.
+6. `checksums.txt` MUST cover the machine-verifiable release artifact set, including `package.json`.
 
 ## 4. Flat schema rule
 
@@ -105,5 +106,5 @@ A conformant release MUST satisfy all of the following:
 - every declared verb has a request schema and a receipt schema
 - every declared verb has valid and invalid examples for both request and receipt artifacts
 - `npm run validate` passes
-- `sha256sum -c checksums.txt` passes
+- `npm run validate:checksums` passes
 - repository metadata does not drift from the published current line

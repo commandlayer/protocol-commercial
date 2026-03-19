@@ -140,10 +140,10 @@ This repository does not define:
 npm install
 npm run validate
 npm run generate:checksums
-sha256sum -c checksums.txt
+npm run validate:checksums
 ```
 
-`npm run validate` compiles the v1.1.0 schema line, validates all v1.1.0 examples, and checks release metadata for version drift.
+`npm run validate` runs the schema-line validation and example validation for v1.1.0, including exact drift checks for intentionally duplicated shared structures.
 
 ## Agent Cards alignment
 
@@ -161,6 +161,7 @@ The normative release surface for v1.1.0 is represented by:
 
 - `schemas/v1.1.0/`
 - `examples/v1.1.0/`
+- `package.json`
 - `manifest.json`
 - `checksums.txt`
 
