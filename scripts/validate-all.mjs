@@ -10,6 +10,18 @@ const CURRENT_VERSION = "1.1.0";
 const SCHEMAS_ROOT = path.join(ROOT_DIR, "schemas", `v${CURRENT_VERSION}`);
 const EXAMPLES_ROOT = path.join(ROOT_DIR, "examples", `v${CURRENT_VERSION}`, "commercial");
 const EXPECTED_VERBS = ["authorize", "checkout", "purchase", "ship", "verify"];
+const CANONICAL_DEF_NAMES = [
+  "actor_identity",
+  "payer_actor",
+  "payee_actor",
+  "merchant_actor",
+  "provider_actor",
+  "carrier_actor",
+  "verifier_actor",
+  "reference",
+  "money",
+  "payment_proof"
+];
 
 async function collectJsonFiles(dir) {
   const entries = await fs.readdir(dir, { withFileTypes: true });
@@ -39,6 +51,34 @@ function expectedVerbEntry(verb) {
   };
 }
 
+function normalizeJson(value) {
+  if (Array.isArray(value)) return value.map(normalizeJson);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.keys(value)
+        .sort()
+        .map((key) => [key, normalizeJson(value[key])])
+    );
+  }
+  return value;
+}
+
+function deepEqualJson(left, right) {
+  return JSON.stringify(normalizeJson(left)) === JSON.stringify(normalizeJson(right));
+}
+
+async function loadCurrentSchemas() {
+  const schemaFiles = (await collectJsonFiles(SCHEMAS_ROOT))
+    .filter((file) => file.endsWith(".schema.json"))
+    .sort();
+
+  return Promise.all(schemaFiles.map(async (file) => ({
+    file,
+    rel: path.relative(ROOT_DIR, file).replace(/\\/g, "/"),
+    schema: await loadJson(file)
+  })));
+}
+
 async function validateManifest() {
   const manifest = await loadJson(path.join(ROOT_DIR, "manifest.json"));
   assert(!("$schema" in manifest), "manifest.json must not carry a decorative $schema field");
@@ -59,20 +99,37 @@ async function validatePackage() {
 }
 
 async function validateSchemaTree() {
-  const schemaFiles = (await collectJsonFiles(SCHEMAS_ROOT)).filter((file) => file.endsWith(".schema.json"));
-  assert(schemaFiles.length === 10, "expected 10 current-line schema files");
+  const currentSchemas = await loadCurrentSchemas();
+  assert(currentSchemas.length === 10, "expected 10 current-line schema files");
   const ajv = new Ajv2020({ strict: true, allErrors: true, allowUnionTypes: false });
   addFormats(ajv);
   ajvErrors(ajv);
-  for (const file of schemaFiles) {
-    const schema = await loadJson(file);
-    const rel = path.relative(ROOT_DIR, file).replace(/\\/g, "/");
+  for (const { rel, schema } of currentSchemas) {
     const expectedId = `https://commandlayer.org/${rel}`;
     assert(schema.$schema === "https://json-schema.org/draft/2020-12/schema", `${rel} has unexpected $schema`);
     assert(schema.$id === expectedId, `${rel} has mismatched $id`);
     assert(!rel.includes("/_shared/"), "v1.1.0 current line must not use _shared");
     assert(!rel.includes("/requests/") && !rel.includes("/receipts/"), "v1.1.0 current line must not use nested request/receipt directories");
     ajv.compile(schema);
+  }
+  return currentSchemas;
+}
+
+async function validateSchemaConsistency(currentSchemas) {
+  for (const defName of CANONICAL_DEF_NAMES) {
+    const holders = currentSchemas
+      .filter(({ schema }) => schema.$defs && defName in schema.$defs)
+      .map(({ rel, schema }) => ({ rel, def: schema.$defs[defName] }));
+
+    if (holders.length < 2) continue;
+
+    const baseline = holders[0];
+    for (const holder of holders.slice(1)) {
+      assert(
+        deepEqualJson(baseline.def, holder.def),
+        `canonical $defs drift for '${defName}': ${holder.rel} differs from ${baseline.rel}`
+      );
+    }
   }
 }
 
@@ -106,9 +163,10 @@ async function main() {
   await validateManifest();
   await validatePackage();
   await validateLayout();
-  await validateSchemaTree();
+  const currentSchemas = await validateSchemaTree();
+  await validateSchemaConsistency(currentSchemas);
   await validateIndex();
-  console.log("✅ Current release metadata, paths, and schemas validated.");
+  console.log("✅ Current release metadata, paths, schemas, and canonical $defs validated.");
 }
 
 main().catch((error) => {

@@ -21,5 +21,10 @@
   },
   "authorization_scope": {
     "capture_mode": "manual"
+  },
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
   }
 }

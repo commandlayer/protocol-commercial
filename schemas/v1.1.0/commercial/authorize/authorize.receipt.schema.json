@@ -349,7 +349,6 @@
     "issued_at",
     "request_id",
     "status",
-    "authorization_id",
     "payer",
     "payee",
     "amount"
@@ -365,6 +364,7 @@
       },
       "then": {
         "required": [
+          "authorization_id",
           "approved_until"
         ],
         "properties": {
@@ -377,6 +377,11 @@
           },
           "payment_proof": {
             "$ref": "#/$defs/payment_proof"
+          },
+          "authorization_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
           }
         },
         "anyOf": [
@@ -407,10 +412,7 @@
       "if": {
         "properties": {
           "status": {
-            "enum": [
-              "denied",
-              "pending"
-            ]
+            "const": "denied"
           }
         }
       },
