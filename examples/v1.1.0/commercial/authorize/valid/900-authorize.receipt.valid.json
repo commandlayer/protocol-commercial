@@ -17,13 +17,18 @@
     "id": "merchant-settlement",
     "kind": "wallet"
   },
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
   "amount": {
     "amount": "49.99",
     "currency": "USDC",
     "decimals": 2
   },
   "approved_until": "2026-03-20T10:00:00Z",
-  "settlement_precondition_ref": {
+  "payment_requirement_ref": {
     "type": "payment_requirement",
     "id": "x402-auth-001"
   },

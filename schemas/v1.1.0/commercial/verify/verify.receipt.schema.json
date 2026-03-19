@@ -6,7 +6,7 @@
   "type": "object",
   "additionalProperties": false,
   "$defs": {
-    "actor": {
+    "actor_identity": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -21,8 +21,6 @@
             "payee",
             "merchant",
             "provider",
-            "marketplace",
-            "counterparty",
             "carrier",
             "verifier"
           ]
@@ -54,6 +52,114 @@
         }
       }
     },
+    "payer_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "payer"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "payee_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "payee"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "merchant_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "merchant"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "provider_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "provider"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "carrier_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "carrier"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "verifier_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "verifier"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
     "reference": {
       "type": "object",
       "additionalProperties": false,
@@ -70,13 +176,14 @@
             "authorization",
             "checkout",
             "purchase",
+            "fulfillment",
             "shipment",
             "payment",
             "settlement",
             "receipt",
             "payment_requirement",
             "payment_session",
-            "proof",
+            "payment_proof",
             "agent_card"
           ]
         },
@@ -129,16 +236,17 @@
       ]
     },
     "verifier": {
-      "$ref": "#/$defs/actor"
+      "$ref": "#/$defs/verifier_actor"
     },
     "target_type": {
       "type": "string",
       "enum": [
         "receipt",
-        "payment",
+        "payment_proof",
         "settlement",
         "shipment",
-        "authorization"
+        "authorization",
+        "fulfillment"
       ]
     },
     "target_ref": {

@@ -33,6 +33,37 @@ Protocol-Commercial is x402-first.
 
 That means the normative commercial assumption is that commercial execution is gated and proven through x402-compatible payment requirements, sessions, authorizations, and proofs. The schemas in this repository do not define a transport implementation, but they do make the commercial contract explicit enough for an x402-aware runtime to execute deterministically.
 
+## Commercial grammar decisions
+
+### Actor grammar
+
+Protocol-Commercial uses a compact actor model:
+
+- `payer`: the party funding or bearing the commercial obligation
+- `payee`: the settlement recipient when it differs from the merchant identity
+- `merchant`: the seller or commercial principal governing the offer, order, or fulfillment
+- `provider`: an optional facilitating runtime or service performing settlement or fulfillment work on the merchant
+- `carrier`: the shipment operator once physical fulfillment exists
+- `verifier`: an authority that validates commercial evidence
+
+Field names are normative. A `merchant` field MUST carry a `merchant` actor, a `payer` field MUST carry a `payer` actor, and so on. `payee` is used only for settlement destination semantics; if omitted, the merchant is implicitly the payee.
+
+### x402 / payment grammar
+
+Protocol-Commercial standardizes three payment layers across the verb family:
+
+- `payment_requirement`: pre-payment terms or authorization preconditions
+- `payment_session`: live x402 negotiation/session state
+- `payment_proof`: final payment evidence for authorization or captured settlement
+
+The verbs use those layers intentionally:
+
+- `authorize` centers on `payment_requirement` and may emit authorization-flavored `payment_proof`
+- `checkout` centers on `payment_session` and requires `payment_proof` when capture succeeds
+- `purchase` accepts direct `payment_input` and requires `payment_proof` when capture succeeds
+- `ship` links to upstream commercial settlement through `commercial_ref` and optional `payment_ref`, rather than restating the full payment flow
+- `verify` verifies `payment_proof`, settlement, fulfillment, and receipt evidence
+
 ## Verb set
 
 | Verb | Purpose |
@@ -40,7 +71,7 @@ That means the normative commercial assumption is that commercial execution is g
 | `authorize` | Reserve payment authority before capture or settlement |
 | `checkout` | Finalize an order and request commercial capture |
 | `purchase` | Complete a one-step paid commercial action |
-| `ship` | Attach fulfillment state to a commercial order or purchase |
+| `ship` | Advance commercial fulfillment state for a settled checkout or purchase |
 | `verify` | Verify a commercial receipt, settlement, payment, or shipment target |
 
 ## Repository layout
@@ -125,6 +156,7 @@ This repository does not define:
     "total": { "amount": "49.99", "currency": "USDC", "decimals": 2 }
   },
   "capture": "immediate",
+  "payee": { "role": "payee", "id": "merchant-settlement", "kind": "wallet" },
   "payment_session": {
     "scheme": "x402",
     "session_id": "x402-session-001",

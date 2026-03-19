@@ -20,3 +20,10 @@ The normative release state consists of the current schema tree, current example
 
 - Schema fixes before publication require maintainer signoff.
 - New verbs or version lines require explicit steward approval.
+
+## Commercial language governance
+
+- Actor roles are governed repo-wide; new roles require explicit steward approval.
+- `payment_requirement`, `payment_session`, and `payment_proof` are the canonical payment-layer names for shared semantics.
+- `fulfillment_ref` denotes the merchant or provider controlled fulfillment artifact, not a generic external pointer.
+- Shipment receipts must remain commercially scoped and tied to an upstream checkout or purchase.

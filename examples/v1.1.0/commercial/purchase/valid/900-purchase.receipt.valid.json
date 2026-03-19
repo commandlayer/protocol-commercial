@@ -5,7 +5,7 @@
   "receipt_id": "purchasercpt-001",
   "issued_at": "2026-03-19T10:10:02Z",
   "request_id": "purchasereq-001",
-  "status": "accepted",
+  "status": "captured",
   "purchase_id": "purchase-001",
   "payer": {
     "role": "payer",
@@ -17,15 +17,27 @@
     "id": "merchant.example",
     "kind": "organization"
   },
+  "payee": {
+    "role": "payee",
+    "id": "merchant-settlement",
+    "kind": "wallet"
+  },
   "provider": {
     "role": "provider",
     "id": "runtime.commandlayer",
     "kind": "service"
   },
-  "amount": {
-    "amount": "12.50",
-    "currency": "USDC",
-    "decimals": 2
+  "amount_breakdown": {
+    "subtotal": {
+      "amount": "15.00",
+      "currency": "USDC",
+      "decimals": 2
+    },
+    "total": {
+      "amount": "15.00",
+      "currency": "USDC",
+      "decimals": 2
+    }
   },
   "order_ref": {
     "type": "order",
@@ -41,13 +53,15 @@
     "settlement_ref": "settle-2001",
     "network_ref": "0xdef456",
     "amount": {
-      "amount": "12.50",
+      "amount": "15.00",
       "currency": "USDC",
       "decimals": 2
     }
   },
-  "payment_ref": {
-    "type": "payment",
-    "id": "pay-2001"
+  "payment_proof": {
+    "scheme": "x402",
+    "proof_type": "payment-proof",
+    "proof_ref": "proof-2001",
+    "uri": "https://merchant.example/x402/proofs/proof-2001"
   }
 }
