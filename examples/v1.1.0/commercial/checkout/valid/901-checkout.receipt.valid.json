@@ -1,0 +1,70 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "checkout",
+  "receipt_id": "checkoutrcpt-002",
+  "issued_at": "2026-03-19T10:07:11Z",
+  "request_id": "checkoutreq-002",
+  "status": "pending",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-019",
+    "kind": "account"
+  },
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "payee": {
+    "role": "payee",
+    "id": "merchant-settlement",
+    "kind": "wallet"
+  },
+  "order_ref": {
+    "type": "order",
+    "id": "ord-1019"
+  },
+  "invoice_ref": {
+    "type": "invoice",
+    "id": "inv-1019"
+  },
+  "settlement": {
+    "status": "pending",
+    "method": "x402",
+    "settlement_ref": "settle-1019",
+    "amount": {
+      "amount": "88.40",
+      "currency": "USDC",
+      "decimals": 2
+    }
+  },
+  "amount_breakdown": {
+    "subtotal": {
+      "amount": "79.00",
+      "currency": "USDC",
+      "decimals": 2
+    },
+    "tax": {
+      "amount": "4.40",
+      "currency": "USDC",
+      "decimals": 2
+    },
+    "shipping": {
+      "amount": "5.00",
+      "currency": "USDC",
+      "decimals": 2
+    },
+    "total": {
+      "amount": "88.40",
+      "currency": "USDC",
+      "decimals": 2
+    }
+  },
+  "fulfillment_ref": {
+    "type": "fulfillment",
+    "id": "fulfill-1019",
+    "uri": "https://merchant.example/fulfillment/fulfill-1019"
+  },
+  "reason": "Authorization is accepted, but on-chain capture is waiting for the next settlement batch."
+}

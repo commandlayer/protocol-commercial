@@ -1,0 +1,66 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "purchase",
+  "receipt_id": "purchasercpt-002",
+  "issued_at": "2026-03-19T10:14:21Z",
+  "request_id": "purchasereq-002",
+  "status": "pending",
+  "purchase_id": "purchase-002",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-044",
+    "kind": "account"
+  },
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "payee": {
+    "role": "payee",
+    "id": "merchant-settlement",
+    "kind": "wallet"
+  },
+  "provider": {
+    "role": "provider",
+    "id": "runtime.commandlayer",
+    "kind": "service"
+  },
+  "amount_breakdown": {
+    "subtotal": {
+      "amount": "250.00",
+      "currency": "USDC",
+      "decimals": 2
+    },
+    "fees": {
+      "amount": "5.00",
+      "currency": "USDC",
+      "decimals": 2
+    },
+    "total": {
+      "amount": "255.00",
+      "currency": "USDC",
+      "decimals": 2
+    }
+  },
+  "order_ref": {
+    "type": "order",
+    "id": "ord-2044"
+  },
+  "invoice_ref": {
+    "type": "invoice",
+    "id": "inv-2044"
+  },
+  "settlement": {
+    "status": "pending",
+    "method": "x402",
+    "settlement_ref": "settle-2044",
+    "amount": {
+      "amount": "255.00",
+      "currency": "USDC",
+      "decimals": 2
+    }
+  },
+  "reason": "Delegated provider accepted the purchase, but the settlement proof will be emitted after batched capture finalizes."
+}

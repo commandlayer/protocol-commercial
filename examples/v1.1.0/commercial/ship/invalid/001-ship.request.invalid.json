@@ -11,7 +11,8 @@
   },
   "payer": {
     "role": "payer",
-    "id": "buyer-001"
+    "id": "buyer-001",
+    "kind": "account"
   },
   "provider": {
     "role": "provider",
@@ -27,10 +28,15 @@
     "id": "auth-3001"
   },
   "fulfillment_ref": {
-    "type": "receipt",
+    "type": "fulfillment",
     "id": "fulfillment-3001"
   },
-  "items": [],
+  "items": [
+    {
+      "sku": "device-001",
+      "quantity": 1
+    }
+  ],
   "destination": {
     "country_code": "US",
     "postal_code": "10001",
