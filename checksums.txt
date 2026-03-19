@@ -27,6 +27,6 @@ f9b8e134d57c719014cc35ce391a9bf56a381659d4dcc1ef9eeb40c55e63d3bf  schemas/v1.1.0
 0c8af1923ed96ccbcaf634ebff0d3a9e0deb9c887ac036263958dfbcf9f66a3d  schemas/v1.1.0/commercial/purchase/purchase.request.schema.json
 1e9b04775e147f657ca17ab84b51f6fa89eb50e9afc5245ff00a7f8234af6063  schemas/v1.1.0/commercial/ship/ship.receipt.schema.json
 7155c14f8985ae375511b579620c17d40d0af05a91ea1a2b1d43e707bc4c7f8a  schemas/v1.1.0/commercial/ship/ship.request.schema.json
-8c2e962a4308d0648b7ba99b5864d2fc4eff58ae49ca1b27394703622b30085b  schemas/v1.1.0/commercial/verify/verify.receipt.schema.json
+9b1ac12cb98d3974f1be299c64342c4858418c4351856a4b9c1d32e792565fbd  schemas/v1.1.0/commercial/verify/verify.receipt.schema.json
 af08ddc3d0fdaa923148419cfeba42a100de90604176de593d62de908aafe7ba  schemas/v1.1.0/commercial/verify/verify.request.schema.json
 1431008b047fc5eb8fe2e0647a7a9d5e27e731ad89b97866c259a5e9937cc549  schemas/v1.1.0/index.json
