@@ -1,0 +1,46 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "ship",
+  "request_id": "shipreq-002",
+  "requested_at": "2026-03-19T10:17:15Z",
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "payer": {
+    "role": "payer",
+    "id": "buyer-017",
+    "kind": "account"
+  },
+  "provider": {
+    "role": "provider",
+    "id": "warehouse.example",
+    "kind": "service"
+  },
+  "order_ref": {
+    "type": "order",
+    "id": "ord-3017"
+  },
+  "commercial_ref": {
+    "type": "checkout",
+    "id": "checkout-3017"
+  },
+  "fulfillment_ref": {
+    "type": "fulfillment",
+    "id": "fulfillment-3017"
+  },
+  "items": [
+    {
+      "sku": "device-017",
+      "quantity": 2
+    }
+  ],
+  "destination": {
+    "country_code": "DE",
+    "postal_code": "10115",
+    "locality": "Berlin"
+  },
+  "service_level": "expedited"
+}

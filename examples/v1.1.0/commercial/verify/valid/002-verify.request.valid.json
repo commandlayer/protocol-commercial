@@ -1,0 +1,31 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "verify",
+  "request_id": "verifyreq-002",
+  "requested_at": "2026-03-19T10:21:30Z",
+  "requester": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "verifier": {
+    "role": "verifier",
+    "id": "ledger.example",
+    "kind": "service"
+  },
+  "target": {
+    "target_type": "fulfillment",
+    "target_ref": {
+      "type": "fulfillment",
+      "id": "fulfill-3017",
+      "uri": "https://merchant.example/fulfillment/fulfill-3017"
+    },
+    "authority": "https://ledger.example/verify"
+  },
+  "checks": [
+    "existence",
+    "fulfillment"
+  ],
+  "strict": false
+}
