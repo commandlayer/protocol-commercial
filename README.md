@@ -120,7 +120,7 @@ protocol-commercial/
 │               └── verify.receipt.schema.json
 ├── examples/
 │   ├── v1.0.0/                     # published legacy line
-│   └── v1.1.0/commercial/<verb>/{valid,invalid}/
+│   └── v1.1.0/commercial/<verb>/{valid,invalid,ts}/
 ├── manifest.json
 ├── checksums.txt
 └── scripts/
