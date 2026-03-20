@@ -40,4 +40,4 @@ sha256sum -c checksums.txt
 
 `sha256sum -c checksums.txt` verifies only the checksum-covered machine-artifact surface, not release prose docs.
 
-Security contact: `security@commandlayer.org`
+Security contact: `dev@commandlayer.org`
