@@ -24,6 +24,7 @@ This README is a repo-wide orientation document for the current release line and
 - **Current canonical schema root:** `https://commandlayer.org/schemas/v1.1.0/`
 - **Current package entrypoint:** `schemas/v1.1.0/index.json`
 - **Historical legacy line:** `v1.0.0`, retained under `schemas/v1.0.0/` and `examples/v1.0.0/`
+- **Release note draft for GitHub Releases:** `releases/v1.1.0.md`
 
 `v1.1.0` is flat. Its canonical schema URIs are the exact file-mirror paths published under `https://commandlayer.org/schemas/v1.1.0/commercial/<verb>/`.
 
@@ -44,6 +45,29 @@ The stack story is singular:
 - Commercial defines the monetized request and receipt contracts.
 - Agent Cards point directly at the current commercial schema URIs.
 - Runtimes execute those contracts but do not redefine them.
+
+## Integrator quickstart
+
+For consumers who need the shortest safe path:
+
+1. Install the package and import the current index entrypoint.
+   ```bash
+   npm install @commandlayer/commercial
+   ```
+   ```js
+   import commercialIndex from '@commandlayer/commercial';
+   ```
+2. Treat `schemas/v1.1.0/index.json` as the authoritative map of current schemas and verb inventory.
+3. Prefer `schemas/v1.1.0/commercial/<verb>/<verb>.request.schema.json` and `...receipt.schema.json` directly for validator configuration.
+4. Verify the machine-artifact set before mirroring or vendoring:
+   ```bash
+   npm run validate:integrity
+   sha256sum -c checksums.txt
+   ```
+5. Ignore `v1.0.0` unless you are maintaining compatibility with historical nested paths.
+6. Treat schemas and `manifest.json` as normative machine artifacts. Treat examples as illustrative conformance fixtures. Treat prose docs as normative interpretation and release-process guidance.
+
+A longer external-consumer workflow lives in `INTEGRATOR.md`.
 
 ## Commercial execution model
 
@@ -86,13 +110,13 @@ The verbs use those layers intentionally:
 
 ## Verb set
 
-| Verb | Purpose |
-| --- | --- |
-| `authorize` | Reserve payment authority before capture or settlement |
-| `checkout` | Finalize an order and request commercial capture |
-| `purchase` | Complete a one-step paid commercial action |
-| `ship` | Advance commercial fulfillment state for a settled checkout or purchase |
-| `verify` | Verify a commercial receipt, settlement, payment, or shipment target |
+| Verb | Purpose | Teaching note |
+| --- | --- | --- |
+| `authorize` | Reserve payment authority before capture or settlement | Teaches pre-capture approval, denial, and authorization evidence |
+| `checkout` | Finalize an order and request commercial capture | Teaches negotiated session state, amount binding, and settlement outcomes |
+| `purchase` | Complete a one-step paid commercial action | Teaches direct payment input without a separate checkout negotiation round |
+| `ship` | Advance commercial fulfillment state for a settled checkout or purchase | Teaches how fulfillment references upstream commercial settlement without replaying payment semantics |
+| `verify` | Verify a commercial receipt, settlement, payment, or shipment target | Teaches evidence-based attestation and inconclusive vs failed outcomes |
 
 ## Repository layout
 
@@ -120,13 +144,20 @@ protocol-commercial/
 │               └── verify.receipt.schema.json
 ├── examples/
 │   ├── v1.0.0/                     # published legacy line
-│   └── v1.1.0/commercial/<verb>/{valid,invalid,ts}/
+│   └── v1.1.0/commercial/<verb>/{valid,invalid}/
 ├── manifest.json
 ├── checksums.txt
+├── INTEGRATOR.md
 └── scripts/
 ```
 
 Protocol-Commercial v1.1.0 does **not** use a current-line `_shared/` tree. Every v1.1.0 request and receipt schema is self-contained, flat, and mirror-safe.
+
+Current-line example governance is equally explicit:
+
+- `valid/` contains illustrative conforming request and receipt fixtures.
+- `invalid/` contains isolated negative fixtures intended to fail validation cleanly.
+- No `examples/v1.1.0/**/ts/` tree is currently part of the public release surface.
 
 ## Scope boundaries
 
@@ -201,7 +232,6 @@ sha256sum -c checksums.txt
 - `npm run validate` runs the full validation suite for the current release line.
 - `npm run validate:schemas` checks current-line metadata, schema identity, layout, and manifest/index alignment expectations.
 - `npm run validate:examples` validates every current-line JSON valid and invalid example against the canonical schemas.
-- Current-line TypeScript example directories are intentionally excluded from the authoritative teaching surface; do not add `examples/v1.1.0/**/ts/` back without adding explicit validation and release governance for them.
 - `npm run validate:integrity` verifies the checksum file scope and hash coverage for the current release artifact set.
 - `checksums.txt` intentionally covers machine-validated release payloads only: `manifest.json`, `schemas/v1.1.0/index.json`, `schemas/v1.1.0/`, and `examples/v1.1.0/`.
 
@@ -211,12 +241,26 @@ Agent Cards v1.1.0 should bind directly to the current flat commercial schema UR
 
 Protocol-Commons and Protocol-Commercial therefore tell one coherent story:
 
+- Commons defines base actions.
+- Commercial defines monetized overlays.
+- Agent Cards point at the current flat commercial schema paths.
+- Legacy nested v1.0.0 paths remain published only for compatibility.
+
+## Checksum boundary and provenance summary
+
 The v1.1.0 checksum-covered machine-artifact set is intentionally limited to:
 
 - `schemas/v1.1.0/`
 - `examples/v1.1.0/`
 - `manifest.json`
 
-`checksums.txt` is the generated hash ledger for that machine-artifact set; it describes that surface but is not itself part of the hashed payload. Release-defining prose docs such as `README.md`, `SPEC.md`, `POLICY.md`, `SECURITY_PROVENANCE.md`, and `ONBOARDING.md` are authoritative guidance, but they are outside the checksum surface unless the tooling is expanded deliberately in a later release.
+`checksums.txt` is the generated hash ledger for that machine-artifact set; it describes that surface but is not itself part of the hashed payload. Release-defining prose docs such as `README.md`, `SPEC.md`, `POLICY.md`, `SECURITY_PROVENANCE.md`, `INTEGRATOR.md`, and `ONBOARDING.md` are authoritative guidance, but they are outside the checksum surface unless the tooling is expanded deliberately in a later release.
 
-After any mutation to the checksum-covered set, regenerate `checksums.txt` and repin any release bundle that depends on those artifacts.
+For external verification, the minimal path is:
+
+1. Install or vendor the package.
+2. Inspect `manifest.json` to confirm the current line is `v1.1.0`.
+3. Validate checksum coverage with `npm run validate:integrity`.
+4. Verify local file hashes with `sha256sum -c checksums.txt`.
+5. Load `schemas/v1.1.0/index.json` and bind validators from the listed request and receipt schema paths.
+6. Ignore `v1.0.0` unless compatibility requires the historical line.

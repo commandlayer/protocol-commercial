@@ -1,0 +1,68 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "purchase",
+  "request_id": "purchasereq-002",
+  "requested_at": "2026-03-19T10:13:45Z",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-044",
+    "kind": "account"
+  },
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "payee": {
+    "role": "payee",
+    "id": "merchant-settlement",
+    "kind": "wallet"
+  },
+  "items": [
+    {
+      "sku": "svc-enterprise-batch",
+      "description": "Enterprise execution batch",
+      "quantity": 1,
+      "unit_price": {
+        "amount": "250.00",
+        "currency": "USDC",
+        "decimals": 2
+      }
+    }
+  ],
+  "amount_breakdown": {
+    "subtotal": {
+      "amount": "250.00",
+      "currency": "USDC",
+      "decimals": 2
+    },
+    "fees": {
+      "amount": "5.00",
+      "currency": "USDC",
+      "decimals": 2
+    },
+    "total": {
+      "amount": "255.00",
+      "currency": "USDC",
+      "decimals": 2
+    }
+  },
+  "order_ref": {
+    "type": "order",
+    "id": "ord-2044"
+  },
+  "invoice_ref": {
+    "type": "invoice",
+    "id": "inv-2044"
+  },
+  "merchant_reference": "enterprise-purchase-2044",
+  "payment_input": {
+    "payment_proof": {
+      "scheme": "x402",
+      "proof_type": "payment-proof",
+      "proof_ref": "proof-2044",
+      "uri": "https://merchant.example/x402/proofs/proof-2044"
+    }
+  }
+}

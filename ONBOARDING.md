@@ -1,10 +1,26 @@
 # ONBOARDING — Protocol-Commercial
 
-This document describes the current-line maintainer workflow for the active v1.1.0 release line.
+This document describes both the external-consumer path and the maintainer workflow for the active v1.1.0 release line.
 
 ## Document scope
 
-This document is the maintainer workflow for the current release line.
+This document is the operational workflow for the current release line.
+
+## External consumer workflow
+
+1. Install dependencies or the published package.
+   ```bash
+   npm install @commandlayer/commercial
+   ```
+2. Confirm the current line in `manifest.json` and use `schemas/v1.1.0/index.json` as the authoritative schema map.
+3. Choose flat schemas under `schemas/v1.1.0/commercial/<verb>/` for validator configuration.
+4. Verify the machine-artifact set before mirroring or vendoring.
+   ```bash
+   npm run validate:integrity
+   sha256sum -c checksums.txt
+   ```
+5. Treat `examples/v1.1.0/commercial/<verb>/valid/` and `invalid/` as conformance fixtures.
+6. Use `v1.0.0` only when compatibility with the historical nested path model is required.
 
 ## Maintainer workflow
 
@@ -20,7 +36,7 @@ This document is the maintainer workflow for the current release line.
    npm run validate:examples
    npm run validate:integrity
    ```
-4. Regenerate checksums.
+4. Regenerate checksums when checksum-covered machine artifacts change.
    ```bash
    npm run generate:checksums
    ```
@@ -40,11 +56,11 @@ When editing only prose docs outside the checksum surface, do not regenerate `ch
 1. Create a new flat directory under `schemas/<new-version>/commercial/<verb>/`.
 2. Add exactly one request schema and one receipt schema.
 3. Create matching example folders under `examples/<new-version>/commercial/<verb>/valid` and `invalid`.
-4. Add at least one valid request, one valid receipt, one invalid request, and one invalid receipt.
+4. Add at least one valid request, one alternate valid request or receipt, one invalid request, and one invalid receipt.
 5. Make every invalid example isolate a single intended failure when practical.
-6. Do not add unvalidated TypeScript example directories to the current-line example tree.
+6. Do not add an ungoverned `examples/v1.1.0/**/ts/` surface to the current line.
 7. Update `manifest.json`, `schemas/<version>/index.json`, validation expectations, and checksums.
-8. Update README, SPEC, and any release-process docs if the normative surface changed.
+8. Update README, INTEGRATOR, SPEC, and release-process docs if the public teaching surface changed.
 9. Confirm public docs controlled by this repo still teach the exact current path model and current script names.
 
 ## Version bumps
@@ -52,7 +68,8 @@ When editing only prose docs outside the checksum surface, do not regenerate `ch
 1. Never mutate a published version directory in place after release.
 2. Create a new `schemas/vX.Y.Z/` and `examples/vX.Y.Z/` tree.
 3. Update `package.json`, `manifest.json`, README, SPEC, policy docs, and workflow assumptions.
-4. Regenerate checksums for the new current line's machine-artifact set.
+4. Draft release notes for the new line before publication.
+5. Regenerate checksums for the new current line's machine-artifact set.
 
 For the current line, the canonical path model is flat:
 
@@ -61,12 +78,13 @@ For the current line, the canonical path model is flat:
 
 ## Manual publication follow-up
 
-The repository does not automate publication, IPFS pinning, CID capture, or mirror updates. If your release process uses those steps, perform them manually after the new version line has passed validation:
+The repository does not automate publication, GitHub Release publication, IPFS pinning, CID capture, or mirror updates. If your release process uses those steps, perform them manually after the new version line has passed validation:
 
-1. Pin the checksum-covered release artifact set to IPFS, if that distribution channel is being used for the release.
-2. Capture resulting CIDs in the external release record if your publication process requires them.
-3. Update commandlayer.org mirrors to match the release paths exactly.
-4. Update any Agent Card schema bindings that reference the superseded version.
+1. Publish the GitHub Release using `releases/v1.1.0.md` or the corresponding new-version draft.
+2. Pin the checksum-covered release artifact set to IPFS, if that distribution channel is being used for the release.
+3. Capture resulting CIDs in the external release record if your publication process requires them.
+4. Update commandlayer.org mirrors to match the release paths exactly.
+5. Update any Agent Card schema bindings that reference the superseded version.
 
 ## Release hygiene
 
@@ -74,4 +92,5 @@ The repository does not automate publication, IPFS pinning, CID capture, or mirr
 - Keep legacy lines explicitly marked as legacy.
 - Keep schema paths flat and mirror-safe.
 - Keep checksum scope explicit.
+- Keep GitHub Releases and repository docs in sync.
 - Prefer exactness over deduplication.
