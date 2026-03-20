@@ -100,6 +100,8 @@ async function validateManifest() {
   assert(manifest.examples_root === `examples/v${CURRENT_VERSION}`, "manifest examples_root drift");
   assert(manifest.current_index === `schemas/v${CURRENT_VERSION}/index.json`, "manifest current_index drift");
   assert(manifest.checksums_file === "checksums.txt", "manifest checksums_file drift");
+  assert("declared_alignment" in manifest, "manifest must expose declarative alignment metadata");
+  assert(!("aligns_with" in manifest), "manifest aligns_with field must not imply verified enforcement");
   assert(JSON.stringify(manifest.verbs.map((v) => v.verb)) === JSON.stringify(EXPECTED_VERBS), "manifest verb list drift");
 }
 
@@ -108,6 +110,8 @@ async function validatePackage() {
   assert(pkg.version === CURRENT_VERSION, `package version must be ${CURRENT_VERSION}`);
   assert(pkg.main === `schemas/v${CURRENT_VERSION}/index.json`, "package main drift");
   assert(pkg.exports['.'] === `./schemas/v${CURRENT_VERSION}/index.json`, "package exports current entry drift");
+  assert(pkg.publishConfig?.access === "public", "package publishConfig.access drift");
+  assert(pkg.files.includes("INTEGRATOR.md"), "package files must include INTEGRATOR.md");
 }
 
 async function validateSchemaTree() {
@@ -167,8 +171,7 @@ async function validateIndex() {
   const indexPath = path.join(SCHEMAS_ROOT, "index.json");
   const indexJson = await loadJsonStrict(indexPath);
   assert(indexJson.version === CURRENT_VERSION, "index.json version drift");
-  assert(indexJson.$id === `https://commandlayer.org/schemas/v${CURRENT_VERSION}/index.json`, "index.json $id drift");
-  assert(indexJson.schemas_root === `https://commandlayer.org/schemas/v${CURRENT_VERSION}/`, "index.json schemas_root drift");
+  assert(indexJson.schemas_root === `schemas/v${CURRENT_VERSION}`, "index.json schemas_root drift");
   assert(JSON.stringify(indexJson.verbs) === JSON.stringify(EXPECTED_VERBS.map(expectedVerbEntry)), "index.json verb inventory drift");
 
   const manifest = await loadJsonStrict(path.join(ROOT_DIR, "manifest.json"));

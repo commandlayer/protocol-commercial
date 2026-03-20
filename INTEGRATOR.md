@@ -57,7 +57,7 @@ The checksum-covered payload for this release is intentionally narrow:
 - `examples/v1.1.0/`
 - `manifest.json`
 
-`checksums.txt` is the ledger for that payload. It is not itself inside the hashed set. Prose docs remain authoritative for interpretation and release process, but they are outside the checksum boundary.
+`checksums.txt` is the ledger for that payload. It is not itself inside the hashed set, so checksum verification confirms covered files only relative to the checked-in `checksums.txt` ledger and does not independently authenticate that ledger. Prose docs remain authoritative for interpretation and release process, but they are outside the checksum boundary.
 
 ## TypeScript guidance
 
