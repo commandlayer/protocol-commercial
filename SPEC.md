@@ -147,7 +147,9 @@ A conformant release MUST satisfy all of the following:
 - every declared verb has valid and invalid examples for both request and receipt artifacts
 - every current schema path matches its `$id`
 - `manifest.json` and `schemas/v1.1.0/index.json` agree on the current verb set and path inventory
-- `npm run validate` passes
+- `npm test` passes as the current-line validation aggregate
 - `npm run validate:schemas` passes
 - `sha256sum -c checksums.txt` passes for the checksum-covered machine-artifact set
 - repository metadata does not drift from the published current line
+
+The canonical command list lives in `README.md#validation-commands`.

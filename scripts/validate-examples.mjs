@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import fs from "fs/promises";
+import { readdir } from "fs/promises";
 import path from "path";
 import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
