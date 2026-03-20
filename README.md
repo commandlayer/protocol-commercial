@@ -119,7 +119,7 @@ protocol-commercial/
 │               └── verify.receipt.schema.json
 ├── examples/
 │   ├── v1.0.0/                     # published legacy line
-│   └── v1.1.0/commercial/<verb>/{valid,invalid}/
+│   └── v1.1.0/commercial/<verb>/{valid,invalid,ts}/
 ├── manifest.json
 ├── checksums.txt
 └── scripts/
@@ -197,7 +197,8 @@ sha256sum -c checksums.txt
 ```
 
 - `npm run validate` checks current-line metadata, schema identity, layout, and release integrity expectations.
-- `npm run validate:examples` validates every current-line valid and invalid example against the canonical schemas.
+- `npm run validate:examples` validates every current-line valid and invalid JSON example against the canonical schemas.
+- `examples/v1.1.0/commercial/<verb>/ts/` mirrors the Protocol-Commons v1.1.0 TypeScript guidance pattern with self-contained request and receipt authoring examples.
 - `npm run validate:integrity` verifies the checksum file scope and hash coverage for the current release artifact set.
 - `checksums.txt` intentionally covers machine-validated release payloads only: `manifest.json`, `schemas/v1.1.0/index.json`, `schemas/v1.1.0/`, and `examples/v1.1.0/`.
 
