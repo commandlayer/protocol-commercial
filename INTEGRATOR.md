@@ -4,13 +4,13 @@ This document is the external-consumer quickstart for the current commercial rel
 
 ## What to import
 
-Use the package root or the current index directly:
+Use the explicit current-line JSON path export by default:
 
 ```js
-import commercialIndex from '@commandlayer/commercial';
+import commercialIndex from '@commandlayer/commercial/schemas/v1.1.0/index.json';
 ```
 
-The package root resolves to `schemas/v1.1.0/index.json`. That index is the current machine-readable map of every canonical verb schema in the release.
+That path is the current machine-readable map of every canonical verb schema in the release and is the most portable documented import for ESM-first consumers. The bare package import `@commandlayer/commercial` currently resolves to the same file, but treat it as an environment-dependent shortcut rather than the default example.
 
 ## What is normative vs illustrative
 
@@ -37,11 +37,7 @@ Normative interpretive docs:
 1. Confirm the package version is `1.1.0` and that `manifest.json` reports `status: current`.
 2. Load `schemas/v1.1.0/index.json` and select the request and receipt schema paths you need.
 3. Configure your validator from the flat per-verb schema files under `schemas/v1.1.0/commercial/<verb>/`.
-4. Run checksum verification before mirroring or vendoring artifacts:
-   ```bash
-   npm run validate:integrity
-   sha256sum -c checksums.txt
-   ```
+4. Run checksum verification before mirroring or vendoring artifacts using the canonical commands in `README.md#validation-commands`.
 5. Use `examples/v1.1.0/` as conformance fixtures, not as a substitute for schema requirements.
 
 ## Choosing between v1.1.0 and v1.0.0
@@ -65,4 +61,4 @@ The checksum-covered payload for this release is intentionally narrow:
 
 ## TypeScript guidance
 
-There is no public `examples/v1.1.0/**/ts/` teaching surface in the current release. If a future release restores TypeScript examples, they should be explicitly governed, validated, and documented before they are treated as part of the public implementer surface.
+There is no current-line TypeScript compile target or public `examples/v1.1.0/**/ts/` teaching surface in this release. The retained `v1.0.0` TypeScript example files are legacy compatibility artifacts, not an active build surface. If a future release restores a TypeScript surface, it should be explicitly governed, validated, and documented before it is treated as part of the public implementer surface.
