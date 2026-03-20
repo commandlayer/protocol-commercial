@@ -34,7 +34,7 @@ Normative interpretive docs:
 
 ## Safe consumer path
 
-1. Confirm the package version is `1.1.0` and that `manifest.json` reports `status: current`.
+1. Confirm the release version is `1.1.0` and that `manifest.json` reports `status: current`.
 2. Load `schemas/v1.1.0/index.json` and select the request and receipt schema paths you need.
 3. Configure your validator from the flat per-verb schema files under `schemas/v1.1.0/commercial/<verb>/`.
 4. Run checksum verification before mirroring or vendoring artifacts using the canonical commands in `README.md#validation-commands`.
@@ -51,7 +51,7 @@ Do not teach `v1.0.0` paths as current implementation guidance.
 
 ## Checksums and provenance
 
-The checksum-covered payload for this release is intentionally narrow:
+The authoritative checksum-boundary and release-state rules live in `SPEC.md` and `POLICY.md`.
 
 - `schemas/v1.1.0/`
 - `examples/v1.1.0/`

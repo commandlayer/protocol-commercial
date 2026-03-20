@@ -29,8 +29,10 @@ Protocol-Commercial provides schema-level security properties, not transaction o
 - keep x402 references typed and minimal
 - do not let current-line docs teach superseded path models
 
-## Verification commands
+## Verification summary
 
 Use the canonical validation command surface in `README.md#validation-commands`. For security review, `npm run validate:schemas` is the direct schema/metadata drift check, and `sha256sum -c checksums.txt` verifies only the checksum-covered machine-artifact surface, not release prose docs.
 
 Security contact: `dev@commandlayer.org`
+
+PGP: none currently provided for this repository.

@@ -2,7 +2,7 @@
 
 Protocol-Commercial v1.1.0 is the current CommandLayer commercial schema line.
 
-This README describes the current v1.1.0 release line and its release packaging surface. Repo-wide governance, security posture, and checksum-boundary provenance live in the dedicated meta docs.
+This README is a release-orientation document for the current line. The normative specification lives in `SPEC.md`. Release policy, checksum-boundary policy, and version-lifecycle rules live in `POLICY.md`.
 
 It defines the canonical commercial overlays that sit on top of Protocol-Commons v1.1.0. Commons defines base semantic actions. Commercial defines the monetized, settlement-aware request and receipt contracts that agents and runtimes use when value moves.
 
@@ -24,11 +24,16 @@ This README is a repo-wide orientation document for the current release line and
 - **Current canonical schema root:** `https://commandlayer.org/schemas/v1.1.0/`
 - **Current package entrypoint:** `schemas/v1.1.0/index.json`
 - **Historical legacy line:** `v1.0.0`, retained under `schemas/v1.0.0/` and `examples/v1.0.0/`
+- **Changelog:** `CHANGELOG.md`
 - **Release note draft for GitHub Releases:** `releases/v1.1.0.md`
 
-`v1.1.0` is flat. Its canonical schema URIs are the exact file-mirror paths published under `https://commandlayer.org/schemas/v1.1.0/commercial/<verb>/`.
+For the authoritative version policy and checksum-boundary rules, see `POLICY.md`. For normative identity and path rules, see `SPEC.md`.
 
-`v1.0.0` is historical only. Its older nested `requests/` and `receipts/` directories remain published for compatibility and audit, not as current teaching.
+## Canonical namespace and source of truth
+
+The `commandlayer.org` `$id` namespace is canonical for published Protocol-Commercial schemas.
+
+This repository is the source of truth for those schema files and release metadata. Public mirrors or hosted copies under `commandlayer.org` may be unavailable temporarily; that does not change the canonical `$id` values or the repository-local release contents.
 
 ## Schema identity and trust
 
@@ -69,6 +74,8 @@ For consumers who need the shortest safe path:
 4. Verify the machine-artifact set before mirroring or vendoring using the canonical command surface in [Validation commands](#validation-commands).
 5. Ignore `v1.0.0` unless you are maintaining compatibility with historical nested paths. Current automated validation targets `v1.1.0`; retained `v1.0.0` artifacts remain published for compatibility and audit without equal current-line guarantees.
 6. Treat schemas and `manifest.json` as normative machine artifacts. Treat examples as illustrative conformance fixtures. Treat prose docs as normative interpretation and release-process guidance.
+
+Package-install instructions are intentionally omitted here because npm publication for `@commandlayer/commercial` could not be verified from this repository alone.
 
 A longer external-consumer workflow lives in `INTEGRATOR.md`.
 
@@ -150,6 +157,7 @@ protocol-commercial/
 │   └── v1.1.0/commercial/<verb>/{valid,invalid}/
 ├── manifest.json
 ├── checksums.txt
+├── CHANGELOG.md
 ├── INTEGRATOR.md
 └── scripts/
 ```
@@ -262,19 +270,14 @@ Protocol-Commons and Protocol-Commercial therefore tell one coherent story:
 
 ## Checksum boundary and provenance summary
 
-The v1.1.0 checksum-covered machine-artifact set is intentionally limited to:
-
-- `schemas/v1.1.0/`
-- `examples/v1.1.0/`
-- `manifest.json`
+The checksum boundary is defined normatively in `SPEC.md` and governed by `POLICY.md`.
 
 `checksums.txt` is the generated hash ledger for that machine-artifact set; it describes that surface but is not itself part of the hashed payload, so checksum verification confirms covered files only relative to the checked-in `checksums.txt` ledger and does not independently authenticate that ledger. Release-defining prose docs such as `README.md`, `SPEC.md`, `POLICY.md`, `SECURITY_PROVENANCE.md`, `INTEGRATOR.md`, and `ONBOARDING.md` are authoritative guidance, but they are outside the checksum surface unless the tooling is expanded deliberately in a later release.
 
 For external verification, the minimal path is:
 
-1. Install or vendor the package.
-2. Inspect `manifest.json` to confirm the current line is `v1.1.0`.
-3. Validate checksum coverage with `npm run validate:integrity`.
-4. Verify local file hashes with `sha256sum -c checksums.txt`.
-5. Load `schemas/v1.1.0/index.json` and bind validators from the listed request and receipt schema paths.
-6. Ignore `v1.0.0` unless compatibility requires the historical line.
+1. Inspect `manifest.json` to confirm the current line is `v1.1.0`.
+2. Run `npm run validate:integrity`.
+3. Run `sha256sum -c checksums.txt`.
+4. Load `schemas/v1.1.0/index.json` and bind validators from the listed request and receipt schema paths.
+5. Ignore `v1.0.0` unless compatibility requires the historical line.
