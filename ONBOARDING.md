@@ -16,6 +16,7 @@ This document is the maintainer workflow for the current release line.
 3. Run validation.
    ```bash
    npm run validate
+   npm run validate:schemas
    npm run validate:examples
    npm run validate:integrity
    ```
@@ -26,6 +27,7 @@ This document is the maintainer workflow for the current release line.
 5. Re-run validation and checksum verification.
    ```bash
    npm run validate
+   npm run validate:schemas
    npm run validate:examples
    npm run validate:integrity
    sha256sum -c checksums.txt
@@ -41,8 +43,8 @@ When editing only prose docs outside the checksum surface, do not regenerate `ch
 4. Add at least one valid request, one valid receipt, one invalid request, and one invalid receipt.
 5. Make every invalid example isolate a single intended failure when practical.
 6. Update `manifest.json`, `schemas/<version>/index.json`, validation expectations, and checksums.
-7. Update README and SPEC if the normative surface changed.
-8. Confirm public docs controlled by this repo still teach the exact current path model.
+7. Update README, SPEC, and any release-process docs if the normative surface changed.
+8. Confirm public docs controlled by this repo still teach the exact current path model and current script names.
 
 ## Version bumps
 
@@ -56,8 +58,12 @@ For the current line, the canonical path model is flat:
 - `https://commandlayer.org/schemas/vX.Y.Z/commercial/<verb>/<verb>.request.schema.json`
 - `https://commandlayer.org/schemas/vX.Y.Z/commercial/<verb>/<verb>.receipt.schema.json`
 
-1. Pin the checksum-covered release artifact set to IPFS.
-2. Capture resulting CIDs.
+## Manual publication follow-up
+
+The repository does not automate publication, IPFS pinning, CID capture, or mirror updates. If your release process uses those steps, perform them manually after the new version line has passed validation:
+
+1. Pin the checksum-covered release artifact set to IPFS, if that distribution channel is being used for the release.
+2. Capture resulting CIDs in the external release record if your publication process requires them.
 3. Update commandlayer.org mirrors to match the release paths exactly.
 4. Update any Agent Card schema bindings that reference the superseded version.
 
