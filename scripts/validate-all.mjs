@@ -96,11 +96,14 @@ async function validateManifest() {
   assert(!("$schema" in manifest), "manifest.json must not carry a decorative $schema field");
   assert(manifest.version === CURRENT_VERSION, `manifest version must be ${CURRENT_VERSION}`);
   assert(manifest.status === "current", "manifest status must be current");
+  assert(manifest.path_base === ".", "manifest path_base must anchor repo-relative paths");
+  assert(manifest.paths_are_repo_relative === true, "manifest must declare repo-relative path semantics");
   assert(manifest.schemas_root === `schemas/v${CURRENT_VERSION}`, "manifest schemas_root drift");
   assert(manifest.examples_root === `examples/v${CURRENT_VERSION}`, "manifest examples_root drift");
   assert(manifest.current_index === `schemas/v${CURRENT_VERSION}/index.json`, "manifest current_index drift");
   assert(manifest.checksums_file === "checksums.txt", "manifest checksums_file drift");
   assert("declared_alignment" in manifest, "manifest must expose declarative alignment metadata");
+  assert(manifest.alignment_verification === "declarative-only", "manifest alignment verification mode drift");
   assert(!("aligns_with" in manifest), "manifest aligns_with field must not imply verified enforcement");
   assert(JSON.stringify(manifest.verbs.map((v) => v.verb)) === JSON.stringify(EXPECTED_VERBS), "manifest verb list drift");
 }
@@ -171,6 +174,8 @@ async function validateIndex() {
   const indexPath = path.join(SCHEMAS_ROOT, "index.json");
   const indexJson = await loadJsonStrict(indexPath);
   assert(indexJson.version === CURRENT_VERSION, "index.json version drift");
+  assert(indexJson.path_base === ".", "index.json path_base must anchor repo-relative paths");
+  assert(indexJson.paths_are_repo_relative === true, "index.json must declare repo-relative path semantics");
   assert(indexJson.schemas_root === `schemas/v${CURRENT_VERSION}`, "index.json schemas_root drift");
   assert(JSON.stringify(indexJson.verbs) === JSON.stringify(EXPECTED_VERBS.map(expectedVerbEntry)), "index.json verb inventory drift");
 

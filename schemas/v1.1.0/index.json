@@ -2,6 +2,8 @@
   "name": "@commandlayer/commercial",
   "version": "1.1.0",
   "class": "commercial",
+  "path_base": ".",
+  "paths_are_repo_relative": true,
   "schemas_root": "schemas/v1.1.0",
   "verbs": [
     {

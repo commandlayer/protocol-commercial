@@ -261,6 +261,8 @@ sha256sum -c checksums.txt
 
 Agent Cards v1.1.0 should bind directly to the current flat commercial schema URIs published by this repository. They should not point at the historical v1.0.0 `requests/` or `receipts/` paths when declaring current-line commercial capability.
 
+The `manifest.json` alignment metadata is intentionally declarative only. It records the intended version pairing with Protocol-Commons and Agent Cards, but it must not be read as machine-verified cross-repository enforcement on its own.
+
 Protocol-Commons and Protocol-Commercial therefore tell one coherent story:
 
 - Commons defines base actions.

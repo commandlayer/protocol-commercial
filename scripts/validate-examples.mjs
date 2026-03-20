@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-import { readdir } from "fs/promises";
 import path from "path";
 import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 import ajvErrors from "ajv-errors";
 import { loadJsonStrict } from "./load-json-strict.mjs";
+import { readdir } from "fs/promises";
 
 const ROOT_DIR = process.cwd();
 const CURRENT_VERSION = "1.1.0";
@@ -24,7 +24,7 @@ async function validateVerb(verb) {
 
   for (const group of ["valid", "invalid"]) {
     const dir = path.join(EXAMPLES_ROOT, verb, group);
-    const files = (await fs.readdir(dir)).filter((file) => file.endsWith(".json")).sort();
+    const files = (await readdir(dir)).filter((file) => file.endsWith(".json")).sort();
     const requestFiles = files.filter((file) => file.includes("request"));
     const receiptFiles = files.filter((file) => file.includes("receipt"));
     if (requestFiles.length === 0 || receiptFiles.length === 0) {
