@@ -1,5 +1,7 @@
 # Protocol-Commercial
 
+[![Schemas](https://img.shields.io/badge/Schemas-v1.1.0%20current-brightgreen)](https://github.com/commandlayer/protocol-commercial) [![CI Status](https://img.shields.io/github/actions/workflow/status/commandlayer/protocol-commercial/validate.yml?branch=main&label=CI)](https://github.com/commandlayer/protocol-commercial/actions/workflows/validate.yml) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/commandlayer/protocol-commercial/blob/main/LICENSE)
+
 Protocol-Commercial v1.1.0 is the current CommandLayer commercial schema line.
 
 This README is a release-orientation document for the current line. The normative specification lives in `SPEC.md`. Release policy, checksum-boundary policy, and version-lifecycle rules live in `POLICY.md`.
