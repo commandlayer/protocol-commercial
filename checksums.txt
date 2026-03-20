@@ -28,7 +28,7 @@ a2a5e61fa04e12786a848e03bbabbc3f9d066ca55a6f48cb1ae1140f6373bf94  examples/v1.1.
 9492d90ea14ad35eeb8acd03248ce6061ccdc04a7aff4ed538d8c42be3abc015  examples/v1.1.0/commercial/verify/valid/002-verify.request.valid.json
 50874f3eea69a51ac132873b05e39318e4c2241078ca5e258e466934935ec945  examples/v1.1.0/commercial/verify/valid/900-verify.receipt.valid.json
 455d19ad1b7ef98e436d8f1c675fee7f2716eb17d301da8d2cc4e2e2c51e624a  examples/v1.1.0/commercial/verify/valid/901-verify.receipt.valid.json
-80fa9124c1560d0e55b83554d83581dabf72505cc4d9c1354157f51fddd9686a  manifest.json
+0e4a8b868fa2f7d68bd5f65d7687a91ed97cd380b1b979dd7dc15b44a5a28939  manifest.json
 4d1178e63f6c5a9e1e4d9cc4d386fbad023dd5a85c000ff193285b1fed9af243  schemas/v1.1.0/commercial/authorize/authorize.receipt.schema.json
 ef5da55ba5acdd43e8d2715204938762a63819dd370ebc8dfedad014617259c3  schemas/v1.1.0/commercial/authorize/authorize.request.schema.json
 66e39d85a503ec2fa096d789b5b3136a451387186fa33424c4bcb07ce9aea49b  schemas/v1.1.0/commercial/checkout/checkout.receipt.schema.json
@@ -39,4 +39,4 @@ e9b62cf29d5f58fed922e9bc77c8d3e13e6f7ed04785baad7a7e4fc600ab44b8  schemas/v1.1.0
 b876f8ffbfd87e5554374de114414f9e4091ba09c80d07b9b99a40ff1befd7c5  schemas/v1.1.0/commercial/ship/ship.request.schema.json
 7abc8e8a2dec058298ba5dd0603f20d9f95f6bc411fcd429fdb3c7a116dcbcca  schemas/v1.1.0/commercial/verify/verify.receipt.schema.json
 09707b90a6317d10d13f6e5339bc17a7ddc4d5938970ff7e25842876b7f2eea5  schemas/v1.1.0/commercial/verify/verify.request.schema.json
-5b18c4a450ffcee3045eb504b3c1fcc493b7118f5136e5dc81011c24e5845a5a  schemas/v1.1.0/index.json
+ef4d9050f892c9d4b86382b9fd3018ee8496e6ad26c2fa9a64cbb44b7d549598  schemas/v1.1.0/index.json

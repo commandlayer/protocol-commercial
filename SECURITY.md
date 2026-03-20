@@ -31,15 +31,7 @@ Protocol-Commercial provides schema-level security properties, not transaction o
 
 ## Verification summary
 
-For the canonical validation and checksum-boundary rules, see `SPEC.md` and `POLICY.md`.
-
-In practice:
-
-- use `npm run validate:schemas` as the direct schema and metadata drift check
-- use `sha256sum -c checksums.txt` only for the checksum-covered machine-artifact surface
-- do not describe checksum verification as protecting prose docs outside that boundary
-
-## Contact
+Use the canonical validation command surface in `README.md#validation-commands`. For security review, `npm run validate:schemas` is the direct schema/metadata drift check, and `sha256sum -c checksums.txt` verifies only the checksum-covered machine-artifact surface, not release prose docs.
 
 Security contact: `dev@commandlayer.org`
 

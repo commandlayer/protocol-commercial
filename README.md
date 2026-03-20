@@ -35,6 +35,12 @@ The `commandlayer.org` `$id` namespace is canonical for published Protocol-Comme
 
 This repository is the source of truth for those schema files and release metadata. Public mirrors or hosted copies under `commandlayer.org` may be unavailable temporarily; that does not change the canonical `$id` values or the repository-local release contents.
 
+## Schema identity and trust
+
+- `https://commandlayer.org/...` is the canonical schema namespace and the normative `$id` base for this release line.
+- This Git repository and its published package contents are the source of truth for those artifacts.
+- External resolution of `$id` URLs is a convenience, not a trust requirement; consumers should vendor, mirror, or package-pin the repository artifacts they validate against.
+
 ## Relationship to the stack
 
 | Layer | Current line | Responsibility |
@@ -55,14 +61,18 @@ The stack story is singular:
 
 For consumers who need the shortest safe path:
 
-1. Use the repository contents directly, or a future published package if one is announced in release metadata.
-   ```js
-   import commercialIndex from './schemas/v1.1.0/index.json' assert { type: 'json' };
+1. Install the package and import the current index entrypoint using the explicit JSON path export.
+   ```bash
+   npm install @commandlayer/commercial
    ```
+   ```js
+   import commercialIndex from '@commandlayer/commercial/schemas/v1.1.0/index.json';
+   ```
+   The bare package import `@commandlayer/commercial` resolves to the same file today, but treat that shortcut as environment-dependent rather than the default documentation path.
 2. Treat `schemas/v1.1.0/index.json` as the authoritative map of current schemas and verb inventory.
 3. Prefer `schemas/v1.1.0/commercial/<verb>/<verb>.request.schema.json` and `...receipt.schema.json` directly for validator configuration.
-4. Verify integrity and validation status using the maintained commands listed in `SPEC.md` and the checksum policy in `POLICY.md`.
-5. Ignore `v1.0.0` unless you are maintaining compatibility with historical nested paths.
+4. Verify the machine-artifact set before mirroring or vendoring using the canonical command surface in [Validation commands](#validation-commands).
+5. Ignore `v1.0.0` unless you are maintaining compatibility with historical nested paths. Current automated validation targets `v1.1.0`; retained `v1.0.0` artifacts remain published for compatibility and audit without equal current-line guarantees.
 6. Treat schemas and `manifest.json` as normative machine artifacts. Treat examples as illustrative conformance fixtures. Treat prose docs as normative interpretation and release-process guidance.
 
 Package-install instructions are intentionally omitted here because npm publication for `@commandlayer/commercial` could not be verified from this repository alone.
@@ -154,6 +164,15 @@ protocol-commercial/
 
 Protocol-Commercial v1.1.0 does **not** use a current-line `_shared/` tree. Every v1.1.0 request and receipt schema is self-contained, flat, and mirror-safe.
 
+### Browsing large self-contained schemas
+
+To navigate the flat schema line efficiently without reintroducing cross-file dependencies:
+
+- Start at `schemas/v1.1.0/index.json` to locate the request and receipt pair for the verb you need.
+- Read a verb directory as a pair: request first for caller obligations, receipt second for canonical outcome and audit references.
+- Use the local `$defs` section in each schema as the file-scoped glossary for repeated structures such as actors, money, and payment evidence.
+- Compare same-named `$defs` across verbs only when checking consistency; the validator enforces those shared shapes without making readers chase external files.
+
 Current-line example governance is equally explicit:
 
 - `valid/` contains illustrative conforming request and receipt fixtures.
@@ -218,17 +237,25 @@ This repository does not define:
 }
 ```
 
-## Validation and integrity
+## Validation commands
 
-Use the maintained validation commands in `SPEC.md` and the release-state policy in `POLICY.md`.
+This README is the canonical command surface for repository validation. Other docs should reference this section instead of duplicating the full command block.
 
-In short:
+```bash
+npm install
+npm test
+npm run validate:schemas
+npm run validate:examples
+npm run validate:integrity
+npm run generate:checksums
+sha256sum -c checksums.txt
+```
 
-- `npm run validate` runs the full validation suite for the current release line.
-- `npm run validate:schemas` is the direct schema/metadata drift check.
-- `npm run validate:examples` validates current-line fixtures.
-- `npm run validate:integrity` checks checksum scope and coverage.
-- `sha256sum -c checksums.txt` verifies only the checksum-covered machine-artifact surface.
+- `npm test` runs the full current-line validation aggregate (`npm run validate`).
+- `npm run validate:schemas` checks current-line metadata, schema identity, layout, and manifest/index alignment expectations.
+- `npm run validate:examples` validates every current-line JSON valid and invalid example against the canonical schemas.
+- `npm run validate:integrity` verifies the checksum file scope and hash coverage for the current release artifact set.
+- `checksums.txt` intentionally covers machine-validated release payloads only: `manifest.json`, `schemas/v1.1.0/`, and `examples/v1.1.0/`.
 
 ## Agent Cards and Commons alignment
 
@@ -245,7 +272,7 @@ Protocol-Commons and Protocol-Commercial therefore tell one coherent story:
 
 The checksum boundary is defined normatively in `SPEC.md` and governed by `POLICY.md`.
 
-In short, the checksum-covered machine-artifact set is the current schema tree, the current examples tree, and `manifest.json`. `checksums.txt` is the ledger for that set; prose docs remain authoritative but are outside checksum coverage.
+`checksums.txt` is the generated hash ledger for that machine-artifact set; it describes that surface but is not itself part of the hashed payload, so checksum verification confirms covered files only relative to the checked-in `checksums.txt` ledger and does not independently authenticate that ledger. Release-defining prose docs such as `README.md`, `SPEC.md`, `POLICY.md`, `SECURITY_PROVENANCE.md`, `INTEGRATOR.md`, and `ONBOARDING.md` are authoritative guidance, but they are outside the checksum surface unless the tooling is expanded deliberately in a later release.
 
 For external verification, the minimal path is:
 

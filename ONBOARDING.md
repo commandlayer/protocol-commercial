@@ -1,10 +1,10 @@
 # ONBOARDING — Protocol-Commercial
 
-This document describes both the external-consumer path and the maintainer workflow for the active v1.1.0 release line.
+This document is an orientation guide for the active v1.1.0 release line. Contributor policy and pre-merge workflow live in `CONTRIBUTING.md`.
 
 ## Document scope
 
-This document is the operational workflow for the current release line.
+Use this document to understand the repository shape, release line, and maintainer intent before editing.
 
 For the authoritative version policy, checksum boundary, and validation requirements, see `POLICY.md` and `SPEC.md`.
 
@@ -19,19 +19,15 @@ For the authoritative version policy, checksum boundary, and validation requirem
 
 ## Maintainer workflow
 
-1. Install dependencies.
-   ```bash
-   npm install
-   ```
-2. Edit schemas, examples, metadata, scripts, and docs coherently.
-3. Run the canonical validation commands listed in `SPEC.md`.
-4. Regenerate checksums only when checksum-covered machine artifacts change.
-   ```bash
-   npm run generate:checksums
-   ```
-5. Re-run validation and checksum verification from `SPEC.md` after any checksum-surface change.
+For contribution workflow, pull request expectations, commit convention, and required pre-merge validation, use `CONTRIBUTING.md`.
 
-When editing only prose docs outside the checksum surface, do not regenerate `checksums.txt` unless a checksum-covered machine artifact also changed.
+High-level maintainer sequence:
+
+1. Install dependencies with `npm install`.
+2. Edit schemas, examples, metadata, scripts, and docs coherently.
+3. Run the canonical validation commands referenced from `README.md#validation-commands`.
+4. Regenerate `checksums.txt` only when checksum-covered machine artifacts change.
+5. Keep current-line teaching focused on `v1.1.0` and mark `v1.0.0` as retained legacy.
 
 ## Adding a new commercial verb
 

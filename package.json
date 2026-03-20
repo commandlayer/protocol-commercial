@@ -8,6 +8,9 @@
   ],
   "license": "Apache-2.0",
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "engines": {
     "node": ">=20.0.0"
@@ -50,7 +53,8 @@
     "SECURITY.md",
     "SECURITY_PROVENANCE.md",
     "COMPLIANCE.md",
-    "ONBOARDING.md"
+    "ONBOARDING.md",
+    "INTEGRATOR.md"
   ],
   "main": "schemas/v1.1.0/index.json",
   "exports": {
@@ -66,11 +70,15 @@
     "validate:integrity": "node scripts/validate-integrity.mjs",
     "validate:all": "npm run validate:schemas && npm run validate:examples && npm run validate:integrity",
     "validate": "npm run validate:all",
-    "generate:checksums": "node scripts/generate-checksums.mjs"
+    "generate:checksums": "node scripts/generate-checksums.mjs",
+    "test": "npm run validate"
   },
   "devDependencies": {
     "ajv": "^8.17.1",
     "ajv-errors": "^3.0.0",
     "ajv-formats": "^3.0.1"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
