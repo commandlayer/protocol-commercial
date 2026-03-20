@@ -30,6 +30,12 @@ This README is a repo-wide orientation document for the current release line and
 
 `v1.0.0` is historical only. Its older nested `requests/` and `receipts/` directories remain published for compatibility and audit, not as current teaching.
 
+## Schema identity and trust
+
+- `https://commandlayer.org/...` is the canonical schema namespace and the normative `$id` base for this release line.
+- This Git repository and its published package contents are the source of truth for those artifacts.
+- External resolution of `$id` URLs is a convenience, not a trust requirement; consumers should vendor, mirror, or package-pin the repository artifacts they validate against.
+
 ## Relationship to the stack
 
 | Layer | Current line | Responsibility |

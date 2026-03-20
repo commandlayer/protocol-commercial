@@ -53,6 +53,7 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
+
 function expectedVerbEntry(verb) {
   return {
     verb,
