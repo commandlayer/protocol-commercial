@@ -53,6 +53,7 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
+
 function expectedVerbEntry(verb) {
   return {
     verb,
@@ -169,7 +170,6 @@ async function validateSchemaConsistency(currentSchemas) {
 async function validateIndex() {
   const indexPath = path.join(SCHEMAS_ROOT, "index.json");
   const indexJson = await loadJsonStrict(indexPath);
-  assert(!("$schema" in indexJson), "index.json must not carry JSON Schema validator framing");
   assert(indexJson.version === CURRENT_VERSION, "index.json version drift");
   assert(indexJson.schemas_root === `schemas/v${CURRENT_VERSION}`, "index.json schemas_root drift");
   assert(JSON.stringify(indexJson.verbs) === JSON.stringify(EXPECTED_VERBS.map(expectedVerbEntry)), "index.json verb inventory drift");

@@ -30,6 +30,12 @@ This README is a repo-wide orientation document for the current release line and
 
 `v1.0.0` is historical only. Its older nested `requests/` and `receipts/` directories remain published for compatibility and audit, not as current teaching.
 
+## Schema identity and trust
+
+- `https://commandlayer.org/...` is the canonical schema namespace and the normative `$id` base for this release line.
+- This Git repository and its published package contents are the source of truth for those artifacts.
+- External resolution of `$id` URLs is a convenience, not a trust requirement; consumers should vendor, mirror, or package-pin the repository artifacts they validate against.
+
 ## Relationship to the stack
 
 | Layer | Current line | Responsibility |
@@ -50,21 +56,18 @@ The stack story is singular:
 
 For consumers who need the shortest safe path:
 
-1. Install the package and import the current index entrypoint.
+1. Install the package and import the current index entrypoint using the explicit JSON path export.
    ```bash
    npm install @commandlayer/commercial
    ```
    ```js
-   import commercialIndex from '@commandlayer/commercial';
+   import commercialIndex from '@commandlayer/commercial/schemas/v1.1.0/index.json';
    ```
+   The bare package import `@commandlayer/commercial` resolves to the same file today, but treat that shortcut as environment-dependent rather than the default documentation path.
 2. Treat `schemas/v1.1.0/index.json` as the authoritative map of current schemas and verb inventory.
 3. Prefer `schemas/v1.1.0/commercial/<verb>/<verb>.request.schema.json` and `...receipt.schema.json` directly for validator configuration.
-4. Verify the machine-artifact set before mirroring or vendoring:
-   ```bash
-   npm run validate:integrity
-   sha256sum -c checksums.txt
-   ```
-5. Ignore `v1.0.0` unless you are maintaining compatibility with historical nested paths.
+4. Verify the machine-artifact set before mirroring or vendoring using the canonical command surface in [Validation commands](#validation-commands).
+5. Ignore `v1.0.0` unless you are maintaining compatibility with historical nested paths. Current automated validation targets `v1.1.0`; retained `v1.0.0` artifacts remain published for compatibility and audit without equal current-line guarantees.
 6. Treat schemas and `manifest.json` as normative machine artifacts. Treat examples as illustrative conformance fixtures. Treat prose docs as normative interpretation and release-process guidance.
 
 A longer external-consumer workflow lives in `INTEGRATOR.md`.
@@ -153,6 +156,15 @@ protocol-commercial/
 
 Protocol-Commercial v1.1.0 does **not** use a current-line `_shared/` tree. Every v1.1.0 request and receipt schema is self-contained, flat, and mirror-safe.
 
+### Browsing large self-contained schemas
+
+To navigate the flat schema line efficiently without reintroducing cross-file dependencies:
+
+- Start at `schemas/v1.1.0/index.json` to locate the request and receipt pair for the verb you need.
+- Read a verb directory as a pair: request first for caller obligations, receipt second for canonical outcome and audit references.
+- Use the local `$defs` section in each schema as the file-scoped glossary for repeated structures such as actors, money, and payment evidence.
+- Compare same-named `$defs` across verbs only when checking consistency; the validator enforces those shared shapes without making readers chase external files.
+
 Current-line example governance is equally explicit:
 
 - `valid/` contains illustrative conforming request and receipt fixtures.
@@ -217,11 +229,13 @@ This repository does not define:
 }
 ```
 
-## Validation and integrity
+## Validation commands
+
+This README is the canonical command surface for repository validation. Other docs should reference this section instead of duplicating the full command block.
 
 ```bash
 npm install
-npm run validate
+npm test
 npm run validate:schemas
 npm run validate:examples
 npm run validate:integrity
@@ -229,7 +243,7 @@ npm run generate:checksums
 sha256sum -c checksums.txt
 ```
 
-- `npm run validate` runs the full validation suite for the current release line.
+- `npm test` runs the full current-line validation aggregate (`npm run validate`).
 - `npm run validate:schemas` checks current-line metadata, schema identity, layout, and manifest/index alignment expectations.
 - `npm run validate:examples` validates every current-line JSON valid and invalid example against the canonical schemas.
 - `npm run validate:integrity` verifies the checksum file scope and hash coverage for the current release artifact set.
