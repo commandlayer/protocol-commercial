@@ -200,7 +200,8 @@ sha256sum -c checksums.txt
 
 - `npm run validate` runs the full validation suite for the current release line.
 - `npm run validate:schemas` checks current-line metadata, schema identity, layout, and manifest/index alignment expectations.
-- `npm run validate:examples` validates every current-line valid and invalid example against the canonical schemas.
+- `npm run validate:examples` validates every current-line JSON valid and invalid example against the canonical schemas.
+- Current-line TypeScript example directories are intentionally excluded from the authoritative teaching surface; do not add `examples/v1.1.0/**/ts/` back without adding explicit validation and release governance for them.
 - `npm run validate:integrity` verifies the checksum file scope and hash coverage for the current release artifact set.
 - `checksums.txt` intentionally covers machine-validated release payloads only: `manifest.json`, `schemas/v1.1.0/index.json`, `schemas/v1.1.0/`, and `examples/v1.1.0/`.
 

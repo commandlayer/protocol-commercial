@@ -42,9 +42,10 @@ When editing only prose docs outside the checksum surface, do not regenerate `ch
 3. Create matching example folders under `examples/<new-version>/commercial/<verb>/valid` and `invalid`.
 4. Add at least one valid request, one valid receipt, one invalid request, and one invalid receipt.
 5. Make every invalid example isolate a single intended failure when practical.
-6. Update `manifest.json`, `schemas/<version>/index.json`, validation expectations, and checksums.
-7. Update README, SPEC, and any release-process docs if the normative surface changed.
-8. Confirm public docs controlled by this repo still teach the exact current path model and current script names.
+6. Do not add unvalidated TypeScript example directories to the current-line example tree.
+7. Update `manifest.json`, `schemas/<version>/index.json`, validation expectations, and checksums.
+8. Update README, SPEC, and any release-process docs if the normative surface changed.
+9. Confirm public docs controlled by this repo still teach the exact current path model and current script names.
 
 ## Version bumps
 

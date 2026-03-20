@@ -4,7 +4,6 @@ import path from "path";
 import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 import ajvErrors from "ajv-errors";
-import { loadJsonStrict } from "./load-json-strict.mjs";
 
 const ROOT_DIR = process.cwd();
 const CURRENT_VERSION = "1.1.0";
@@ -22,6 +21,20 @@ const CANONICAL_DEF_NAMES = [
   "reference",
   "money",
   "payment_proof"
+];
+const PAYMENT_ALIAS_GROUPS = [
+  {
+    label: "payment_requirement",
+    defs: ["payment_requirement", "x402_payment_requirement"]
+  },
+  {
+    label: "payment_session",
+    defs: ["payment_session", "x402_payment_session"]
+  },
+  {
+    label: "payment_proof",
+    defs: ["payment_proof", "x402_payment_proof", "x402_proof"]
+  }
 ];
 
 async function collectJsonFiles(dir) {
@@ -175,12 +188,17 @@ async function validateSchemaTree() {
   return currentSchemas;
 }
 
+function collectDefHolders(currentSchemas, defNames) {
+  return currentSchemas.flatMap(({ rel, schema }) =>
+    defNames
+      .filter((defName) => schema.$defs && defName in schema.$defs)
+      .map((defName) => ({ rel, defName, def: schema.$defs[defName] }))
+  );
+}
+
 async function validateSchemaConsistency(currentSchemas) {
   for (const defName of CANONICAL_DEF_NAMES) {
-    const holders = currentSchemas
-      .filter(({ schema }) => schema.$defs && defName in schema.$defs)
-      .map(({ rel, schema }) => ({ rel, def: schema.$defs[defName] }));
-
+    const holders = collectDefHolders(currentSchemas, [defName]);
     if (holders.length < 2) continue;
 
     const baseline = holders[0];
@@ -188,6 +206,19 @@ async function validateSchemaConsistency(currentSchemas) {
       assert(
         deepEqualJson(baseline.def, holder.def),
         `canonical $defs drift for '${defName}': ${holder.rel} differs from ${baseline.rel}`
+      );
+    }
+  }
+
+  for (const group of PAYMENT_ALIAS_GROUPS) {
+    const holders = collectDefHolders(currentSchemas, group.defs);
+    if (holders.length < 2) continue;
+
+    const baseline = holders[0];
+    for (const holder of holders.slice(1)) {
+      assert(
+        deepEqualJson(baseline.def, holder.def),
+        `payment-layer $defs drift for '${group.label}': ${holder.rel}#/$defs/${holder.defName} differs from ${baseline.rel}#/$defs/${baseline.defName}`
       );
     }
   }
@@ -216,6 +247,7 @@ async function validateLayout() {
     const exampleGroups = await fs.readdir(examplesDir);
     assert(exampleGroups.includes("valid"), `missing ${verb} valid examples directory`);
     assert(exampleGroups.includes("invalid"), `missing ${verb} invalid examples directory`);
+    assert(!exampleGroups.includes("ts"), `legacy TypeScript examples must not appear under current-line examples/${verb}/ts`);
   }
 }
 
