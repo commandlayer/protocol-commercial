@@ -4,6 +4,7 @@ import path from "path";
 import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 import ajvErrors from "ajv-errors";
+import { loadJsonStrict } from "./load-json-strict.mjs";
 
 const ROOT_DIR = process.cwd();
 const CURRENT_VERSION = "1.1.0";
@@ -52,69 +53,6 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
-function assertNoDuplicateObjectKeys(source, filePath) {
-  const objectKeySets = [];
-  let inString = false;
-  let escape = false;
-
-  for (let index = 0; index < source.length; index += 1) {
-    const char = source[index];
-
-    if (inString) {
-      if (escape) {
-        escape = false;
-        continue;
-      }
-      if (char === "\\") {
-        escape = true;
-        continue;
-      }
-      if (char === '"') inString = false;
-      continue;
-    }
-
-    if (char === '"') {
-      let end = index + 1;
-      let stringEscape = false;
-      while (end < source.length) {
-        const nextChar = source[end];
-        if (stringEscape) {
-          stringEscape = false;
-        } else if (nextChar === "\\") {
-          stringEscape = true;
-        } else if (nextChar === '"') {
-          break;
-        }
-        end += 1;
-      }
-
-      const raw = source.slice(index, end + 1);
-      let cursor = end + 1;
-      while (cursor < source.length && /\s/.test(source[cursor])) cursor += 1;
-      if (cursor < source.length && source[cursor] === ':' && objectKeySets.length > 0) {
-        const key = JSON.parse(raw);
-        const currentKeys = objectKeySets[objectKeySets.length - 1];
-        if (currentKeys.has(key)) {
-          throw new Error(`${filePath} contains a duplicate JSON object key: ${key}`);
-        }
-        currentKeys.add(key);
-      }
-
-      index = end;
-      continue;
-    }
-
-    if (char === '{') objectKeySets.push(new Set());
-    if (char === '}') objectKeySets.pop();
-  }
-}
-
-async function loadJson(filePath) {
-  const source = await fs.readFile(filePath, "utf8");
-  assertNoDuplicateObjectKeys(source, filePath);
-  return JSON.parse(source);
-}
-
 function expectedVerbEntry(verb) {
   return {
     verb,
@@ -148,12 +86,12 @@ async function loadCurrentSchemas() {
   return Promise.all(schemaFiles.map(async (file) => ({
     file,
     rel: path.relative(ROOT_DIR, file).replace(/\\/g, "/"),
-    schema: await loadJson(file)
+    schema: await loadJsonStrict(file)
   })));
 }
 
 async function validateManifest() {
-  const manifest = await loadJson(path.join(ROOT_DIR, "manifest.json"));
+  const manifest = await loadJsonStrict(path.join(ROOT_DIR, "manifest.json"));
   assert(!("$schema" in manifest), "manifest.json must not carry a decorative $schema field");
   assert(manifest.version === CURRENT_VERSION, `manifest version must be ${CURRENT_VERSION}`);
   assert(manifest.status === "current", "manifest status must be current");
@@ -161,14 +99,18 @@ async function validateManifest() {
   assert(manifest.examples_root === `examples/v${CURRENT_VERSION}`, "manifest examples_root drift");
   assert(manifest.current_index === `schemas/v${CURRENT_VERSION}/index.json`, "manifest current_index drift");
   assert(manifest.checksums_file === "checksums.txt", "manifest checksums_file drift");
+  assert("declared_alignment" in manifest, "manifest must expose declarative alignment metadata");
+  assert(!("aligns_with" in manifest), "manifest aligns_with field must not imply verified enforcement");
   assert(JSON.stringify(manifest.verbs.map((v) => v.verb)) === JSON.stringify(EXPECTED_VERBS), "manifest verb list drift");
 }
 
 async function validatePackage() {
-  const pkg = await loadJson(path.join(ROOT_DIR, "package.json"));
+  const pkg = await loadJsonStrict(path.join(ROOT_DIR, "package.json"));
   assert(pkg.version === CURRENT_VERSION, `package version must be ${CURRENT_VERSION}`);
   assert(pkg.main === `schemas/v${CURRENT_VERSION}/index.json`, "package main drift");
   assert(pkg.exports['.'] === `./schemas/v${CURRENT_VERSION}/index.json`, "package exports current entry drift");
+  assert(pkg.publishConfig?.access === "public", "package publishConfig.access drift");
+  assert(pkg.files.includes("INTEGRATOR.md"), "package files must include INTEGRATOR.md");
 }
 
 async function validateSchemaTree() {
@@ -226,13 +168,13 @@ async function validateSchemaConsistency(currentSchemas) {
 
 async function validateIndex() {
   const indexPath = path.join(SCHEMAS_ROOT, "index.json");
-  const indexJson = await loadJson(indexPath);
+  const indexJson = await loadJsonStrict(indexPath);
+  assert(!("$schema" in indexJson), "index.json must not carry JSON Schema validator framing");
   assert(indexJson.version === CURRENT_VERSION, "index.json version drift");
-  assert(indexJson.$id === `https://commandlayer.org/schemas/v${CURRENT_VERSION}/index.json`, "index.json $id drift");
-  assert(indexJson.schemas_root === `https://commandlayer.org/schemas/v${CURRENT_VERSION}/`, "index.json schemas_root drift");
+  assert(indexJson.schemas_root === `schemas/v${CURRENT_VERSION}`, "index.json schemas_root drift");
   assert(JSON.stringify(indexJson.verbs) === JSON.stringify(EXPECTED_VERBS.map(expectedVerbEntry)), "index.json verb inventory drift");
 
-  const manifest = await loadJson(path.join(ROOT_DIR, "manifest.json"));
+  const manifest = await loadJsonStrict(path.join(ROOT_DIR, "manifest.json"));
   assert(JSON.stringify(indexJson.verbs) === JSON.stringify(manifest.verbs), "manifest/index verb inventory mismatch");
 }
 

@@ -233,7 +233,7 @@ sha256sum -c checksums.txt
 - `npm run validate:schemas` checks current-line metadata, schema identity, layout, and manifest/index alignment expectations.
 - `npm run validate:examples` validates every current-line JSON valid and invalid example against the canonical schemas.
 - `npm run validate:integrity` verifies the checksum file scope and hash coverage for the current release artifact set.
-- `checksums.txt` intentionally covers machine-validated release payloads only: `manifest.json`, `schemas/v1.1.0/index.json`, `schemas/v1.1.0/`, and `examples/v1.1.0/`.
+- `checksums.txt` intentionally covers machine-validated release payloads only: `manifest.json`, `schemas/v1.1.0/`, and `examples/v1.1.0/`.
 
 ## Agent Cards and Commons alignment
 
@@ -254,7 +254,7 @@ The v1.1.0 checksum-covered machine-artifact set is intentionally limited to:
 - `examples/v1.1.0/`
 - `manifest.json`
 
-`checksums.txt` is the generated hash ledger for that machine-artifact set; it describes that surface but is not itself part of the hashed payload. Release-defining prose docs such as `README.md`, `SPEC.md`, `POLICY.md`, `SECURITY_PROVENANCE.md`, `INTEGRATOR.md`, and `ONBOARDING.md` are authoritative guidance, but they are outside the checksum surface unless the tooling is expanded deliberately in a later release.
+`checksums.txt` is the generated hash ledger for that machine-artifact set; it describes that surface but is not itself part of the hashed payload, so checksum verification confirms covered files only relative to the checked-in `checksums.txt` ledger and does not independently authenticate that ledger. Release-defining prose docs such as `README.md`, `SPEC.md`, `POLICY.md`, `SECURITY_PROVENANCE.md`, `INTEGRATOR.md`, and `ONBOARDING.md` are authoritative guidance, but they are outside the checksum surface unless the tooling is expanded deliberately in a later release.
 
 For external verification, the minimal path is:
 

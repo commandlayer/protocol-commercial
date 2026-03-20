@@ -8,7 +8,6 @@ const OUTPUT_PATH = path.join(ROOT_DIR, "checksums.txt");
 const CURRENT_VERSION = "1.1.0";
 const TARGETS = [
   "manifest.json",
-  `schemas/v${CURRENT_VERSION}/index.json`,
   `schemas/v${CURRENT_VERSION}`,
   `examples/v${CURRENT_VERSION}`
 ];

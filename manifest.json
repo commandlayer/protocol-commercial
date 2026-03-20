@@ -34,7 +34,7 @@
     "actors": "payer/payee/merchant/provider/carrier/verifier",
     "payment_layers": "payment_requirement, payment_session, payment_proof"
   },
-  "aligns_with": {
+  "declared_alignment": {
     "protocol_commons": "1.1.0",
     "agent_cards": "1.1.0"
   },
