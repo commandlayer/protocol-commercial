@@ -1,5 +1,4 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://commandlayer.org/schemas/v1.1.0/index.json",
   "name": "@commandlayer/commercial",
   "version": "1.1.0",
@@ -36,5 +35,7 @@
       "receipt_schema": "schemas/v1.1.0/commercial/verify/verify.receipt.schema.json",
       "examples": "examples/v1.1.0/commercial/verify"
     }
-  ]
+  ],
+  "document_type": "inventory",
+  "description": "Machine-readable inventory of the current Protocol-Commercial release line. This file is an index, not a validation schema."
 }

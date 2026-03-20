@@ -39,4 +39,4 @@ e9b62cf29d5f58fed922e9bc77c8d3e13e6f7ed04785baad7a7e4fc600ab44b8  schemas/v1.1.0
 b876f8ffbfd87e5554374de114414f9e4091ba09c80d07b9b99a40ff1befd7c5  schemas/v1.1.0/commercial/ship/ship.request.schema.json
 7abc8e8a2dec058298ba5dd0603f20d9f95f6bc411fcd429fdb3c7a116dcbcca  schemas/v1.1.0/commercial/verify/verify.receipt.schema.json
 09707b90a6317d10d13f6e5339bc17a7ddc4d5938970ff7e25842876b7f2eea5  schemas/v1.1.0/commercial/verify/verify.request.schema.json
-1431008b047fc5eb8fe2e0647a7a9d5e27e731ad89b97866c259a5e9937cc549  schemas/v1.1.0/index.json
+5b18c4a450ffcee3045eb504b3c1fcc493b7118f5136e5dc81011c24e5845a5a  schemas/v1.1.0/index.json

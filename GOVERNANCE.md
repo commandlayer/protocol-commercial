@@ -24,3 +24,9 @@ Steward duties include:
 | New version line | Steward approval with release metadata refresh |
 | Public current-path model change | Steward approval with cross-repo doc alignment |
 | In-place published mutation | Prohibited |
+
+## Steward succession
+
+If the current steward becomes unavailable, they may designate a successor publicly in repository governance records or release metadata.
+
+If no prior designation exists, maintainers controlling the canonical repository may appoint a successor by public repository record, with the expectation that version immutability and published path continuity are preserved.

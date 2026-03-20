@@ -29,16 +29,18 @@ Protocol-Commercial provides schema-level security properties, not transaction o
 - keep x402 references typed and minimal
 - do not let current-line docs teach superseded path models
 
-## Verification commands
+## Verification summary
 
-```bash
-npm run validate
-npm run validate:schemas
-npm run validate:examples
-npm run validate:integrity
-sha256sum -c checksums.txt
-```
+For the canonical validation and checksum-boundary rules, see `SPEC.md` and `POLICY.md`.
 
-`npm run validate:schemas` is the direct schema/metadata drift check. `sha256sum -c checksums.txt` verifies only the checksum-covered machine-artifact surface, not release prose docs.
+In practice:
+
+- use `npm run validate:schemas` as the direct schema and metadata drift check
+- use `sha256sum -c checksums.txt` only for the checksum-covered machine-artifact surface
+- do not describe checksum verification as protecting prose docs outside that boundary
+
+## Contact
 
 Security contact: `dev@commandlayer.org`
+
+PGP: none currently provided for this repository.

@@ -36,11 +36,13 @@ Release-defining prose docs remain normative for interpretation, but they are ou
 ## 3. Version and identity rules
 
 1. Every v1.1.0 schema MUST use a stable `$id` under `https://commandlayer.org/schemas/v1.1.0/...`.
-2. A schema file path and its `$id` MUST agree exactly.
-3. A v1.1.0 schema MUST NOT be mutated in place after release publication.
-4. Breaking or meaning-changing edits require a new version directory.
-5. `manifest.json` MUST identify the current release line and any retained legacy lines.
-6. `checksums.txt` MUST enumerate the canonical machine-verifiable release artifact set and MUST NOT be described as protecting prose docs it does not hash.
+2. The `commandlayer.org` namespace is canonical, but this repository is the source of truth for the corresponding schema files and release metadata.
+3. Public hosting or mirrors for `commandlayer.org` MAY be unavailable temporarily; that does not change canonical `$id` values or repository-local release contents.
+4. A schema file path and its `$id` MUST agree exactly.
+5. A v1.1.0 schema MUST NOT be mutated in place after release publication.
+6. Breaking or meaning-changing edits require a new version directory.
+7. `manifest.json` MUST identify the current release line and any retained legacy lines.
+8. `checksums.txt` MUST enumerate the canonical machine-verifiable release artifact set and MUST NOT be described as protecting prose docs it does not hash.
 
 ## 4. Current path model
 
@@ -149,5 +151,7 @@ A conformant release MUST satisfy all of the following:
 - `manifest.json` and `schemas/v1.1.0/index.json` agree on the current verb set and path inventory
 - `npm run validate` passes
 - `npm run validate:schemas` passes
+- `npm run validate:examples` passes
+- `npm run validate:integrity` passes
 - `sha256sum -c checksums.txt` passes for the checksum-covered machine-artifact set
 - repository metadata does not drift from the published current line

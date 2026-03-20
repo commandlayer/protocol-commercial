@@ -4,13 +4,13 @@ This document is the external-consumer quickstart for the current commercial rel
 
 ## What to import
 
-Use the package root or the current index directly:
+Use the repository index directly, or a published distribution only after release metadata confirms one.
 
 ```js
-import commercialIndex from '@commandlayer/commercial';
+import commercialIndex from './schemas/v1.1.0/index.json' assert { type: 'json' };
 ```
 
-The package root resolves to `schemas/v1.1.0/index.json`. That index is the current machine-readable map of every canonical verb schema in the release.
+That index is the current machine-readable map of every canonical verb schema in the release.
 
 ## What is normative vs illustrative
 
@@ -34,14 +34,10 @@ Normative interpretive docs:
 
 ## Safe consumer path
 
-1. Confirm the package version is `1.1.0` and that `manifest.json` reports `status: current`.
+1. Confirm the release version is `1.1.0` and that `manifest.json` reports `status: current`.
 2. Load `schemas/v1.1.0/index.json` and select the request and receipt schema paths you need.
 3. Configure your validator from the flat per-verb schema files under `schemas/v1.1.0/commercial/<verb>/`.
-4. Run checksum verification before mirroring or vendoring artifacts:
-   ```bash
-   npm run validate:integrity
-   sha256sum -c checksums.txt
-   ```
+4. Run the maintained verification commands listed in `SPEC.md` before mirroring or vendoring artifacts.
 5. Use `examples/v1.1.0/` as conformance fixtures, not as a substitute for schema requirements.
 
 ## Choosing between v1.1.0 and v1.0.0
@@ -55,13 +51,9 @@ Do not teach `v1.0.0` paths as current implementation guidance.
 
 ## Checksums and provenance
 
-The checksum-covered payload for this release is intentionally narrow:
+The authoritative checksum-boundary and release-state rules live in `SPEC.md` and `POLICY.md`.
 
-- `schemas/v1.1.0/`
-- `examples/v1.1.0/`
-- `manifest.json`
-
-`checksums.txt` is the ledger for that payload. It is not itself inside the hashed set. Prose docs remain authoritative for interpretation and release process, but they are outside the checksum boundary.
+In short, the checksum-covered payload for this release is the current schema tree, the current examples tree, and `manifest.json`. `checksums.txt` is the ledger for that payload, and prose docs remain outside the hashed set.
 
 ## TypeScript guidance
 
