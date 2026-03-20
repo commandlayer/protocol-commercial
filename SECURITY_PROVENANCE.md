@@ -10,7 +10,7 @@ Checksum-covered machine-artifact roots:
 - `examples/v1.1.0/`
 - `manifest.json`
 
-`checksums.txt` is the generated SHA-256 ledger for that machine-artifact set. Release-defining prose docs in the repository are intentionally outside this checksum boundary and must not be described as checksum-protected.
+`checksums.txt` is the generated SHA-256 ledger for that machine-artifact set. It describes the checksum-covered payload but is not itself part of the hashed payload. Release-defining prose docs in the repository are intentionally outside this checksum boundary and must not be described as checksum-protected.
 
 Release integrity state for this repository:
 

@@ -69,82 +69,6 @@
         }
       }
     },
-    "settlement": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "status",
-        "method",
-        "settlement_ref",
-        "amount"
-      ],
-      "properties": {
-        "status": {
-          "type": "string",
-          "enum": [
-            "captured",
-            "failed",
-            "pending"
-          ]
-        },
-        "method": {
-          "type": "string",
-          "enum": [
-            "x402",
-            "stablecoin",
-            "card",
-            "bank_transfer",
-            "credit"
-          ]
-        },
-        "settlement_ref": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128
-        },
-        "network_ref": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128
-        },
-        "amount": {
-          "$ref": "#/$defs/money"
-        }
-      }
-    },
-    "payment_proof": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "scheme",
-        "proof_type",
-        "proof_ref"
-      ],
-      "properties": {
-        "scheme": {
-          "type": "string",
-          "const": "x402"
-        },
-        "proof_type": {
-          "type": "string",
-          "enum": [
-            "payment-session",
-            "payment-authorization",
-            "payment-proof"
-          ]
-        },
-        "proof_ref": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128
-        },
-        "uri": {
-          "type": "string",
-          "format": "uri",
-          "maxLength": 512
-        }
-      }
-    },
     "actor_identity": {
       "type": "object",
       "additionalProperties": false,
@@ -338,49 +262,6 @@
         }
       }
     },
-    "settlement": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "status",
-        "method",
-        "settlement_ref",
-        "amount"
-      ],
-      "properties": {
-        "status": {
-          "type": "string",
-          "enum": [
-            "captured",
-            "failed",
-            "pending"
-          ]
-        },
-        "method": {
-          "type": "string",
-          "enum": [
-            "x402",
-            "stablecoin",
-            "card",
-            "bank_transfer",
-            "credit"
-          ]
-        },
-        "settlement_ref": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128
-        },
-        "network_ref": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128
-        },
-        "amount": {
-          "$ref": "#/$defs/money"
-        }
-      }
-    },
     "x402_proof": {
       "type": "object",
       "additionalProperties": false,
@@ -477,9 +358,6 @@
     },
     "settlement": {
       "$ref": "#/$defs/settlement"
-    },
-    "payment_proof": {
-      "$ref": "#/$defs/payment_proof"
     },
     "payment_proof": {
       "$ref": "#/$defs/x402_proof"

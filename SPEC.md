@@ -24,7 +24,7 @@ Current normative machine-artifact line:
 - `schemas/v1.1.0/`
 - `examples/v1.1.0/`
 - `manifest.json`
-- `checksums.txt` as the hash ledger for that machine-artifact set
+- `checksums.txt` as the generated hash ledger describing that machine-artifact set
 
 Published legacy line retained but superseded:
 
@@ -40,7 +40,7 @@ Release-defining prose docs remain normative for interpretation, but they are ou
 3. A v1.1.0 schema MUST NOT be mutated in place after release publication.
 4. Breaking or meaning-changing edits require a new version directory.
 5. `manifest.json` MUST identify the current release line and any retained legacy lines.
-6. `checksums.txt` MUST cover the canonical machine-verifiable release artifact set and MUST NOT be described as protecting prose docs it does not hash.
+6. `checksums.txt` MUST enumerate the canonical machine-verifiable release artifact set and MUST NOT be described as protecting prose docs it does not hash.
 
 ## 4. Current path model
 
@@ -86,8 +86,9 @@ Protocol-Commercial v1.1.0 uses a compact governed actor grammar:
 - `merchant` = the commercial principal offering, selling, or fulfilling the order
 - `provider` = an optional facilitator executing settlement or fulfillment work for the merchant
 - `carrier` = the shipment operator for physical fulfillment
-- `requester` = the party initiating a verification request
 - `verifier` = the authority performing or attesting the verification result
+
+`requester` is a verify-specific initiator field, not a seventh governed actor role. It reuses the general actor identity shape so an existing commercial actor can request verification without expanding the normative role vocabulary.
 
 Actor field names are normative. A field named `merchant` MUST contain an actor whose role is `merchant`, and likewise for the other actor fields.
 
@@ -147,5 +148,6 @@ A conformant release MUST satisfy all of the following:
 - every current schema path matches its `$id`
 - `manifest.json` and `schemas/v1.1.0/index.json` agree on the current verb set and path inventory
 - `npm run validate` passes
+- `npm run validate:schemas` passes
 - `sha256sum -c checksums.txt` passes for the checksum-covered machine-artifact set
 - repository metadata does not drift from the published current line
