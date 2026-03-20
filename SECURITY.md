@@ -33,11 +33,12 @@ Protocol-Commercial provides schema-level security properties, not transaction o
 
 ```bash
 npm run validate
+npm run validate:schemas
 npm run validate:examples
 npm run validate:integrity
 sha256sum -c checksums.txt
 ```
 
-`sha256sum -c checksums.txt` verifies only the checksum-covered machine-artifact surface, not release prose docs.
+`npm run validate:schemas` is the direct schema/metadata drift check. `sha256sum -c checksums.txt` verifies only the checksum-covered machine-artifact surface, not release prose docs.
 
 Security contact: `security@commandlayer.org`

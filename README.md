@@ -2,7 +2,7 @@
 
 Protocol-Commercial v1.1.0 is the current CommandLayer commercial schema line.
 
-This README describes the current v1.1.0 release line and its release packaging surface. Repo-wide governance and security policy live in the dedicated meta docs.
+This README describes the current v1.1.0 release line and its release packaging surface. Repo-wide governance, security posture, and checksum-boundary provenance live in the dedicated meta docs.
 
 It defines the canonical commercial overlays that sit on top of Protocol-Commons v1.1.0. Commons defines base semantic actions. Commercial defines the monetized, settlement-aware request and receipt contracts that agents and runtimes use when value moves.
 
@@ -191,13 +191,15 @@ This repository does not define:
 ```bash
 npm install
 npm run validate
+npm run validate:schemas
 npm run validate:examples
 npm run validate:integrity
 npm run generate:checksums
 sha256sum -c checksums.txt
 ```
 
-- `npm run validate` checks current-line metadata, schema identity, layout, and release integrity expectations.
+- `npm run validate` runs the full validation suite for the current release line.
+- `npm run validate:schemas` checks current-line metadata, schema identity, layout, and manifest/index alignment expectations.
 - `npm run validate:examples` validates every current-line valid and invalid example against the canonical schemas.
 - `npm run validate:integrity` verifies the checksum file scope and hash coverage for the current release artifact set.
 - `checksums.txt` intentionally covers machine-validated release payloads only: `manifest.json`, `schemas/v1.1.0/index.json`, `schemas/v1.1.0/`, and `examples/v1.1.0/`.
@@ -208,12 +210,12 @@ Agent Cards v1.1.0 should bind directly to the current flat commercial schema UR
 
 Protocol-Commons and Protocol-Commercial therefore tell one coherent story:
 
-The v1.1.0 checksum surface is intentionally limited to canonical machine artifacts:
+The v1.1.0 checksum-covered machine-artifact set is intentionally limited to:
 
 - `schemas/v1.1.0/`
 - `examples/v1.1.0/`
 - `manifest.json`
 
-`checksums.txt` records hashes for that machine-verifiable set only. Release-defining prose docs such as `README.md`, `SPEC.md`, `POLICY.md`, `SECURITY_PROVENANCE.md`, and `ONBOARDING.md` are authoritative guidance, but they are outside the checksum surface unless the tooling is expanded deliberately in a later release.
+`checksums.txt` is the generated hash ledger for that machine-artifact set; it describes that surface but is not itself part of the hashed payload. Release-defining prose docs such as `README.md`, `SPEC.md`, `POLICY.md`, `SECURITY_PROVENANCE.md`, and `ONBOARDING.md` are authoritative guidance, but they are outside the checksum surface unless the tooling is expanded deliberately in a later release.
 
 After any mutation to the checksum-covered set, regenerate `checksums.txt` and repin any release bundle that depends on those artifacts.
