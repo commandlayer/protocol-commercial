@@ -262,7 +262,7 @@
         }
       }
     },
-    "x402_proof": {
+    "payment_proof": {
       "type": "object",
       "additionalProperties": false,
       "required": [
@@ -279,6 +279,7 @@
           "type": "string",
           "enum": [
             "payment-session",
+            "payment-authorization",
             "payment-proof"
           ]
         },
@@ -291,6 +292,45 @@
           "type": "string",
           "format": "uri",
           "maxLength": 512
+        }
+      }
+    },
+    "settlement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "method",
+        "settlement_ref",
+        "amount"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "captured",
+            "failed",
+            "pending"
+          ]
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "x402"
+          ]
+        },
+        "settlement_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "network_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "amount": {
+          "$ref": "#/$defs/money"
         }
       }
     }
@@ -360,7 +400,7 @@
       "$ref": "#/$defs/settlement"
     },
     "payment_proof": {
-      "$ref": "#/$defs/x402_proof"
+      "$ref": "#/$defs/payment_proof"
     },
     "reason": {
       "type": "string",
@@ -393,7 +433,7 @@
       "then": {
         "properties": {
           "payment_proof": {
-            "$ref": "#/$defs/x402_proof"
+            "$ref": "#/$defs/payment_proof"
           }
         },
         "required": [

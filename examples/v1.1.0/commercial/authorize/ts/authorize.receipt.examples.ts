@@ -49,12 +49,12 @@ export interface AuthorizeReceipt {
   receipt_id: string;
   issued_at: string;
   request_id: string;
-  status: "approved" | "denied" | "expired";
+  status: "approved" | "denied" | "pending";
   payer: ActorIdentity & { role: "payer" };
   payee: ActorIdentity & { role: "payee" };
   amount: Money;
   authorization_id?: string;
-  merchant?: ActorIdentity & { role: "merchant" };
+  merchant: ActorIdentity & { role: "merchant" };
   approved_until?: string;
   payment_requirement_ref?: Reference & { type: "payment_requirement" };
   order_ref?: Reference;
@@ -128,6 +128,10 @@ export const invalidAuthorizeReceiptExample: any = {
   payee: {
     role: "payee",
     id: "merchant-settlement"
+  },
+  merchant: {
+    role: "merchant",
+    id: "merchant.example"
   },
   amount: {
     amount: "49.99",
