@@ -262,49 +262,6 @@
         }
       }
     },
-    "settlement": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "status",
-        "method",
-        "settlement_ref",
-        "amount"
-      ],
-      "properties": {
-        "status": {
-          "type": "string",
-          "enum": [
-            "captured",
-            "failed",
-            "pending"
-          ]
-        },
-        "method": {
-          "type": "string",
-          "enum": [
-            "x402",
-            "stablecoin",
-            "card",
-            "bank_transfer",
-            "credit"
-          ]
-        },
-        "settlement_ref": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128
-        },
-        "network_ref": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128
-        },
-        "amount": {
-          "$ref": "#/$defs/money"
-        }
-      }
-    },
     "x402_proof": {
       "type": "object",
       "additionalProperties": false,

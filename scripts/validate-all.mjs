@@ -4,6 +4,7 @@ import path from "path";
 import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 import ajvErrors from "ajv-errors";
+import { loadJsonStrict } from "./load-json-strict.mjs";
 
 const ROOT_DIR = process.cwd();
 const CURRENT_VERSION = "1.1.0";
