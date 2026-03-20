@@ -1,8 +1,17 @@
-# Protocol-Commercial
+# CommandLayer Protocol — Commercial
 
-[![Schemas](https://img.shields.io/badge/Schemas-v1.1.0%20current-brightgreen)](https://github.com/commandlayer/protocol-commercial) [![CI Status](https://img.shields.io/github/actions/workflow/status/commandlayer/protocol-commercial/validate.yml?branch=main&label=CI)](https://github.com/commandlayer/protocol-commercial/actions/workflows/validate.yml) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/commandlayer/protocol-commercial/blob/main/LICENSE)
+**The canonical commercial contract for monetized agent execution.**
+*Payment-aware request and receipt schemas — or settlement semantics drift.*
 
-Protocol-Commercial v1.1.0 is the current CommandLayer commercial schema line.
+[![Schemas](https://img.shields.io/badge/Schemas-v1.1.0%20current-blue)](https://github.com/commandlayer/protocol-commercial) [![CI Status](https://img.shields.io/github/actions/workflow/status/commandlayer/protocol-commercial/validate.yml?branch=main&label=CI)](https://github.com/commandlayer/protocol-commercial/actions/workflows/validate.yml) [![License: Apache-2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/commandlayer/protocol-commercial/blob/main/LICENSE)
+
+> **Release notice — Protocol-Commercial v1.1.0**
+>
+> `v1.1.0` is the current canonical commercial line in this repository.
+>
+> A GitHub Release is not represented as already published in this repo state. `releases/v1.1.0.md` is the checked-in release-note draft for a future publication step, not evidence that a GitHub Release already exists.
+
+Protocol-Commercial v1.1.0 is the current CommandLayer commercial schema line in this repository.
 
 This README is a release-orientation document for the current line. The normative specification lives in `SPEC.md`. Release policy, checksum-boundary policy, and version-lifecycle rules live in `POLICY.md`.
 
@@ -27,7 +36,7 @@ This README is a repo-wide orientation document for the current release line and
 - **Current package entrypoint:** `schemas/v1.1.0/index.json`
 - **Historical legacy line:** `v1.0.0`, retained under `schemas/v1.0.0/` and `examples/v1.0.0/`
 - **Changelog:** `CHANGELOG.md`
-- **Release note draft for GitHub Releases:** `releases/v1.1.0.md`
+- **Release note draft for a future GitHub Release publication:** `releases/v1.1.0.md`
 
 For the authoritative version policy and checksum-boundary rules, see `POLICY.md`. For normative identity and path rules, see `SPEC.md`.
 
