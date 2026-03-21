@@ -5,7 +5,7 @@ import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 import ajvErrors from "ajv-errors";
 import { loadJsonStrict } from "./load-json-strict.mjs";
-import { CANONICAL_PACKAGE_SURFACE, CHECKSUM_COVERED_SURFACE, CURRENT_VERSION, EXPECTED_VERBS } from "./release-boundary.mjs";
+import { CHECKSUM_COVERED_SURFACE, CURRENT_VERSION, EXPECTED_VERBS } from "./release-boundary.mjs";
 
 const ROOT_DIR = process.cwd();
 const SCHEMAS_ROOT = path.join(ROOT_DIR, "schemas", `v${CURRENT_VERSION}`);
@@ -36,6 +36,22 @@ const PAYMENT_ALIAS_GROUPS = [
     defs: ["payment_proof", "x402_payment_proof", "x402_proof"]
   }
 ];
+const EXPECTED_PACKAGE_FILES = [
+  `schemas/v${CURRENT_VERSION}/`,
+  `examples/v${CURRENT_VERSION}/`,
+  "manifest.json",
+  "checksums.txt",
+  "README.md",
+  "LICENSE",
+  "index.js"
+];
+const EXPECTED_PACKAGE_EXPORTS = {
+  ".": "./index.js",
+  "./manifest.json": "./manifest.json",
+  "./checksums.txt": "./checksums.txt",
+  [`./schemas/v${CURRENT_VERSION}/*`]: `./schemas/v${CURRENT_VERSION}/*`,
+  [`./examples/v${CURRENT_VERSION}/*`]: `./examples/v${CURRENT_VERSION}/*`
+};
 
 async function collectJsonFiles(dir) {
   const entries = await fs.readdir(dir, { withFileTypes: true });
@@ -115,14 +131,12 @@ async function validatePackage() {
   const pkg = await loadJsonStrict(path.join(ROOT_DIR, "package.json"));
   assert(pkg.version === CURRENT_VERSION, `package version must be ${CURRENT_VERSION}`);
   assert(pkg.main === "index.js", "package main must resolve through index.js");
-  assert(pkg.exports["."] === "./index.js", "package root export must resolve through index.js");
+  assert(deepEqualJson(pkg.exports, EXPECTED_PACKAGE_EXPORTS), "package exports surface drift");
   assert(pkg.publishConfig?.access === "public", "package publishConfig.access drift");
-  assert(JSON.stringify(pkg.files) === JSON.stringify(CANONICAL_PACKAGE_SURFACE), "package files surface drift");
+  assert(JSON.stringify(pkg.files) === JSON.stringify(EXPECTED_PACKAGE_FILES), "package files surface drift");
   assert(!(pkg.files.includes("schemas/") || pkg.files.includes("examples/")), "package files must not expose repo-wide schema/example roots");
   assert(!(pkg.files.includes("INTEGRATOR.md") || pkg.files.includes("SPEC.md") || pkg.files.includes("POLICY.md")), "package files must exclude non-canonical prose docs");
   assert(!("./schemas/*" in pkg.exports) && !("./examples/*" in pkg.exports), "package exports must not expose wildcard legacy roots");
-  assert(pkg.exports[`./schemas/v${CURRENT_VERSION}/*`] === `./schemas/v${CURRENT_VERSION}/*`, "package schema export drift");
-  assert(pkg.exports[`./examples/v${CURRENT_VERSION}/*`] === `./examples/v${CURRENT_VERSION}/*`, "package example export drift");
 }
 
 async function validateSchemaTree() {
