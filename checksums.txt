@@ -31,7 +31,7 @@ b83c5b6dc532a5a7c142e44979f0101598fc6d5ad0687efa2fffcba9f59b6ab4  examples/v1.1.
 50874f3eea69a51ac132873b05e39318e4c2241078ca5e258e466934935ec945  examples/v1.1.0/commercial/verify/valid/900-verify.receipt.valid.json
 455d19ad1b7ef98e436d8f1c675fee7f2716eb17d301da8d2cc4e2e2c51e624a  examples/v1.1.0/commercial/verify/valid/901-verify.receipt.valid.json
 6b0461ac0138c9ba356cbe99ccfaa8c904296c41b6fe26808aef5bac44b29478  index.js
-6d0c507d979d7fa4c03570ac624e52f1e76db31234c1591fbd9080f5865dcaae  manifest.json
+fa0a301b7e9dc3ae5c9241899dbce44fddfc9711a754a7e849607af623558577  manifest.json
 93aee99366ac3917027f3d153f646929d77ccf178e543086518efd14d1d68fe4  schemas/v1.1.0/commercial/authorize/authorize.receipt.schema.json
 ef5da55ba5acdd43e8d2715204938762a63819dd370ebc8dfedad014617259c3  schemas/v1.1.0/commercial/authorize/authorize.request.schema.json
 db850c38415809fd823abd9b49fd56502c79fd00d4cf4899dc849ef653d8db23  schemas/v1.1.0/commercial/checkout/checkout.receipt.schema.json
