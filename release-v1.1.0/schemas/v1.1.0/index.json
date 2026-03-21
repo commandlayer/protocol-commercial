@@ -1,0 +1,42 @@
+{
+  "name": "@commandlayer/commercial",
+  "version": "1.1.0",
+  "class": "commercial",
+  "path_base": ".",
+  "paths_are_repo_relative": true,
+  "schemas_root": "schemas/v1.1.0",
+  "verbs": [
+    {
+      "verb": "authorize",
+      "request_schema": "schemas/v1.1.0/commercial/authorize/authorize.request.schema.json",
+      "receipt_schema": "schemas/v1.1.0/commercial/authorize/authorize.receipt.schema.json",
+      "examples": "examples/v1.1.0/commercial/authorize"
+    },
+    {
+      "verb": "checkout",
+      "request_schema": "schemas/v1.1.0/commercial/checkout/checkout.request.schema.json",
+      "receipt_schema": "schemas/v1.1.0/commercial/checkout/checkout.receipt.schema.json",
+      "examples": "examples/v1.1.0/commercial/checkout"
+    },
+    {
+      "verb": "purchase",
+      "request_schema": "schemas/v1.1.0/commercial/purchase/purchase.request.schema.json",
+      "receipt_schema": "schemas/v1.1.0/commercial/purchase/purchase.receipt.schema.json",
+      "examples": "examples/v1.1.0/commercial/purchase"
+    },
+    {
+      "verb": "ship",
+      "request_schema": "schemas/v1.1.0/commercial/ship/ship.request.schema.json",
+      "receipt_schema": "schemas/v1.1.0/commercial/ship/ship.receipt.schema.json",
+      "examples": "examples/v1.1.0/commercial/ship"
+    },
+    {
+      "verb": "verify",
+      "request_schema": "schemas/v1.1.0/commercial/verify/verify.request.schema.json",
+      "receipt_schema": "schemas/v1.1.0/commercial/verify/verify.receipt.schema.json",
+      "examples": "examples/v1.1.0/commercial/verify"
+    }
+  ],
+  "document_type": "inventory",
+  "description": "Machine-readable inventory of the current Protocol-Commercial release line. This file is an index, not a validation schema."
+}

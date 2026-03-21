@@ -1,0 +1,29 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "authorize",
+  "receipt_id": "bad-authrcpt-001",
+  "issued_at": "2026-03-19T10:00:05Z",
+  "request_id": "authreq-001",
+  "status": "approved",
+  "authorization_id": "auth-001",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-001",
+    "kind": "account"
+  },
+  "payee": {
+    "role": "payee",
+    "id": "merchant-settlement",
+    "kind": "wallet"
+  },
+  "amount": {
+    "amount": "49.99",
+    "currency": "USDC",
+    "decimals": 2
+  },
+  "payment_requirement_ref": {
+    "type": "payment_requirement",
+    "id": "x402-auth-001"
+  }
+}

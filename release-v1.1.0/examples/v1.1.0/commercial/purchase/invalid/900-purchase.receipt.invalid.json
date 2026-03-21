@@ -1,0 +1,39 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "purchase",
+  "receipt_id": "bad-purchasercpt-001",
+  "issued_at": "2026-03-19T10:10:02Z",
+  "request_id": "purchasereq-001",
+  "status": "captured",
+  "purchase_id": "purchase-001",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-001",
+    "kind": "account"
+  },
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "amount_breakdown": {
+    "subtotal": {
+      "amount": "15.00",
+      "currency": "USDC"
+    },
+    "total": {
+      "amount": "15.00",
+      "currency": "USDC"
+    }
+  },
+  "settlement": {
+    "status": "captured",
+    "method": "x402",
+    "settlement_ref": "settle-2001",
+    "amount": {
+      "amount": "15.00",
+      "currency": "USDC"
+    }
+  }
+}

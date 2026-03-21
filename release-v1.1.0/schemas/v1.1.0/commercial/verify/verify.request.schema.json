@@ -1,0 +1,295 @@
+{
+  "$id": "https://commandlayer.org/schemas/v1.1.0/commercial/verify/verify.request.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "verify.request",
+  "description": "Verify a commercial receipt, settlement artifact, payment proof, or shipment target.",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "actor_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "id"
+      ],
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": [
+            "payer",
+            "payee",
+            "merchant",
+            "provider",
+            "carrier",
+            "verifier"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "agent",
+            "organization",
+            "wallet",
+            "account",
+            "service",
+            "human"
+          ]
+        },
+        "display_name": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
+    },
+    "payer_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "payer"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "payee_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "payee"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "merchant_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "merchant"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "provider_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "provider"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "carrier_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "carrier"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "verifier_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "verifier"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "id"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "order",
+            "invoice",
+            "authorization",
+            "checkout",
+            "purchase",
+            "fulfillment",
+            "shipment",
+            "payment",
+            "settlement",
+            "receipt",
+            "payment_requirement",
+            "payment_session",
+            "payment_proof",
+            "agent_card"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_type",
+        "target_ref"
+      ],
+      "properties": {
+        "target_type": {
+          "type": "string",
+          "enum": [
+            "receipt",
+            "payment_proof",
+            "settlement",
+            "shipment",
+            "authorization",
+            "fulfillment"
+          ]
+        },
+        "target_ref": {
+          "$ref": "#/$defs/reference"
+        },
+        "authority": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
+    }
+  },
+  "properties": {
+    "protocol": {
+      "type": "string",
+      "const": "commercial"
+    },
+    "version": {
+      "type": "string",
+      "const": "1.1.0"
+    },
+    "verb": {
+      "type": "string",
+      "const": "verify"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "requested_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "requester": {
+      "$ref": "#/$defs/actor_identity",
+      "description": "The party initiating the verification request; this is a verify-specific initiator field, not a distinct governed actor role."
+    },
+    "verifier": {
+      "$ref": "#/$defs/verifier_actor",
+      "description": "The authority expected to perform or attest the verification result, when designated in advance."
+    },
+    "target": {
+      "$ref": "#/$defs/target"
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": {
+        "type": "string",
+        "enum": [
+          "existence",
+          "amount",
+          "counterparty",
+          "settlement",
+          "fulfillment"
+        ]
+      }
+    },
+    "strict": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "protocol",
+    "version",
+    "verb",
+    "request_id",
+    "requested_at",
+    "requester",
+    "target",
+    "checks",
+    "strict"
+  ]
+}

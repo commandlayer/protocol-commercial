@@ -1,0 +1,74 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "checkout",
+  "request_id": "checkoutreq-002",
+  "requested_at": "2026-03-19T10:06:45Z",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-019",
+    "kind": "account"
+  },
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "payee": {
+    "role": "payee",
+    "id": "merchant-settlement",
+    "kind": "wallet"
+  },
+  "order_ref": {
+    "type": "order",
+    "id": "ord-1019"
+  },
+  "invoice_ref": {
+    "type": "invoice",
+    "id": "inv-1019"
+  },
+  "items": [
+    {
+      "sku": "device-warehouse-1",
+      "description": "Telemetry gateway",
+      "quantity": 1,
+      "unit_price": {
+        "amount": "79.00",
+        "currency": "USDC",
+        "decimals": 2
+      }
+    }
+  ],
+  "amount_breakdown": {
+    "subtotal": {
+      "amount": "79.00",
+      "currency": "USDC",
+      "decimals": 2
+    },
+    "tax": {
+      "amount": "4.40",
+      "currency": "USDC",
+      "decimals": 2
+    },
+    "shipping": {
+      "amount": "5.00",
+      "currency": "USDC",
+      "decimals": 2
+    },
+    "total": {
+      "amount": "88.40",
+      "currency": "USDC",
+      "decimals": 2
+    }
+  },
+  "capture": "if_authorized",
+  "payment_session": {
+    "scheme": "x402",
+    "session_id": "x402-session-1019",
+    "resource": "https://merchant.example/x402/sessions/x402-session-1019"
+  },
+  "fulfillment_intent": {
+    "mode": "shipment",
+    "destination_ref": "shipto-1019"
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "purchase",
+  "request_id": "purchasereq-001",
+  "requested_at": "2026-03-19T10:10:00Z",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-001",
+    "kind": "account"
+  },
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "payee": {
+    "role": "payee",
+    "id": "merchant-settlement",
+    "kind": "wallet"
+  },
+  "provider": {
+    "role": "provider",
+    "id": "runtime.commandlayer",
+    "kind": "service"
+  },
+  "items": [
+    {
+      "sku": "svc-analysis-pack",
+      "description": "One analysis execution bundle",
+      "quantity": 1,
+      "unit_price": {
+        "amount": "12.50",
+        "currency": "USDC",
+        "decimals": 2
+      }
+    },
+    {
+      "sku": "svc-priority-routing",
+      "description": "Priority routing add-on",
+      "quantity": 1,
+      "unit_price": {
+        "amount": "2.50",
+        "currency": "USDC",
+        "decimals": 2
+      }
+    }
+  ],
+  "amount_breakdown": {
+    "subtotal": {
+      "amount": "15.00",
+      "currency": "USDC",
+      "decimals": 2
+    },
+    "total": {
+      "amount": "15.00",
+      "currency": "USDC",
+      "decimals": 2
+    }
+  },
+  "order_ref": {
+    "type": "order",
+    "id": "ord-2001"
+  },
+  "invoice_ref": {
+    "type": "invoice",
+    "id": "inv-2001"
+  },
+  "merchant_reference": "instant-purchase-2001",
+  "payment_input": {
+    "payment_requirement_ref": {
+      "type": "payment_requirement",
+      "id": "x402-req-2001"
+    }
+  }
+}
