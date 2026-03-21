@@ -1,0 +1,480 @@
+{
+  "$id": "https://commandlayer.org/schemas/v1.1.0/commercial/ship/ship.receipt.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ship.receipt",
+  "description": "Canonical commercial fulfillment state transition receipt.",
+  "type": "object",
+  "additionalProperties": false,
+  "$defs": {
+    "payment_proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scheme",
+        "proof_type",
+        "proof_ref"
+      ],
+      "properties": {
+        "scheme": {
+          "type": "string",
+          "const": "x402"
+        },
+        "proof_type": {
+          "type": "string",
+          "enum": [
+            "payment-session",
+            "payment-authorization",
+            "payment-proof"
+          ]
+        },
+        "proof_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
+    },
+    "actor_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role",
+        "id"
+      ],
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": [
+            "payer",
+            "payee",
+            "merchant",
+            "provider",
+            "carrier",
+            "verifier"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "agent",
+            "organization",
+            "wallet",
+            "account",
+            "service",
+            "human"
+          ]
+        },
+        "display_name": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
+    },
+    "payer_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "payer"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "payee_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "payee"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "merchant_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "merchant"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "provider_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "provider"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "carrier_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "carrier"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "verifier_actor": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/actor_identity"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "role": {
+              "const": "verifier"
+            }
+          },
+          "required": [
+            "role"
+          ]
+        }
+      ]
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "id"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "order",
+            "invoice",
+            "authorization",
+            "checkout",
+            "purchase",
+            "fulfillment",
+            "shipment",
+            "payment",
+            "settlement",
+            "receipt",
+            "payment_requirement",
+            "payment_session",
+            "payment_proof",
+            "agent_card"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "uri": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 512
+        }
+      }
+    }
+  },
+  "properties": {
+    "protocol": {
+      "type": "string",
+      "const": "commercial"
+    },
+    "version": {
+      "type": "string",
+      "const": "1.1.0"
+    },
+    "verb": {
+      "type": "string",
+      "const": "ship"
+    },
+    "receipt_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "label_created",
+        "in_transit",
+        "delivered",
+        "failed",
+        "returned"
+      ]
+    },
+    "shipment_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "merchant": {
+      "$ref": "#/$defs/merchant_actor"
+    },
+    "payer": {
+      "$ref": "#/$defs/payer_actor"
+    },
+    "carrier": {
+      "$ref": "#/$defs/carrier_actor"
+    },
+    "order_ref": {
+      "$ref": "#/$defs/reference"
+    },
+    "commercial_ref": {
+      "$ref": "#/$defs/reference"
+    },
+    "fulfillment_ref": {
+      "$ref": "#/$defs/reference"
+    },
+    "tracking_number": {
+      "type": "string",
+      "minLength": 6,
+      "maxLength": 128
+    },
+    "tracking_url": {
+      "type": "string",
+      "format": "uri",
+      "maxLength": 512
+    },
+    "event_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "delivered_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "delivery_proof_ref": {
+      "$ref": "#/$defs/reference"
+    },
+    "payment_ref": {
+      "$ref": "#/$defs/reference"
+    },
+    "reason": {
+      "type": "string",
+      "maxLength": 512
+    }
+  },
+  "required": [
+    "protocol",
+    "version",
+    "verb",
+    "receipt_id",
+    "issued_at",
+    "request_id",
+    "status",
+    "shipment_id",
+    "merchant",
+    "payer",
+    "order_ref",
+    "commercial_ref",
+    "fulfillment_ref",
+    "event_at"
+  ],
+  "allOf": [
+    {
+      "properties": {
+        "commercial_ref": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "enum": [
+                "checkout",
+                "purchase"
+              ]
+            }
+          },
+          "required": [
+            "type"
+          ]
+        },
+        "fulfillment_ref": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "fulfillment"
+            }
+          },
+          "required": [
+            "type"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "tracking_number": {
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 128
+          }
+        },
+        "required": [
+          "tracking_number"
+        ]
+      },
+      "then": {
+        "properties": {
+          "tracking_url": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 512
+          }
+        },
+        "required": [
+          "tracking_url"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "label_created",
+              "in_transit",
+              "delivered"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "carrier": {
+            "$ref": "#/$defs/carrier_actor"
+          },
+          "tracking_number": {
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 128
+          },
+          "tracking_url": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 512
+          }
+        },
+        "required": [
+          "carrier",
+          "tracking_number",
+          "tracking_url"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "delivered"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "delivered_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "delivery_proof_ref": {
+            "$ref": "#/$defs/reference"
+          }
+        },
+        "required": [
+          "delivered_at",
+          "delivery_proof_ref"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "failed",
+              "returned"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "reason": {
+            "type": "string",
+            "maxLength": 512
+          }
+        },
+        "required": [
+          "reason"
+        ]
+      }
+    }
+  ]
+}

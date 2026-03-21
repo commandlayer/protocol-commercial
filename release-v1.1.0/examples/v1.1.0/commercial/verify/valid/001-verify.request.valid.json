@@ -1,0 +1,31 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "verify",
+  "request_id": "verifyreq-001",
+  "requested_at": "2026-03-19T10:20:00Z",
+  "requester": {
+    "role": "provider",
+    "id": "audit.example",
+    "kind": "service"
+  },
+  "verifier": {
+    "role": "verifier",
+    "id": "ledger.example",
+    "kind": "service"
+  },
+  "target": {
+    "target_type": "settlement",
+    "target_ref": {
+      "type": "settlement",
+      "id": "settle-2001"
+    },
+    "authority": "https://ledger.example/verify"
+  },
+  "checks": [
+    "existence",
+    "amount",
+    "settlement"
+  ],
+  "strict": true
+}

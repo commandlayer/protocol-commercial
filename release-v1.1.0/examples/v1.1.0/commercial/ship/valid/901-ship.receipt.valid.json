@@ -1,0 +1,44 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "ship",
+  "receipt_id": "shiprcpt-002",
+  "issued_at": "2026-03-19T10:17:45Z",
+  "request_id": "shipreq-002",
+  "status": "in_transit",
+  "shipment_id": "shipment-002",
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "payer": {
+    "role": "payer",
+    "id": "buyer-017",
+    "kind": "account"
+  },
+  "carrier": {
+    "role": "carrier",
+    "id": "dhl-express",
+    "kind": "service"
+  },
+  "order_ref": {
+    "type": "order",
+    "id": "ord-3017"
+  },
+  "commercial_ref": {
+    "type": "checkout",
+    "id": "checkout-3017"
+  },
+  "fulfillment_ref": {
+    "type": "fulfillment",
+    "id": "fulfillment-3017"
+  },
+  "payment_ref": {
+    "type": "payment_proof",
+    "id": "proof-3017"
+  },
+  "tracking_number": "JD014600006838220004",
+  "tracking_url": "https://carrier.example/track/JD014600006838220004",
+  "event_at": "2026-03-19T10:17:45Z"
+}

@@ -1,0 +1,47 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "purchase",
+  "request_id": "bad-purchasereq-001",
+  "requested_at": "2026-03-19T10:10:00Z",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-001",
+    "kind": "account"
+  },
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "items": [
+    {
+      "sku": "svc-analysis-pack",
+      "description": "One analysis execution bundle",
+      "quantity": 0,
+      "unit_price": {
+        "amount": "12.50",
+        "currency": "USDC",
+        "decimals": 2
+      }
+    }
+  ],
+  "amount_breakdown": {
+    "subtotal": {
+      "amount": "12.50",
+      "currency": "USDC",
+      "decimals": 2
+    },
+    "total": {
+      "amount": "12.50",
+      "currency": "USDC",
+      "decimals": 2
+    }
+  },
+  "payment_input": {
+    "payment_requirement_ref": {
+      "type": "payment_requirement",
+      "id": "x402-req-2001"
+    }
+  }
+}

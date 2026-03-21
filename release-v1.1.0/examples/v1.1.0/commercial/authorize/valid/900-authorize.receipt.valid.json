@@ -1,0 +1,49 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "authorize",
+  "receipt_id": "authrcpt-001",
+  "issued_at": "2026-03-19T10:00:05Z",
+  "request_id": "authreq-001",
+  "status": "approved",
+  "authorization_id": "auth-001",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-001",
+    "kind": "account"
+  },
+  "payee": {
+    "role": "payee",
+    "id": "merchant-settlement",
+    "kind": "wallet"
+  },
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "amount": {
+    "amount": "49.99",
+    "currency": "USDC",
+    "decimals": 2
+  },
+  "approved_until": "2026-03-20T10:00:00Z",
+  "payment_requirement_ref": {
+    "type": "payment_requirement",
+    "id": "x402-auth-001"
+  },
+  "order_ref": {
+    "type": "order",
+    "id": "ord-1001"
+  },
+  "invoice_ref": {
+    "type": "invoice",
+    "id": "inv-1001"
+  },
+  "payment_proof": {
+    "scheme": "x402",
+    "proof_type": "payment-authorization",
+    "proof_ref": "proof-auth-001",
+    "uri": "https://merchant.example/x402/proofs/proof-auth-001"
+  }
+}

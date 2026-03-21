@@ -1,0 +1,45 @@
+{
+  "protocol": "commercial",
+  "version": "1.1.0",
+  "verb": "checkout",
+  "receipt_id": "bad-checkoutrcpt-001",
+  "issued_at": "2026-03-19T10:05:03Z",
+  "request_id": "checkoutreq-001",
+  "status": "failed",
+  "payer": {
+    "role": "payer",
+    "id": "buyer-001",
+    "kind": "account"
+  },
+  "merchant": {
+    "role": "merchant",
+    "id": "merchant.example",
+    "kind": "organization"
+  },
+  "order_ref": {
+    "type": "order",
+    "id": "ord-1001"
+  },
+  "settlement": {
+    "status": "failed",
+    "method": "x402",
+    "settlement_ref": "settle-001",
+    "amount": {
+      "amount": "49.99",
+      "currency": "USDC",
+      "decimals": 2
+    }
+  },
+  "amount_breakdown": {
+    "subtotal": {
+      "amount": "49.99",
+      "currency": "USDC",
+      "decimals": 2
+    },
+    "total": {
+      "amount": "49.99",
+      "currency": "USDC",
+      "decimals": 2
+    }
+  }
+}
