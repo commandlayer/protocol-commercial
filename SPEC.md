@@ -1,6 +1,6 @@
 # SPEC — Protocol-Commercial v1.1.0
 
-This document is normative for the active v1.1.0 commercial release line.
+This document is normative for the active v1.1.0 commercial release line in its repository-validated, pre-publication state.
 
 ## 1. Scope
 
@@ -14,15 +14,15 @@ This specification governs:
 - deterministic versioning rules
 - x402-first commercial binding expectations
 - validation and integrity requirements
-- canonical published package boundary requirements
+- canonical shipped package boundary requirements
 
 This specification does not govern runtime transport implementation, provider policy, or legal adjudication.
 
 ## 2. Canonical release boundary
 
-The canonical published package line is `v1.1.0` only.
+The canonical shipped line is `v1.1.0` only.
 
-Canonical published package contents:
+Canonical shipped package contents:
 
 - `schemas/v1.1.0/`
 - `examples/v1.1.0/`
@@ -32,7 +32,7 @@ Canonical published package contents:
 - `README.md`
 - `index.js`
 
-Checksum-covered published payload:
+Checksum-covered shipped payload:
 
 - `schemas/v1.1.0/`
 - `examples/v1.1.0/`
@@ -48,7 +48,7 @@ Historical repository-only material that is outside the canonical shipped packag
 - `schemas/v1.0.0/`
 - `examples/v1.0.0/`
 
-Additional prose docs may remain authoritative for interpretation or process inside the repository, but they are outside the published package surface unless package metadata is changed deliberately in a later release.
+Additional prose docs may remain authoritative for interpretation or process inside the repository, but they are outside the shipped package surface unless package metadata is changed deliberately in a later release.
 
 ## 3. Version and identity rules
 
@@ -58,8 +58,8 @@ Additional prose docs may remain authoritative for interpretation or process ins
 4. A schema file path and its `$id` MUST agree exactly.
 5. A v1.1.0 schema MUST NOT be mutated in place after release publication.
 6. Breaking or meaning-changing edits require a new version directory.
-7. `manifest.json` MUST identify the current release line and any retained repository-only legacy lines.
-8. `checksums.txt` MUST enumerate the checksum-covered published payload exactly and MUST NOT be described as protecting files it does not hash.
+7. `manifest.json` MUST identify the current release line, publication posture, and any retained repository-only legacy lines.
+8. `checksums.txt` MUST enumerate the checksum-covered shipped payload exactly and MUST NOT be described as protecting files it does not hash.
 9. The npm `files` surface and package exports MUST exclude non-canonical legacy lines unless those lines are revalidated and intentionally reintroduced.
 
 ## 4. Current path model
@@ -167,12 +167,17 @@ A conformant release MUST satisfy all of the following:
 - every declared verb has valid and invalid examples for both request and receipt artifacts
 - every current schema path matches its `$id`
 - `manifest.json` and `schemas/v1.1.0/index.json` agree on the current verb set and path inventory
-- the package `files` field matches the canonical published package boundary exactly
+- the package `files` field matches the canonical shipped package boundary exactly
 - `npm test` passes as the current-line validation aggregate
 - `npm run validate:schemas` passes
 - `npm run validate:examples` passes
 - `npm run validate:integrity` passes
-- `sha256sum -c checksums.txt` passes for the checksum-covered published payload
-- repository metadata does not drift from the active current line
+- `sha256sum -c checksums.txt` passes for the checksum-covered shipped boundary
+- repository metadata does not drift from the active current line or overclaim publication state
 
 The canonical command list lives in `README.md#validation-commands`.
+
+
+## 10. Publication posture
+
+Until a public release is actually performed, repository metadata MUST describe `v1.1.0` as the current line without claiming that npm publication, GitHub Release publication, or signed provenance publication has already happened. `release_date` MAY remain null before publication, and any publication-state field MUST describe repository-local readiness only.

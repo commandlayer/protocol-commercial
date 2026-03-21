@@ -1,10 +1,10 @@
 # POLICY — Protocol-Commercial
 
-This policy governs the active release line and the canonical published package boundary. Repo-wide governance and security reporting are defined separately.
+This policy governs the active release line and the canonical shipped package boundary. Repo-wide governance and security reporting are defined separately.
 
 ## Current line
 
-`v1.1.0` is the current Protocol-Commercial line and the only canonical published package line.
+`v1.1.0` is the current Protocol-Commercial line and the only canonical shipped line.
 
 `v1.0.0` may remain in the repository as historical source material for audit or migration reference, but it is outside the shipped npm package surface and outside the active canonical release boundary.
 
@@ -17,7 +17,7 @@ This policy governs the active release line and the canonical published package 
 
 ## Canonical published boundary
 
-The canonical published package surface for `v1.1.0` is limited to:
+The canonical shipped boundary for `v1.1.0` is limited to:
 
 - `schemas/v1.1.0/`
 - `examples/v1.1.0/`
@@ -31,7 +31,7 @@ Legacy `v1.0.0` schemas, examples, and any historical TypeScript fixtures are re
 
 ## Integrity boundary
 
-`checksums.txt` is the generated ledger for the canonical published package payload, excluding `checksums.txt` itself.
+`checksums.txt` is the generated ledger for the canonical shipped boundary, excluding `checksums.txt` itself.
 
 The checksum-covered payload consists of:
 
@@ -56,3 +56,5 @@ Release-defining prose docs outside that list are repository guidance only and m
 - `fulfillment_ref` denotes the merchant or provider controlled fulfillment artifact, not a generic external pointer.
 - Shipment receipts must remain commercially scoped and tied to an upstream checkout or purchase.
 - `requester` is the governed field for the initiator of a `verify.request`; `verifier` is reserved for the authority that issues or attests the verification receipt.
+
+Tarball validation may additionally allow npm-emitted `package.json` metadata, but that packaging artifact does not expand the canonical shipped boundary.
