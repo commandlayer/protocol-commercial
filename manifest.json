@@ -2,7 +2,7 @@
   "name": "@commandlayer/commercial",
   "class": "commercial",
   "version": "1.1.0",
-  "status": "current-draft",
+  "status": "current",
   "description": "Canonical x402-first commercial schemas, examples, and release metadata for CommandLayer.",
   "repository": "https://github.com/commandlayer/protocol-commercial",
   "homepage": "https://commandlayer.org",

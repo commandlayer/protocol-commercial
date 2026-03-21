@@ -444,10 +444,7 @@
       "if": {
         "properties": {
           "status": {
-            "enum": [
-              "failed",
-              "pending"
-            ]
+            "const": "failed"
           }
         }
       },
