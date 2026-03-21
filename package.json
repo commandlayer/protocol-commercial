@@ -44,8 +44,8 @@
     "examples/v1.1.0/",
     "manifest.json",
     "checksums.txt",
-    "LICENSE",
     "README.md",
+    "LICENSE",
     "index.js"
   ],
   "main": "index.js",
