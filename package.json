@@ -40,29 +40,21 @@
     "x402"
   ],
   "files": [
-    "schemas/",
-    "examples/",
-    "checksums.txt",
+    "schemas/v1.1.0/",
+    "examples/v1.1.0/",
     "manifest.json",
+    "checksums.txt",
+    "LICENSE",
     "README.md",
-    "CHANGELOG.md",
-    "SPEC.md",
-    "POLICY.md",
-    "GOVERNANCE.md",
-    "RESOLUTION.md",
-    "SECURITY.md",
-    "SECURITY_PROVENANCE.md",
-    "COMPLIANCE.md",
-    "ONBOARDING.md",
-    "INTEGRATOR.md"
+    "index.js"
   ],
-  "main": "schemas/v1.1.0/index.json",
+  "main": "index.js",
   "exports": {
-    ".": "./schemas/v1.1.0/index.json",
+    ".": "./index.js",
     "./manifest.json": "./manifest.json",
     "./checksums.txt": "./checksums.txt",
-    "./schemas/*": "./schemas/*",
-    "./examples/*": "./examples/*"
+    "./schemas/v1.1.0/*": "./schemas/v1.1.0/*",
+    "./examples/v1.1.0/*": "./examples/v1.1.0/*"
   },
   "scripts": {
     "validate:schemas": "node scripts/validate-all.mjs",
