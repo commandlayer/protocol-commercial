@@ -3,7 +3,7 @@
   "class": "commercial",
   "version": "1.1.0",
   "status": "current",
-  "description": "Canonical x402-first commercial schemas, examples, and release metadata for CommandLayer.",
+  "description": "Canonical x402-first commercial schemas and release metadata for CommandLayer.",
   "repository": "https://github.com/commandlayer/protocol-commercial",
   "homepage": "https://commandlayer.org",
   "license": "Apache-2.0",
@@ -12,8 +12,9 @@
   "schemas_root": "schemas/v1.1.0",
   "examples_root": "examples/v1.1.0",
   "current_index": "schemas/v1.1.0/index.json",
+  "schemas_cid": "bafybeigypvbe4bd2skluhkdbetltfvrfm3urfiz5lshsfa57kz6pafw6le",
   "checksums_file": "checksums.txt",
-  "release_date": null,
+  "release_date": "2026-03-21",
   "supersedes": [
     "1.0.0"
   ],
@@ -73,5 +74,5 @@
       "examples": "examples/v1.1.0/commercial/verify"
     }
   ],
-  "publication_state": "repository-validated-not-yet-published"
+  "publication_state": "published"
 }
