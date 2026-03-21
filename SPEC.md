@@ -118,6 +118,7 @@ Protocol-Commercial v1.1.0 uses one payment language across the family:
 
 - `payment_requirement` = pre-payment terms or authorization preconditions
 - `payment_session` = live x402 negotiation/session state
+- `payment_input` = caller-supplied payment instrument or tender input for direct capture flows
 - `payment_proof` = final authorization or settlement evidence
 
 Requests SHOULD carry the earliest payment layer the caller can truthfully provide. Receipts MUST carry the latest payment layer the verb has canonically established. Successful capture receipts for `checkout` and `purchase` MUST carry `payment_proof`. `ship` MUST link to the upstream commercial transaction and MAY carry payment evidence by reference rather than re-embedding settlement state.

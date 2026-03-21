@@ -93,7 +93,7 @@ async function validateManifest() {
   const manifest = await loadJsonStrict(path.join(ROOT_DIR, "manifest.json"));
   assert(!("$schema" in manifest), "manifest.json must not carry a decorative $schema field");
   assert(manifest.version === CURRENT_VERSION, `manifest version must be ${CURRENT_VERSION}`);
-  assert(manifest.status === "current-draft", "manifest status must be current-draft until publication is completed");
+  assert(manifest.status === "current", "manifest status must identify v1.1.0 as the single current line");
   assert(manifest.path_base === ".", "manifest path_base must anchor repo-relative paths");
   assert(manifest.paths_are_repo_relative === true, "manifest must declare repo-relative path semantics");
   assert(manifest.schemas_root === `schemas/v${CURRENT_VERSION}`, "manifest schemas_root drift");

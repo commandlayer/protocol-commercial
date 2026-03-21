@@ -351,6 +351,7 @@
     "status",
     "payer",
     "payee",
+    "merchant",
     "amount"
   ],
   "allOf": [

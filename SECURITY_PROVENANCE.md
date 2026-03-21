@@ -2,7 +2,7 @@
 
 ## Release posture
 
-Current release line: `v1.1.0` (repository-validated, not yet asserted as publicly published)
+Current release line: `v1.1.0` (current repository-validated line; external publication is not asserted by this repository)
 
 Canonical shipped npm package surface:
 
@@ -27,7 +27,7 @@ Checksum-covered shipped payload:
 
 Release integrity state for this repository:
 
-- `manifest.json` marks `v1.1.0` as the current draft line and avoids asserting a completed external publication date.
+- `manifest.json` marks `v1.1.0` as the current line and records that the repository does not yet assert an external publication date.
 - `checksums.txt` records repository-local SHA-256 digests for the canonical shipped payload excluding the ledger file itself.
 - `index.js` resolves the package root export to `schemas/v1.1.0/index.json`.
 - Canonical schema `$id` values resolve to the commandlayer.org release paths for `v1.1.0`.
