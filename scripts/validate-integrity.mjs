@@ -2,18 +2,11 @@
 import { promises as fs } from "fs";
 import path from "path";
 import crypto from "crypto";
+import { CHECKSUM_COVERED_SURFACE } from "./release-boundary.mjs";
 
 const ROOT_DIR = process.cwd();
-const CURRENT_VERSION = "1.1.0";
 const CHECKSUMS_PATH = path.join(ROOT_DIR, "checksums.txt");
-const TARGETS = [
-  "manifest.json",
-  "LICENSE",
-  "README.md",
-  "index.js",
-  `schemas/v${CURRENT_VERSION}`,
-  `examples/v${CURRENT_VERSION}`
-];
+const TARGETS = CHECKSUM_COVERED_SURFACE.map((entry) => entry.replace(/\/$/, ""));
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -67,7 +60,7 @@ async function main() {
     assert(actualMap.get(rel) === computed, `checksum mismatch for ${rel}`);
   }
 
-  console.log("✅ Canonical package payload checksum scope and hashes validated.");
+  console.log("✅ Canonical v1.1.0 checksum-covered surface and hashes validated.");
 }
 
 main().catch((error) => {

@@ -27,14 +27,14 @@ Protocol-Commercial is intentionally limited to protocol truth:
 
 ## Document scope
 
-This README is a repo-wide orientation document for the active release line and its canonical published package boundary.
+This README is a repo-wide orientation document for the active release line and its canonical shipped boundary.
 
 ## Release truth
 
 - **Current canonical line:** `v1.1.0`
 - **Current canonical schema root:** `https://commandlayer.org/schemas/v1.1.0/`
 - **Current package entrypoint:** `index.js` → `schemas/v1.1.0/index.json`
-- **Canonical published package surface:** `schemas/v1.1.0/`, `examples/v1.1.0/`, `manifest.json`, `checksums.txt`, `LICENSE`, `README.md`, `index.js`
+- **Canonical shipped boundary:** `schemas/v1.1.0/`, `examples/v1.1.0/`, `manifest.json`, `checksums.txt`, `LICENSE`, `README.md`, `index.js`
 - **Historical repository-only line:** `v1.0.0`, retained under `schemas/v1.0.0/` and `examples/v1.0.0/`
 - **Changelog:** `CHANGELOG.md`
 - **Release note draft for a future GitHub Release publication:** `releases/v1.1.0.md`
@@ -50,7 +50,7 @@ This repository is the source of truth for those schema files and release metada
 ## Schema identity and trust
 
 - `https://commandlayer.org/...` is the canonical schema namespace and the normative `$id` base for this release line.
-- This Git repository and its canonical published package contents are the source of truth for those artifacts.
+- This Git repository and its canonical shipped package contents are the source of truth for those artifacts.
 - External resolution of `$id` URLs is a convenience, not a trust requirement; consumers should vendor, mirror, or package-pin the repository artifacts they validate against.
 
 ## Relationship to the stack
@@ -73,7 +73,7 @@ The stack story is singular:
 
 For consumers who need the shortest safe path:
 
-1. Install the package and use the package-root export or explicit current-line schema export.
+1. If and when `@commandlayer/commercial` is published, install that package and use the package-root export or explicit current-line schema export. Until then, treat the repository checkout as the authoritative source of the current line.
    ```bash
    npm install @commandlayer/commercial
    ```
@@ -87,9 +87,9 @@ For consumers who need the shortest safe path:
 3. Prefer `schemas/v1.1.0/commercial/<verb>/<verb>.request.schema.json` and `...receipt.schema.json` directly for validator configuration.
 4. Verify the shipped current-line payload before mirroring or vendoring using the canonical command surface in [Validation commands](#validation-commands).
 5. Ignore `v1.0.0` unless you are consulting repository-local historical material for migration work. It is not part of the canonical shipped package surface.
-6. Treat schemas, examples, `manifest.json`, `README.md`, `LICENSE`, and `index.js` as the shipped release payload. Treat `checksums.txt` as the ledger for that payload.
+6. Treat `schemas/v1.1.0/`, `examples/v1.1.0/`, `manifest.json`, `checksums.txt`, `README.md`, `LICENSE`, and `index.js` as the canonical shipped boundary for the current line. Treat the checksum-covered subset as that same boundary minus `checksums.txt` itself.
 
-Package-install instructions are intentionally minimal here because npm publication state for `@commandlayer/commercial` could not be verified from this repository alone.
+The install command above is a future-publication consumer path, not a claim that npm publication has already happened. In the current repository state, the checked-in artifacts are the authoritative release candidate surface.
 
 ## Commercial execution model
 
@@ -174,6 +174,8 @@ protocol-commercial/
 ├── README.md
 └── scripts/
 ```
+
+When npm produces a tarball, it also emits `package.json` as required package metadata. That generated tarball addition does not widen the canonical shipped boundary described above.
 
 Protocol-Commercial v1.1.0 does **not** use a current-line `_shared/` tree. Every v1.1.0 request and receipt schema is self-contained, flat, and mirror-safe.
 
@@ -266,9 +268,10 @@ sha256sum -c checksums.txt
 
 - `npm test` runs the full current-line validation aggregate (`npm run validate`).
 - `npm run validate:schemas` checks current-line metadata, package boundary, schema identity, layout, and manifest/index alignment expectations.
-- `npm run validate:examples` validates every current-line JSON valid and invalid example against the canonical schemas.
+- `npm run validate:examples` validates every shipped v1.1.0 JSON valid and invalid example fixture against the canonical schemas.
 - `npm run validate:integrity` verifies the canonical shipped payload scope and hash coverage for the current release line.
-- `checksums.txt` intentionally covers the shipped payload excluding the ledger itself: `manifest.json`, `schemas/v1.1.0/`, `examples/v1.1.0/`, `LICENSE`, `README.md`, and `index.js`.
+- `checksums.txt` intentionally covers the shipped boundary excluding the ledger itself: `manifest.json`, `schemas/v1.1.0/`, `examples/v1.1.0/`, `LICENSE`, `README.md`, and `index.js`.
+- `npm run validate:pack` checks that `npm pack --dry-run` contains only the canonical shipped boundary plus npm-emitted `package.json`.
 
 ## Agent Cards and Commons alignment
 
@@ -287,7 +290,7 @@ Protocol-Commons and Protocol-Commercial therefore tell one coherent story:
 
 The checksum boundary is defined normatively in `SPEC.md` and governed by `POLICY.md`.
 
-`checksums.txt` is the generated hash ledger for the shipped payload; it describes that surface but is not itself part of the hashed payload, so checksum verification confirms covered files only relative to the checked-in `checksums.txt` ledger and does not independently authenticate that ledger. Repository docs outside the published package surface remain authoritative guidance inside the repo, but they are not shipped or checksum-covered unless package metadata is expanded deliberately in a later release.
+`checksums.txt` is the generated hash ledger for the shipped payload; it describes that surface but is not itself part of the hashed payload, so checksum verification confirms covered files only relative to the checked-in `checksums.txt` ledger and does not independently authenticate that ledger. Repository docs outside the shipped package surface remain authoritative guidance inside the repo, but they are not shipped or checksum-covered unless package metadata is expanded deliberately in a later release.
 
 For external verification, the minimal path is:
 

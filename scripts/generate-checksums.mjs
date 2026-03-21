@@ -2,18 +2,11 @@
 import { promises as fs } from "fs";
 import path from "path";
 import crypto from "crypto";
+import { CHECKSUM_COVERED_SURFACE } from "./release-boundary.mjs";
 
 const ROOT_DIR = process.cwd();
 const OUTPUT_PATH = path.join(ROOT_DIR, "checksums.txt");
-const CURRENT_VERSION = "1.1.0";
-const TARGETS = [
-  "manifest.json",
-  "LICENSE",
-  "README.md",
-  "index.js",
-  `schemas/v${CURRENT_VERSION}`,
-  `examples/v${CURRENT_VERSION}`
-];
+const TARGETS = CHECKSUM_COVERED_SURFACE.map((entry) => entry.replace(/\/$/, ""));
 
 async function walk(targetPath) {
   const absolute = path.join(ROOT_DIR, targetPath);
@@ -30,14 +23,9 @@ async function walk(targetPath) {
 }
 
 function isCoveredReleaseArtifact(relPath) {
-  return [
-    "manifest.json",
-    "LICENSE",
-    "README.md",
-    "index.js"
-  ].includes(relPath)
-    || relPath.startsWith(`schemas/v${CURRENT_VERSION}/`)
-    || relPath.startsWith(`examples/v${CURRENT_VERSION}/`);
+  return CHECKSUM_COVERED_SURFACE.some((entry) =>
+    entry.endsWith("/") ? relPath.startsWith(entry) : relPath === entry
+  );
 }
 
 async function hashFile(filePath) {
@@ -60,7 +48,7 @@ async function main() {
     if (!isCoveredReleaseArtifact(rel)) throw new Error(`unexpected checksum target: ${rel}`);
   }
   await fs.writeFile(OUTPUT_PATH, rows.map(({ hash, rel }) => `${hash}  ${rel}`).join("\n") + "\n");
-  console.log(`✅ Wrote ${rows.length} canonical package-payload checksums to ${OUTPUT_PATH}`);
+  console.log(`✅ Wrote ${rows.length} checksums for the canonical v1.1.0 checksum-covered surface to ${OUTPUT_PATH}`);
 }
 
 main().catch((error) => {

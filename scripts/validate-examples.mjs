@@ -5,12 +5,12 @@ import addFormats from "ajv-formats";
 import ajvErrors from "ajv-errors";
 import { loadJsonStrict } from "./load-json-strict.mjs";
 import { readdir } from "fs/promises";
+import { CURRENT_VERSION, EXPECTED_VERBS } from "./release-boundary.mjs";
 
 const ROOT_DIR = process.cwd();
-const CURRENT_VERSION = "1.1.0";
 const EXAMPLES_ROOT = path.join(ROOT_DIR, "examples", `v${CURRENT_VERSION}`, "commercial");
 const SCHEMAS_ROOT = path.join(ROOT_DIR, "schemas", `v${CURRENT_VERSION}`, "commercial");
-const VERBS = ["authorize", "checkout", "purchase", "ship", "verify"];
+const VERBS = EXPECTED_VERBS;
 
 const ajv = new Ajv2020({ strict: true, allErrors: true, allowUnionTypes: false });
 addFormats(ajv);
@@ -42,4 +42,4 @@ async function validateVerb(verb) {
 }
 
 for (const verb of VERBS) await validateVerb(verb);
-console.log("✅ All current-line examples validated.");
+console.log("✅ All shipped v1.1.0 example fixtures validated.");

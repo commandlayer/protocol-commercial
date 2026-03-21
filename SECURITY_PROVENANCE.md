@@ -2,7 +2,7 @@
 
 ## Release posture
 
-Current release line: `v1.1.0`
+Current release line: `v1.1.0` (repository-validated, not yet asserted as publicly published)
 
 Canonical shipped npm package surface:
 
@@ -14,7 +14,7 @@ Canonical shipped npm package surface:
 - `README.md`
 - `index.js`
 
-Checksum-covered published payload:
+Checksum-covered shipped payload:
 
 - `schemas/v1.1.0/`
 - `examples/v1.1.0/`
@@ -23,14 +23,16 @@ Checksum-covered published payload:
 - `README.md`
 - `index.js`
 
-`checksums.txt` is the generated SHA-256 ledger for that checksum-covered payload. Because the ledger describes the payload, it is not itself part of the hashed payload. Checksum verification therefore confirms the published payload relative to the checked-in `checksums.txt` ledger and does not independently authenticate that ledger.
+`checksums.txt` is the generated SHA-256 ledger for that checksum-covered payload. Because the ledger describes the payload, it is not itself part of the hashed payload. Checksum verification therefore confirms the shipped payload relative to the checked-in `checksums.txt` ledger and does not independently authenticate that ledger.
 
 Release integrity state for this repository:
 
-- `manifest.json` marks `v1.1.0` as the current release line.
+- `manifest.json` marks `v1.1.0` as the current draft line and avoids asserting a completed external publication date.
 - `checksums.txt` records repository-local SHA-256 digests for the canonical shipped payload excluding the ledger file itself.
 - `index.js` resolves the package root export to `schemas/v1.1.0/index.json`.
 - Canonical schema `$id` values resolve to the commandlayer.org release paths for `v1.1.0`.
 - Retained `v1.0.0` material is repository-only historical source and is not part of the shipped package boundary.
 
 This file makes only repository-backed claims. It does not assert external pin, CID, or public mirror state unless those values are recorded in this repository.
+
+The repository does not currently claim signed provenance attestations, external transparency-log inclusion, or registry publication beyond what can be verified from checked-in files.

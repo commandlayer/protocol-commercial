@@ -60,7 +60,8 @@
     "validate:schemas": "node scripts/validate-all.mjs",
     "validate:examples": "node scripts/validate-examples.mjs",
     "validate:integrity": "node scripts/validate-integrity.mjs",
-    "validate:all": "npm run validate:schemas && npm run validate:examples && npm run validate:integrity",
+    "validate:pack": "node scripts/check-packed-surface.mjs",
+    "validate:all": "npm run validate:schemas && npm run validate:examples && npm run validate:integrity && npm run validate:pack",
     "validate": "npm run validate:all",
     "generate:checksums": "node scripts/generate-checksums.mjs",
     "test": "npm run validate"

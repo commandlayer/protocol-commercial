@@ -5,21 +5,11 @@ import Ajv2020 from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
 import ajvErrors from "ajv-errors";
 import { loadJsonStrict } from "./load-json-strict.mjs";
+import { CANONICAL_PACKAGE_SURFACE, CHECKSUM_COVERED_SURFACE, CURRENT_VERSION, EXPECTED_VERBS } from "./release-boundary.mjs";
 
 const ROOT_DIR = process.cwd();
-const CURRENT_VERSION = "1.1.0";
 const SCHEMAS_ROOT = path.join(ROOT_DIR, "schemas", `v${CURRENT_VERSION}`);
 const EXAMPLES_ROOT = path.join(ROOT_DIR, "examples", `v${CURRENT_VERSION}`, "commercial");
-const EXPECTED_VERBS = ["authorize", "checkout", "purchase", "ship", "verify"];
-const EXPECTED_PACKAGE_FILES = [
-  "schemas/v1.1.0/",
-  "examples/v1.1.0/",
-  "manifest.json",
-  "checksums.txt",
-  "LICENSE",
-  "README.md",
-  "index.js"
-];
 const CANONICAL_DEF_NAMES = [
   "actor_identity",
   "payer_actor",
@@ -103,13 +93,15 @@ async function validateManifest() {
   const manifest = await loadJsonStrict(path.join(ROOT_DIR, "manifest.json"));
   assert(!("$schema" in manifest), "manifest.json must not carry a decorative $schema field");
   assert(manifest.version === CURRENT_VERSION, `manifest version must be ${CURRENT_VERSION}`);
-  assert(manifest.status === "current", "manifest status must be current");
+  assert(manifest.status === "current-draft", "manifest status must be current-draft until publication is completed");
   assert(manifest.path_base === ".", "manifest path_base must anchor repo-relative paths");
   assert(manifest.paths_are_repo_relative === true, "manifest must declare repo-relative path semantics");
   assert(manifest.schemas_root === `schemas/v${CURRENT_VERSION}`, "manifest schemas_root drift");
   assert(manifest.examples_root === `examples/v${CURRENT_VERSION}`, "manifest examples_root drift");
   assert(manifest.current_index === `schemas/v${CURRENT_VERSION}/index.json`, "manifest current_index drift");
   assert(manifest.checksums_file === "checksums.txt", "manifest checksums_file drift");
+  assert(manifest.release_date === null, "manifest release_date must remain null until publication is completed");
+  assert(manifest.publication_state === "repository-validated-not-yet-published", "manifest publication_state drift");
   assert("declared_alignment" in manifest, "manifest must expose declarative alignment metadata");
   assert(manifest.alignment_verification === "declarative-only", "manifest alignment verification mode drift");
   assert(!("aligns_with" in manifest), "manifest aligns_with field must not imply verified enforcement");
@@ -125,7 +117,7 @@ async function validatePackage() {
   assert(pkg.main === "index.js", "package main must resolve through index.js");
   assert(pkg.exports["."] === "./index.js", "package root export must resolve through index.js");
   assert(pkg.publishConfig?.access === "public", "package publishConfig.access drift");
-  assert(JSON.stringify(pkg.files) === JSON.stringify(EXPECTED_PACKAGE_FILES), "package files surface drift");
+  assert(JSON.stringify(pkg.files) === JSON.stringify(CANONICAL_PACKAGE_SURFACE), "package files surface drift");
   assert(!(pkg.files.includes("schemas/") || pkg.files.includes("examples/")), "package files must not expose repo-wide schema/example roots");
   assert(!(pkg.files.includes("INTEGRATOR.md") || pkg.files.includes("SPEC.md") || pkg.files.includes("POLICY.md")), "package files must exclude non-canonical prose docs");
   assert(!("./schemas/*" in pkg.exports) && !("./examples/*" in pkg.exports), "package exports must not expose wildcard legacy roots");
@@ -221,7 +213,8 @@ async function main() {
   const currentSchemas = await validateSchemaTree();
   await validateSchemaConsistency(currentSchemas);
   await validateIndex();
-  console.log("✅ Current release metadata, package boundary, paths, schemas, and canonical $defs validated.");
+  const checksumCovered = CHECKSUM_COVERED_SURFACE.join(", ");
+  console.log(`✅ Current release metadata, canonical v1.1.0 package boundary, checksum scope (${checksumCovered}), paths, schemas, and canonical $defs validated.`);
 }
 
 main().catch((error) => {
