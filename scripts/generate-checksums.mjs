@@ -8,6 +8,9 @@ const OUTPUT_PATH = path.join(ROOT_DIR, "checksums.txt");
 const CURRENT_VERSION = "1.1.0";
 const TARGETS = [
   "manifest.json",
+  "LICENSE",
+  "README.md",
+  "index.js",
   `schemas/v${CURRENT_VERSION}`,
   `examples/v${CURRENT_VERSION}`
 ];
@@ -21,13 +24,18 @@ async function walk(targetPath) {
   for (const entry of entries) {
     const fullPath = path.join(absolute, entry.name);
     if (entry.isDirectory()) files.push(...(await walk(path.relative(ROOT_DIR, fullPath))));
-    else if (entry.isFile() && entry.name.endsWith(".json")) files.push(fullPath);
+    else if (entry.isFile()) files.push(fullPath);
   }
   return files;
 }
 
 function isCoveredReleaseArtifact(relPath) {
-  return relPath === "manifest.json"
+  return [
+    "manifest.json",
+    "LICENSE",
+    "README.md",
+    "index.js"
+  ].includes(relPath)
     || relPath.startsWith(`schemas/v${CURRENT_VERSION}/`)
     || relPath.startsWith(`examples/v${CURRENT_VERSION}/`);
 }
@@ -52,7 +60,7 @@ async function main() {
     if (!isCoveredReleaseArtifact(rel)) throw new Error(`unexpected checksum target: ${rel}`);
   }
   await fs.writeFile(OUTPUT_PATH, rows.map(({ hash, rel }) => `${hash}  ${rel}`).join("\n") + "\n");
-  console.log(`✅ Wrote ${rows.length} current-line machine-artifact checksums to ${OUTPUT_PATH}`);
+  console.log(`✅ Wrote ${rows.length} canonical package-payload checksums to ${OUTPUT_PATH}`);
 }
 
 main().catch((error) => {

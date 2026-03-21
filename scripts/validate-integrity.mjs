@@ -8,6 +8,9 @@ const CURRENT_VERSION = "1.1.0";
 const CHECKSUMS_PATH = path.join(ROOT_DIR, "checksums.txt");
 const TARGETS = [
   "manifest.json",
+  "LICENSE",
+  "README.md",
+  "index.js",
   `schemas/v${CURRENT_VERSION}`,
   `examples/v${CURRENT_VERSION}`
 ];
@@ -25,7 +28,7 @@ async function walk(targetPath) {
   for (const entry of entries) {
     const fullPath = path.join(absolute, entry.name);
     if (entry.isDirectory()) files.push(...await walk(path.relative(ROOT_DIR, fullPath)));
-    else if (entry.isFile() && entry.name.endsWith(".json")) files.push(fullPath);
+    else if (entry.isFile()) files.push(fullPath);
   }
   return files;
 }
@@ -64,7 +67,7 @@ async function main() {
     assert(actualMap.get(rel) === computed, `checksum mismatch for ${rel}`);
   }
 
-  console.log("✅ Release checksum scope and hashes validated.");
+  console.log("✅ Canonical package payload checksum scope and hashes validated.");
 }
 
 main().catch((error) => {

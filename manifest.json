@@ -20,7 +20,7 @@
   "legacy_versions": [
     {
       "version": "1.0.0",
-      "status": "published-legacy",
+      "status": "historical-repo-only",
       "schemas_root": "schemas/v1.0.0",
       "examples_root": "examples/v1.0.0"
     }

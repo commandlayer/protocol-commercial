@@ -18,8 +18,7 @@ jobs:
           node-version: 20
           cache: npm
       - run: npm ci
-      - run: npm run validate:schemas
-      - run: npm run validate:examples
-      - run: npm run validate:integrity
+      - run: npm run validate
       - run: npm run generate:checksums
       - run: git diff --exit-code -- checksums.txt
+      - run: npm pack --dry-run

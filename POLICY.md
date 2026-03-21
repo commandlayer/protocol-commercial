@@ -1,25 +1,48 @@
 # POLICY — Protocol-Commercial
 
-This policy governs the current release line and its release-management rules. Repo-wide governance and security reporting are defined separately.
+This policy governs the active release line and the canonical published package boundary. Repo-wide governance and security reporting are defined separately.
 
 ## Current line
 
-`v1.1.0` is the current Protocol-Commercial line.
+`v1.1.0` is the current Protocol-Commercial line and the only canonical published package line.
 
-`v1.0.0` remains published for backward compatibility and audit, but it is superseded and non-canonical for new integrations.
+`v1.0.0` may remain in the repository as historical source material for audit or migration reference, but it is outside the shipped npm package surface and outside the active canonical release boundary.
 
 ## Change control
 
 - No published version directory may be silently mutated after release.
 - Breaking or semantic changes require a new version directory.
-- Release metadata, examples, schema paths, and checksums must remain internally consistent.
-- Public documentation controlled by this repo must teach the same path model the repo actually ships.
+- Release metadata, package contents, schema paths, examples, and checksums must remain internally consistent.
+- Public documentation controlled by this repo must teach the same current-line package boundary the repo actually ships.
 
-## Normative artifact state
+## Canonical published boundary
 
-The checksum-covered release state consists of the current schema tree, current examples tree, and `manifest.json`. `checksums.txt` is the generated ledger for that machine-artifact set.
+The canonical published package surface for `v1.1.0` is limited to:
 
-Release-defining prose docs may govern interpretation and process, but they are outside checksum coverage unless the checksum tooling is changed deliberately.
+- `schemas/v1.1.0/`
+- `examples/v1.1.0/`
+- `manifest.json`
+- `checksums.txt`
+- `LICENSE`
+- `README.md`
+- `index.js`
+
+Legacy `v1.0.0` schemas, examples, and any historical TypeScript fixtures are repository-retained material only unless a future release explicitly restores them to a validated package boundary.
+
+## Integrity boundary
+
+`checksums.txt` is the generated ledger for the canonical published package payload, excluding `checksums.txt` itself.
+
+The checksum-covered payload consists of:
+
+- `schemas/v1.1.0/`
+- `examples/v1.1.0/`
+- `manifest.json`
+- `LICENSE`
+- `README.md`
+- `index.js`
+
+Release-defining prose docs outside that list are repository guidance only and must not be described as part of the shipped or checksum-covered release payload.
 
 ## Governance threshold
 

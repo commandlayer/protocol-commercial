@@ -11,6 +11,15 @@ const CURRENT_VERSION = "1.1.0";
 const SCHEMAS_ROOT = path.join(ROOT_DIR, "schemas", `v${CURRENT_VERSION}`);
 const EXAMPLES_ROOT = path.join(ROOT_DIR, "examples", `v${CURRENT_VERSION}`, "commercial");
 const EXPECTED_VERBS = ["authorize", "checkout", "purchase", "ship", "verify"];
+const EXPECTED_PACKAGE_FILES = [
+  "schemas/v1.1.0/",
+  "examples/v1.1.0/",
+  "manifest.json",
+  "checksums.txt",
+  "LICENSE",
+  "README.md",
+  "index.js"
+];
 const CANONICAL_DEF_NAMES = [
   "actor_identity",
   "payer_actor",
@@ -52,7 +61,6 @@ async function collectJsonFiles(dir) {
 function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
-
 
 function expectedVerbEntry(verb) {
   return {
@@ -106,15 +114,23 @@ async function validateManifest() {
   assert(manifest.alignment_verification === "declarative-only", "manifest alignment verification mode drift");
   assert(!("aligns_with" in manifest), "manifest aligns_with field must not imply verified enforcement");
   assert(JSON.stringify(manifest.verbs.map((v) => v.verb)) === JSON.stringify(EXPECTED_VERBS), "manifest verb list drift");
+  for (const legacy of manifest.legacy_versions ?? []) {
+    assert(legacy.status === "historical-repo-only", `legacy version ${legacy.version} must be marked historical-repo-only`);
+  }
 }
 
 async function validatePackage() {
   const pkg = await loadJsonStrict(path.join(ROOT_DIR, "package.json"));
   assert(pkg.version === CURRENT_VERSION, `package version must be ${CURRENT_VERSION}`);
-  assert(pkg.main === `schemas/v${CURRENT_VERSION}/index.json`, "package main drift");
-  assert(pkg.exports['.'] === `./schemas/v${CURRENT_VERSION}/index.json`, "package exports current entry drift");
+  assert(pkg.main === "index.js", "package main must resolve through index.js");
+  assert(pkg.exports["."] === "./index.js", "package root export must resolve through index.js");
   assert(pkg.publishConfig?.access === "public", "package publishConfig.access drift");
-  assert(pkg.files.includes("INTEGRATOR.md"), "package files must include INTEGRATOR.md");
+  assert(JSON.stringify(pkg.files) === JSON.stringify(EXPECTED_PACKAGE_FILES), "package files surface drift");
+  assert(!(pkg.files.includes("schemas/") || pkg.files.includes("examples/")), "package files must not expose repo-wide schema/example roots");
+  assert(!(pkg.files.includes("INTEGRATOR.md") || pkg.files.includes("SPEC.md") || pkg.files.includes("POLICY.md")), "package files must exclude non-canonical prose docs");
+  assert(!("./schemas/*" in pkg.exports) && !("./examples/*" in pkg.exports), "package exports must not expose wildcard legacy roots");
+  assert(pkg.exports[`./schemas/v${CURRENT_VERSION}/*`] === `./schemas/v${CURRENT_VERSION}/*`, "package schema export drift");
+  assert(pkg.exports[`./examples/v${CURRENT_VERSION}/*`] === `./examples/v${CURRENT_VERSION}/*`, "package example export drift");
 }
 
 async function validateSchemaTree() {
@@ -205,7 +221,7 @@ async function main() {
   const currentSchemas = await validateSchemaTree();
   await validateSchemaConsistency(currentSchemas);
   await validateIndex();
-  console.log("✅ Current release metadata, paths, schemas, and canonical $defs validated.");
+  console.log("✅ Current release metadata, package boundary, paths, schemas, and canonical $defs validated.");
 }
 
 main().catch((error) => {
