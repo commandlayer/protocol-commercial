@@ -116,8 +116,15 @@ async function validateManifest() {
   assert(manifest.examples_root === `examples/v${CURRENT_VERSION}`, "manifest examples_root drift");
   assert(manifest.current_index === `schemas/v${CURRENT_VERSION}/index.json`, "manifest current_index drift");
   assert(manifest.checksums_file === "checksums.txt", "manifest checksums_file drift");
-  assert(manifest.release_date === null, "manifest release_date must remain null until publication is completed");
-  assert(manifest.publication_state === "repository-validated-not-yet-published", "manifest publication_state drift");
+  assert(
+    manifest.publication_state === "repository-validated-not-yet-published" || manifest.publication_state === "published",
+    "manifest publication_state must be repository-validated-not-yet-published or published"
+  );
+  if (manifest.publication_state === "repository-validated-not-yet-published") {
+    assert(manifest.release_date === null, "manifest release_date must remain null until publication is completed");
+  } else {
+    assert(typeof manifest.release_date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(manifest.release_date), "manifest release_date must be an ISO date string when publication_state is published");
+  }
   assert("declared_alignment" in manifest, "manifest must expose declarative alignment metadata");
   assert(manifest.alignment_verification === "declarative-only", "manifest alignment verification mode drift");
   assert(!("aligns_with" in manifest), "manifest aligns_with field must not imply verified enforcement");

@@ -19,6 +19,7 @@ Repository-validated current release line for final Commons-style publication.
 - changed commercial receipts to normalize actor, reference, settlement, and verification semantics across verbs
 - changed release metadata to describe v1.1.0 as the current repository-validated line while keeping publication claims declarative
 - changed checksum validation to cover the shipped payload boundary excluding `checksums.txt` itself
+- changed manifest validation to enforce state-aware release metadata (`release_date` null before publication; ISO date once published)
 
 ### Removed
 
