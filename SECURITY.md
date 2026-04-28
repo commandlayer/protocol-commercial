@@ -2,6 +2,8 @@
 
 This document applies repo-wide to the security posture of published Protocol-Commercial release lines unless a section states a narrower scope.
 
+Scope boundary: this repository secures CommandLayer Commercial artifacts and infrastructure contracts, not the public VerifyAgent UI/product. Public verifier usage belongs to https://github.com/commandlayer/verifyagent.
+
 Protocol-Commercial provides schema-level security properties, not transaction or fraud guarantees.
 
 ## What this repository is responsible for

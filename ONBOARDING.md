@@ -2,6 +2,15 @@
 
 This document is an orientation guide for the active v1.1.0 release line. Contributor policy and pre-merge workflow live in `CONTRIBUTING.md`.
 
+For public receipt verification, see https://github.com/commandlayer/verifyagent.
+
+Architecture boundary:
+
+- VerifyAgent.eth = public verifier (Commons / MIT)
+- CommandLayer Commercial = paid infrastructure layer for hosted APIs, x402 billing, indexing/storage, dashboards, monitoring, and enterprise support
+- Agent Cards = identity + capability metadata
+- CommandLayer receipts = signed execution proof
+
 ## Document scope
 
 Use this document to understand the repository shape, release line, and shipped package boundary before editing.

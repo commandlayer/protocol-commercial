@@ -2,6 +2,8 @@
 
 This document defines the contributor workflow for the current release line. Keep changes minimal, validation-preserving, and explicit about whether they affect the current line (`v1.1.0`) or retained legacy artifacts.
 
+Product boundary reminder: do not add VerifyAgent product/demo/UI code to this repository. For public receipt verification UX, refer users to https://github.com/commandlayer/verifyagent.
+
 ## Pull request expectations
 
 - Describe the exact problem being fixed and the exact files changed.

@@ -25,6 +25,30 @@ Protocol-Commercial is intentionally limited to protocol truth:
 - no routing logic
 - no transport implementation beyond the normative x402-first execution assumption
 
+For public receipt verification, see https://github.com/commandlayer/verifyagent.
+
+## Product boundary and architecture
+
+CommandLayer Commercial in this repository provides:
+
+- hosted verification APIs
+- high-volume verification infrastructure
+- x402-based billing
+- receipt indexing and analytics
+- dashboards, monitoring, and enterprise/commercial support
+
+Architecture alignment:
+
+- VerifyAgent.eth = public verifier (Commons / MIT)
+- CommandLayer Commercial = paid infrastructure layer
+- Agent Cards = identity + capability metadata
+- CommandLayer receipts = signed execution proof
+
+Usage boundary:
+
+- Human usage → use VerifyAgent (free UI): https://github.com/commandlayer/verifyagent
+- Programmatic usage → use CommandLayer Commercial API (paid / x402)
+
 ## Document scope
 
 This README is a repo-wide orientation document for the active release line and its canonical shipped boundary.
@@ -211,6 +235,9 @@ This repository does not define:
 - legal finality
 - provider SLAs
 - runtime traces or debugging exhaust as normative truth
+- a standalone public verifier product, demo UI, or hosted public verification app surface
+
+For public receipt verification, see https://github.com/commandlayer/verifyagent.
 
 ## Example current-line schema pair
 

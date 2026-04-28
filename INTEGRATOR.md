@@ -2,6 +2,13 @@
 
 This document is the external-consumer quickstart for the current commercial release line.
 
+For public receipt verification, see https://github.com/commandlayer/verifyagent.
+
+Usage boundary:
+
+- Human usage → VerifyAgent (free UI): https://github.com/commandlayer/verifyagent
+- Programmatic usage → CommandLayer Commercial API (paid / x402)
+
 ## What to import
 
 Use the explicit current-line JSON path export by default:
@@ -19,6 +26,8 @@ Normative machine artifacts:
 - `schemas/v1.1.0/`
 - `schemas/v1.1.0/index.json`
 - `manifest.json`
+
+This repository does not ship or document a standalone public verifier product/demo surface as part of Protocol-Commercial.
 
 Illustrative conformance fixtures:
 

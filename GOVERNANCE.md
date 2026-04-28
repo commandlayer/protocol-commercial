@@ -2,6 +2,8 @@
 
 This document applies repo-wide and is version-independent unless a section says otherwise.
 
+Governance boundary: Protocol-Commercial governance in this repository does not govern the public VerifyAgent product/UI; that public verifier lives at https://github.com/commandlayer/verifyagent.
+
 **Founding steward:** commandlayer.eth
 
 ## Steward responsibility

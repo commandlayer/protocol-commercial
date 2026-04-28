@@ -4,6 +4,8 @@
 
 Current release line: `v1.1.0` (current repository-validated line; external publication is not asserted by this repository)
 
+Product boundary: this repository covers CommandLayer Commercial infrastructure artifacts. Public verifier UX/product usage is handled by VerifyAgent at https://github.com/commandlayer/verifyagent.
+
 Canonical shipped npm package surface:
 
 - `schemas/v1.1.0/`

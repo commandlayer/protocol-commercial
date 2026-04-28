@@ -2,6 +2,8 @@
 
 This document describes current-line release compliance expectations for the active v1.1.0 commercial line.
 
+Scope boundary: this repository governs CommandLayer Commercial infrastructure contracts and does not ship the public VerifyAgent product/UI. For public receipt verification, see https://github.com/commandlayer/verifyagent.
+
 Protocol-Commercial compliance is about typed economic semantics and release integrity.
 
 A compliant release candidate must satisfy all of the following:

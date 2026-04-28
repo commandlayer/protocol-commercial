@@ -1,5 +1,12 @@
 # CHANGELOG — Protocol-Commercial
 
+## Unreleased
+
+### Changed
+
+- Separated VerifyAgent into its own public Commons/MIT repository. This repo now focuses exclusively on CommandLayer Commercial infrastructure including hosted runtime, paid verification APIs, x402 billing, indexing, dashboards, and enterprise support.
+- clarified repository scope to exclude a standalone public verifier product/demo surface and to refer public receipt verification users to https://github.com/commandlayer/verifyagent
+
 ## v1.1.0
 
 Repository-validated current release line for final Commons-style publication.

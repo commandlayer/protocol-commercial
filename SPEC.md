@@ -18,6 +18,15 @@ This specification governs:
 
 This specification does not govern runtime transport implementation, provider policy, or legal adjudication.
 
+For public receipt verification, see https://github.com/commandlayer/verifyagent.
+
+Repository product boundary:
+
+- VerifyAgent.eth = public verifier (Commons / MIT)
+- CommandLayer Commercial = paid infrastructure layer (hosted APIs, x402 billing, indexing/storage, dashboards, monitoring, enterprise support)
+- Agent Cards = identity + capability metadata
+- CommandLayer receipts = signed execution proof
+
 ## 2. Canonical release boundary
 
 The canonical shipped line is `v1.1.0` only.
@@ -49,6 +58,8 @@ Historical repository-only material that is outside the canonical shipped packag
 - `examples/v1.0.0/`
 
 Additional prose docs may remain authoritative for interpretation or process inside the repository, but they are outside the shipped package surface unless package metadata is changed deliberately in a later release.
+
+Protocol-Commercial focuses on commercial infrastructure contracts and does not include a standalone public verifier product/demo surface in this repository.
 
 ## 3. Version and identity rules
 

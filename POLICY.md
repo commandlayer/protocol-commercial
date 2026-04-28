@@ -2,6 +2,8 @@
 
 This policy governs the active release line and the canonical shipped package boundary. Repo-wide governance and security reporting are defined separately.
 
+Product boundary: this repository is CommandLayer Commercial only. Public receipt verification UX/product usage is handled by VerifyAgent at https://github.com/commandlayer/verifyagent.
+
 ## Current line
 
 `v1.1.0` is the current Protocol-Commercial line and the only canonical shipped line.

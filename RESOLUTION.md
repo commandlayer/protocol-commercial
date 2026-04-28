@@ -4,6 +4,8 @@
 
 This document records repository-level release and migration resolutions.
 
+Product scope note: VerifyAgent.eth is maintained separately as the public Commons/MIT verifier at https://github.com/commandlayer/verifyagent. This repository resolves CommandLayer Commercial infrastructure release policy only.
+
 ## Resolution record
 
 ### 2026-03-19 — v1.1.0 migration resolution
